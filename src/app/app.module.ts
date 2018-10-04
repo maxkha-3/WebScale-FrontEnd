@@ -5,7 +5,6 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {AppComponent} from './app.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
-import { NavbarDirective } from './directives/navbar/navbar.directive';
 
 //Router path template
 const appRoutes: Routes = [
@@ -14,8 +13,7 @@ const appRoutes: Routes = [
 @NgModule({
     declarations: [
         AppComponent,
-        DashboardComponent,
-        NavbarDirective
+        DashboardComponent
     ],
     imports: [
         BrowserModule,
