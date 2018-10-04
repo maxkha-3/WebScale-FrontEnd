@@ -14,7 +14,7 @@ Run `ng g component components/<name>/<name>` to generate a new component.
 
 Run `ng g directive directives/<name>/<name>` to generate a new directive. 
 
-Run `ng g directive services/<name>Service/<name>` to generate a new service. 
+Run `ng g service services/<name>Service/<name>` to generate a new service. 
 
 ## Code style
 
