@@ -1,9 +1,8 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<nav class="navbar navbar-dark bg-primary">
-    <a class="navbar-brand" href="#">KubeScale Portal</a>
-</nav>
+<app-navbar [position]="'top'"></app-navbar>
 
 <!--App contents, router-outlet points here-->
-<div class="app_contents">
+<div class="app-contents">
     <router-outlet></router-outlet>
 </div>
+
+<app-navbar [position]="'bottom'"></app-navbar>

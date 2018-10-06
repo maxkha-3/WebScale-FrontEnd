@@ -10,7 +10,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:1337/`. The app w
 
 When contributing to the project, use CLI for generation of directives in a following manner to follow the general folder structure:
 
-Run `ng g component components/<name>/<name>` to generate a new component. 
+Run `ng g component components/<name>` to generate a new component. 
 
 Run `ng g directive directives/<name>/<name>` to generate a new directive. 
 

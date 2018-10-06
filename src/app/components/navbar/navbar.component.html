@@ -1,0 +1,34 @@
+<!--Top Navbar-->
+<nav class="navbar navbar-expand-sm bg-primary navbar-dark fixed-top" *ngIf="position == 'top'" >
+    <a class="navbar-brand" href="#">KubeScale Portal</a>
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <button class="btn btn-outline-light" routerLink="dashboard"><i class="fa fa-tachometer"></i> Dashboard</button>
+        </li>
+        <li class="nav-item move-right-5">
+            <button class="btn btn-outline-light" routerLink="analytics"><i class="fa fa-bar-chart"></i> Analytics</button>
+        </li>
+        <li class="nav-item move-right-5">
+            <button class="btn btn-outline-light" routerLink="settings"><i class="fa fa-cogs"></i> Settings</button>
+        </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <button class="btn btn-outline-light" routerLink="user"><i class="fa fa-user"></i> admin</button>
+        </li>
+    </ul>
+</nav>
+
+<!--Bottom Navbar-->
+<nav class="navbar navbar-expand-sm bg-primary navbar-dark fixed-bottom" *ngIf="position == 'bottom'">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            v0.0.1
+        </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            &copy; <a href="http://www.kubescale.cloud" style="color: #000">KubeScale Cloud</a> 2018
+        </li>
+    </ul>
+</nav>
