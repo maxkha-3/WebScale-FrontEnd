@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { LoginService } from './login.service';
+import { GlobalService } from './global.service';
 
 describe('GlobalService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [LoginService]
+      providers: [GlobalService]
     });
   });
 
-  it('should be created', inject([LoginService], (service: LoginService) => {
+  it('should be created', inject([GlobalService], (service: GlobalService) => {
     expect(service).toBeTruthy();
   }));
 });
