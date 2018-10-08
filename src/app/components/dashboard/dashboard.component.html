@@ -1,3 +1,18 @@
+<!-- Example single danger button -->
+<div class="dashboard-menu-container">
+    <div class="btn-group">
+        <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-plus"></i> Add widget
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" (click)="addNewWidget('barChart')"><i class="fa fa-bar-chart"></i> Bar Chart</a>
+            <a class="dropdown-item" href="#"><i class="fa fa-pie-chart"></i> Pie Chart</a>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-dark"><i class="fa fa-save"></i> Save Layout</button>
+</div>
+
 <div class="dashboard-container">
     <div class="dashboard-column" style="margin-left: 0px">
         <smooth-dnd-container [groupName]="'1'" [getChildPayload]="getChildPayload1" (drop)="onDrop('items1', $event)" [dragHandleSelector]="'.column-drag-handle'">

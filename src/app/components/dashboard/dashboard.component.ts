@@ -41,6 +41,13 @@ export class DashboardComponent implements OnInit {
     getChildPayload4(index) {
         return this.items4[index];
     }
+
+    addNewWidget = function(widgetType: string) : void {
+        if (widgetType == "barChart") {
+            let newWid = {id: "99", data: "NewOne"};
+            this.items1.push(newWid);
+        }
+    }
 }
 
 export const applyDrag = (arr, dragResult) => {
