@@ -16,7 +16,7 @@ export class SettingsComponent implements OnInit {
     }
 
     form = new FormGroup({});
-    model = {email: 'email@gmail.com'};
+    model = {email: 'email@gmail.com', name: 'Maxim'};
     fields: FormlyFieldConfig[] = [
         {
             key: 'email',
@@ -28,7 +28,15 @@ export class SettingsComponent implements OnInit {
                 placeholder: 'Enter email',
                 required: true,
             }
+        },
+        {
+            key: 'name',
+            type: 'input',
+            wrappers: ['form-field-horizontal'],
+            templateOptions: {
+                label: 'First name',
+                placeholder: 'Enter name'
+            }
         }
     ];
-
 }

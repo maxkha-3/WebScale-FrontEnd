@@ -1,23 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
 .app-contents {
-    margin-top: 65px;
-    margin-bottom: 60px;
+    margin: 65px 10px 60px 10px;
 }
 
 .nav-item {
     margin-left: 5px;
-}
-
-.draggable-item{
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-    width : 100%;
-    display: block;
-    background-color: #fff;
-    outline: 0;
-    border: 1px solid rgba(0,0,0,.125);
-    margin-bottom: 2px;
-    margin-top: 2px;
 }

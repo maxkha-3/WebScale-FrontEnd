@@ -1,27 +1,27 @@
-<div [ngStyle]="{ 'display': 'flex', 'justifyContent': 'stretch', 'marginTop': '50px', 'marginRight': '50px' }">
-    <div [ngStyle]="{'marginLeft': '50px', 'flex': '1'}">
-        <smooth-dnd-container [groupName]="'1'" [getChildPayload]="getChildPayload1" (drop)="onDrop('items1', $event)">
+<div class="dashboard-container">
+    <div class="dashboard-column" style="margin-left: 0px">
+        <smooth-dnd-container [groupName]="'1'" [getChildPayload]="getChildPayload1" (drop)="onDrop('items1', $event)" [dragHandleSelector]="'.column-drag-handle'">
             <smooth-dnd-draggable *ngFor="let item of items1">
                 <app-widget [item]="item"></app-widget>
             </smooth-dnd-draggable>
         </smooth-dnd-container>
     </div>
-    <div [ngStyle]="{'marginLeft': '50px', 'flex': '1'}">
-        <smooth-dnd-container [groupName]="'1'" [getChildPayload]="getChildPayload2" (drop)="onDrop('items2', $event)">
+    <div class="dashboard-column">
+        <smooth-dnd-container [groupName]="'1'" [getChildPayload]="getChildPayload2" (drop)="onDrop('items2', $event)" [dragHandleSelector]="'.column-drag-handle'">
             <smooth-dnd-draggable *ngFor="let item of items2">
                 <app-widget [item]="item"></app-widget>
             </smooth-dnd-draggable>
         </smooth-dnd-container>
     </div>
-    <div [ngStyle]="{'marginLeft': '50px', 'flex': '1'}">
-        <smooth-dnd-container [groupName]="'1'" [getChildPayload]="getChildPayload3" (drop)="onDrop('items3', $event)">
+    <div class="dashboard-column">
+        <smooth-dnd-container [groupName]="'1'" [getChildPayload]="getChildPayload3" (drop)="onDrop('items3', $event)" [dragHandleSelector]="'.column-drag-handle'">
             <smooth-dnd-draggable *ngFor="let item of items3">
                 <app-widget [item]="item"></app-widget>
             </smooth-dnd-draggable>
         </smooth-dnd-container>
     </div>
-    <div [ngStyle]="{'marginLeft': '50px', 'flex': '1'}">
-        <smooth-dnd-container [groupName]="'1'" [getChildPayload]="getChildPayload4" (drop)="onDrop('items4', $event)">
+    <div class="dashboard-column">
+        <smooth-dnd-container [groupName]="'1'" [getChildPayload]="getChildPayload4" (drop)="onDrop('items4', $event)" [dragHandleSelector]="'.column-drag-handle'">
             <smooth-dnd-draggable *ngFor="let item of items4">
                 <app-widget [item]="item"></app-widget>
             </smooth-dnd-draggable>

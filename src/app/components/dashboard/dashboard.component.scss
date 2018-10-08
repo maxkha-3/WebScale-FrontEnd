@@ -1,0 +1,9 @@
+.dashboard-container {
+    display: flex;
+    justify-content: stretch;
+}
+
+.dashboard-column {
+    margin-left: 10px;
+    flex: 1;
+}

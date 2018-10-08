@@ -1,5 +1,17 @@
-<form [formGroup]="form" (ngSubmit)="submit(model)">
+<form [formGroup]="form">
     <formly-form [form]="form" [fields]="fields" [model]="model">
-        <button type="submit" class="btn btn-default">Submit</button>
     </formly-form>
 </form>
+
+<ngx-charts-pie-chart
+    [view]="view"
+    [scheme]="colorScheme"
+    [results]="single"
+    [legend]="showLegend"
+    [explodeSlices]="explodeSlices"
+    [labels]="showLabels"
+    [doughnut]="doughnut"
+    (select)="onSelect($event)">
+</ngx-charts-pie-chart>
+
+<p-chart type="bar" [data]="data"></p-chart>

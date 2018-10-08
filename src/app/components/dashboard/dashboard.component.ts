@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {GlobalService} from '../../services/global-service/global.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -6,12 +7,12 @@ import {Component, OnInit} from '@angular/core';
     styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-    items1 = generateItems(15, (i) => ({ id: '1' + i, data: `Draggable 1 - ${i}` }));
-    items2 = generateItems(15, (i) => ({ id: '2' + i, data: `Draggable 2 - ${i}` }));
-    items3 = generateItems(15, (i) => ({ id: '3' + i, data: `Draggable 3 - ${i}` }));
-    items4 = generateItems(15, (i) => ({ id: '4' + i, data: `Draggable 4 - ${i}` }));
+    items1 = generateItems(5, (i) => ({ id: '1' + i, data: `Draggable 1 - ${i}` }));
+    items2 = generateItems(5, (i) => ({ id: '2' + i, data: `Draggable 2 - ${i}` }));
+    items3 = generateItems(5, (i) => ({ id: '3' + i, data: `Draggable 3 - ${i}` }));
+    items4 = generateItems(5, (i) => ({ id: '4' + i, data: `Draggable 4 - ${i}` }));
 
-    constructor() {
+    constructor(private global: GlobalService) {
         this.getChildPayload1 = this.getChildPayload1.bind(this);
         this.getChildPayload2 = this.getChildPayload2.bind(this);
         this.getChildPayload3 = this.getChildPayload3.bind(this);
