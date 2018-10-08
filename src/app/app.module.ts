@@ -7,7 +7,6 @@ import {NgxSmoothDnDModule} from 'ngx-smooth-dnd';
 import {ReactiveFormsModule} from '@angular/forms';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyBootstrapModule} from '@ngx-formly/bootstrap';
-import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {ChartModule} from 'primeng/chart';
 
 import {AppComponent} from './app.component';
@@ -36,7 +35,6 @@ const appRoutes: Routes = [
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
-        NgxChartsModule,
         ChartModule,
         FormsModule,
         NgxSmoothDnDModule,
