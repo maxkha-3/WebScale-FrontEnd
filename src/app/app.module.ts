@@ -11,13 +11,15 @@ import {ChartModule} from 'primeng/chart';
 
 import {AppComponent} from './app.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
+import {MuuriDashboardComponent} from './components/muuri-dashboard/muuri-dashboard.component';
 import {NavbarComponent} from './components/navbar/navbar.component';
 import {WidgetComponent} from './components/widget/widget.component';
 import {SettingsComponent} from './components/settings/settings.component';
 
 import {FormlyHorizontalWrapper} from './formly/wrappers/horizontal-wrapper';
+
 import {GlobalService} from './services/global-service/global.service';
-import {MuuriDashboardComponent} from './components/muuri-dashboard/muuri-dashboard.component';
+import {LayoutFetchingService} from './services/layout-fetching-service/layout-fetching.service';
 
 
 //Router path template
@@ -52,7 +54,10 @@ const appRoutes: Routes = [
         FormlyBootstrapModule,
         RouterModule.forRoot(appRoutes)
     ],
-    providers: [GlobalService],
+    providers: [
+        GlobalService,
+        LayoutFetchingService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {
