@@ -1,3 +1,4 @@
+//Imported libraries
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgModule} from '@angular/core';
@@ -9,22 +10,27 @@ import {FormlyModule} from '@ngx-formly/core';
 import {FormlyBootstrapModule} from '@ngx-formly/bootstrap';
 import {ChartModule} from 'primeng/chart';
 
+//Components
 import {AppComponent} from './app.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {MuuriDashboardComponent} from './components/muuri-dashboard/muuri-dashboard.component';
-import {NavbarComponent} from './components/navbar/navbar.component';
-import {WidgetComponent} from './components/widget/widget.component';
 import {SettingsComponent} from './components/settings/settings.component';
 
+//Directives
+import {WidgetComponent} from './directives/widget/widget.component';
+
+//Formly Wrappers
 import {FormlyHorizontalWrapper} from './formly/wrappers/horizontal-wrapper';
 
+//Services
 import {GlobalService} from './services/global-service/global.service';
 import {LayoutFetchingService} from './services/layout-fetching-service/layout-fetching.service';
+import {MiscService} from './services/misc-service/misc.service';
 
 
 //Router path template
 const appRoutes: Routes = [
-    {path: 'dashboard', component: DashboardComponent},
+    {path: 'dashboard/:id', component: DashboardComponent},
     {path: 'settings', component: SettingsComponent},
     {path: 'muuri', component: MuuriDashboardComponent}];
 
@@ -32,7 +38,6 @@ const appRoutes: Routes = [
     declarations: [
         AppComponent,
         DashboardComponent,
-        NavbarComponent,
         WidgetComponent,
         SettingsComponent,
         FormlyHorizontalWrapper,
@@ -56,7 +61,8 @@ const appRoutes: Routes = [
     ],
     providers: [
         GlobalService,
-        LayoutFetchingService
+        LayoutFetchingService,
+        MiscService
     ],
     bootstrap: [AppComponent]
 })

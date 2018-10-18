@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {GlobalService} from '../../services/global-service/global.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {LayoutFetchingService} from '../../services/layout-fetching-service/layout-fetching.service';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'app-dashboard',
@@ -7,12 +10,15 @@ import {GlobalService} from '../../services/global-service/global.service';
     styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+    public currentDashboard: string;
+    public widgetLayout: Array<any>;
+
     items1 = generateItems(3, (i) => ({ id: '1' + i, data: `Draggable 1 - ${i}` }));
     items2 = generateItems(3, (i) => ({ id: '2' + i, data: `Draggable 2 - ${i}` }));
     items3 = generateItems(3, (i) => ({ id: '3' + i, data: `Draggable 3 - ${i}` }));
     items4 = generateItems(3, (i) => ({ id: '4' + i, data: `Draggable 4 - ${i}` }));
 
-    constructor(private global: GlobalService) {
+    constructor(private global: GlobalService, private route: ActivatedRoute, private layoutFetcher: LayoutFetchingService) {
         this.getChildPayload1 = this.getChildPayload1.bind(this);
         this.getChildPayload2 = this.getChildPayload2.bind(this);
         this.getChildPayload3 = this.getChildPayload3.bind(this);
@@ -20,7 +26,13 @@ export class DashboardComponent implements OnInit {
     }
 
     ngOnInit() {
-
+        this.route.params.subscribe(params => {
+            if (params['id'] != undefined) {
+                this.currentDashboard = _.startCase(params['id']);
+                this.widgetLayout = this.layoutFetcher.getLayout(_.camelCase(this.currentDashboard));
+                console.log(this.widgetLayout);
+            }
+        })
     }
 
     onDrop(collection, dropResult) {

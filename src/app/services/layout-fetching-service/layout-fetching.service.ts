@@ -6,7 +6,8 @@ export class LayoutFetchingService {
     private testLayout = {
         layouts: [
             {
-                id: 'test1',
+                id: 'alarmDashboard',
+                name: 'Alarm Dashboard',
                 widgets: [
                     {widgetType: 'loss24h', chartType: 'bar', heading: 'Loss 24h'},
                     {widgetType: 'loss12h', chartType: 'bar', heading: 'Loss 12h'},
@@ -14,7 +15,8 @@ export class LayoutFetchingService {
                 ]
             },
             {
-                id: 'test2',
+                id: 'generalOverview',
+                name: 'General Overview',
                 widgets: [
                     {widgetType: 'uptime24h', chartType: 'bar', heading: 'Uptime 24h'},
                     {widgetType: 'uptime12h', chartType: 'bar', heading: 'Uptime 12h'},
@@ -29,11 +31,16 @@ export class LayoutFetchingService {
     }
 
 
-    getLayout = (dashboardId: string) => {
+    getLayout = (dashboardId: string): Array<any> => {
         for (let layout of this.testLayout.layouts) {
             if (layout.id === dashboardId) {
                 return layout.widgets
             }
         }
+        return null
     };
+
+    getAvailableLayouts = (): Array<any> => {
+        return this.testLayout.layouts.map(a => ({name: a.name, id: a.id}));
+    }
 }

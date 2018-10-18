@@ -80,7 +80,7 @@
                     <img src="assets/images/avatar-unknown.png" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
-                    <p>John Doe</p>
+                    <p>Kube Admin 1</p>
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
             </div>
@@ -100,17 +100,17 @@
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">MAIN NAVIGATION</li>
                 <li class="active treeview menu-open">
-                    <a href="#">
-                        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-                        <span class="pull-right-container">
-              <i class="fa fa-angle-down pull-right"></i>
-            </span>
-                    </a>
+                    <a href="#"><i class="fa fa-dashboard"></i> <span>Dashboard</span><span class="pull-right-container"><i class="fa fa-angle-down pull-right"></i></span></a>
                     <ul class="treeview-menu">
-                        <li><a href="/"><i class="fa fa-circle-o"></i> Dashboard 1</a></li>
-                        <li class="active"><a href="#"><i class="fa fa-plus"></i> New Dashboard</a></li>
+                        <li *ngFor="let layout of dashboardLayouts"><a (click)="routeToDashboard(layout.id)"><i class="fa fa-circle-o"></i> {{layout.name}}</a></li>
+                        <li><a routerLink=""><i class="fa fa-plus"></i> New Layout</a></li>
                     </ul>
                 </li>
+                <li class="active"><a routerLink="muuri"><i class="fa fa-dashboard"></i> <span>Muuri Dashboard</span></a></li>
+                <li class="active"><a routerLink="analytics"><i class="fa fa-bar-chart"></i> <span>Analytics</span></a></li>
+                <li class="active"><a routerLink="settings"><i class="fa fa-cogs"></i> <span>Settings</span></a></li>
+
+
                 <!--<li class="treeview">
                     <a href="#">
                         <i class="fa fa-files-o"></i>
@@ -276,15 +276,6 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                Dashboard
-            </h1>
-            <!--<ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li class="active">Dashboard</li>
-            </ol>-->
-        </section>
 
         <section class="content">
             <router-outlet></router-outlet>
