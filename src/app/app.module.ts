@@ -17,11 +17,14 @@ import {SettingsComponent} from './components/settings/settings.component';
 
 import {FormlyHorizontalWrapper} from './formly/wrappers/horizontal-wrapper';
 import {GlobalService} from './services/global-service/global.service';
+import {MuuriDashboardComponent} from './components/muuri-dashboard/muuri-dashboard.component';
+
 
 //Router path template
 const appRoutes: Routes = [
     {path: 'dashboard', component: DashboardComponent},
-    {path: 'settings', component: SettingsComponent}];
+    {path: 'settings', component: SettingsComponent},
+    {path: 'muuri', component: MuuriDashboardComponent}];
 
 @NgModule({
     declarations: [
@@ -30,7 +33,8 @@ const appRoutes: Routes = [
         NavbarComponent,
         WidgetComponent,
         SettingsComponent,
-        FormlyHorizontalWrapper
+        FormlyHorizontalWrapper,
+        MuuriDashboardComponent
     ],
     imports: [
         BrowserModule,
