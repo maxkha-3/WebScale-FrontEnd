@@ -1,9 +1,9 @@
 <div class="widget-frame">
     <div class="widget-heading">
         <i class="column-drag-handle fa fa-bars"></i>
-        {{item.data}}
+        {{item.heading}}
     </div>
     <div class="widget-content">
-        <p-chart type="bar" [data]="data" [options]="chartOptions"></p-chart>
+        <p-chart [type]="item.type" [data]="item.data" [options]="chartOptions"></p-chart>
     </div>
 </div>

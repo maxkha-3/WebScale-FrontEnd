@@ -10,7 +10,6 @@ import {FormlyBootstrapModule} from '@ngx-formly/bootstrap';
 import {ChartModule} from 'primeng/chart';
 
 import {AppComponent} from './app.component';
-import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {NavbarComponent} from './components/navbar/navbar.component';
 import {WidgetComponent} from './components/widget/widget.component';
 import {SettingsComponent} from './components/settings/settings.component';
@@ -22,14 +21,12 @@ import {MuuriDashboardComponent} from './components/muuri-dashboard/muuri-dashbo
 
 //Router path template
 const appRoutes: Routes = [
-    {path: 'dashboard', component: DashboardComponent},
     {path: 'settings', component: SettingsComponent},
     {path: 'muuri', component: MuuriDashboardComponent}];
 
 @NgModule({
     declarations: [
         AppComponent,
-        DashboardComponent,
         NavbarComponent,
         WidgetComponent,
         SettingsComponent,
