@@ -32,6 +32,7 @@
         "lodash": "^4.17.11",
         "muuri": "^0.7.1",
         "ng2-charts": "^1.6.0",
+        "ngx-modal-dialog": "^3.0.0",
         "ngx-smooth-dnd": "^0.2.6",
         "popper.js": "^1.14.4",
         "primeicons": "^1.0.0-beta.10",

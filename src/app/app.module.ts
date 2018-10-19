@@ -9,6 +9,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyBootstrapModule} from '@ngx-formly/bootstrap';
 import {ChartModule} from 'primeng/chart';
+import {ModalDialogModule} from 'ngx-modal-dialog';
 
 //Components
 import {AppComponent} from './app.component';
@@ -18,6 +19,9 @@ import {SettingsComponent} from './components/settings/settings.component';
 
 //Directives
 import {WidgetComponent} from './directives/widget/widget.component';
+
+//Modal components
+import {NewDashboardModalComponent} from './modals/new-dashboard-modal';
 
 //Formly Wrappers
 import {FormlyHorizontalWrapper} from './formly/wrappers/horizontal-wrapper';
@@ -41,7 +45,8 @@ const appRoutes: Routes = [
         WidgetComponent,
         SettingsComponent,
         FormlyHorizontalWrapper,
-        MuuriDashboardComponent
+        MuuriDashboardComponent,
+        NewDashboardModalComponent
     ],
     imports: [
         BrowserModule,
@@ -57,7 +62,11 @@ const appRoutes: Routes = [
             ],
         }),
         FormlyBootstrapModule,
+        ModalDialogModule.forRoot(),
         RouterModule.forRoot(appRoutes)
+    ],
+    entryComponents: [
+        NewDashboardModalComponent
     ],
     providers: [
         GlobalService,

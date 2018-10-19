@@ -3,7 +3,9 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class LayoutFetchingService {
 
-    private testLayout = {
+    private dashboardLayouts: any;
+
+    public testLayout = {
         layouts: [
             {
                 id: 'alarmDashboard',
@@ -28,19 +30,33 @@ export class LayoutFetchingService {
 
 
     constructor() {
+        this.dashboardLayouts = JSON.parse(localStorage.getItem('dashboardLayouts'));
     }
 
 
     getLayout = (dashboardId: string): Array<any> => {
-        for (let layout of this.testLayout.layouts) {
-            if (layout.id === dashboardId) {
-                return layout.widgets
+        if (this.dashboardLayouts != null) {
+            for (let layout of this.dashboardLayouts.layouts) {
+                if (layout.id === dashboardId) {
+                    return layout.widgets;
+                }
             }
         }
-        return null
+        return null;
     };
 
     getAvailableLayouts = (): Array<any> => {
-        return this.testLayout.layouts.map(a => ({name: a.name, id: a.id}));
-    }
+        if (this.dashboardLayouts !== null) {
+            return this.dashboardLayouts.layouts.map(a => ({name: a.name, id: a.id}));
+        }
+        return null;
+    };
+
+    setLayouts = (layouts: any): void => {
+        this.dashboardLayouts = layouts;
+    };
+
+    saveLayouts = (): void => {
+        localStorage.setItem('dashboardLayouts', JSON.stringify(this.dashboardLayouts));
+    };
 }

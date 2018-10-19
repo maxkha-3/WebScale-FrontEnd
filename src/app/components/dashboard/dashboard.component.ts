@@ -18,7 +18,7 @@ export class DashboardComponent implements OnInit {
     items3 = generateItems(3, (i) => ({ id: '3' + i, data: `Draggable 3 - ${i}` }));
     items4 = generateItems(3, (i) => ({ id: '4' + i, data: `Draggable 4 - ${i}` }));
 
-    constructor(private global: GlobalService, private route: ActivatedRoute, private layoutFetcher: LayoutFetchingService) {
+    constructor(private global: GlobalService, private route: ActivatedRoute, private router: Router, private layoutFetcher: LayoutFetchingService) {
         this.getChildPayload1 = this.getChildPayload1.bind(this);
         this.getChildPayload2 = this.getChildPayload2.bind(this);
         this.getChildPayload3 = this.getChildPayload3.bind(this);
@@ -30,7 +30,10 @@ export class DashboardComponent implements OnInit {
             if (params['id'] != undefined) {
                 this.currentDashboard = _.startCase(params['id']);
                 this.widgetLayout = this.layoutFetcher.getLayout(_.camelCase(this.currentDashboard));
-                console.log(this.widgetLayout);
+                if (this.widgetLayout == null) {
+                    console.log("Redirecting to home")
+                    //this.router.navigate("home")
+                }
             }
         })
     }
@@ -54,12 +57,12 @@ export class DashboardComponent implements OnInit {
         return this.items4[index];
     }
 
-    addNewWidget = function(widgetType: string) : void {
+    addNewWidget = (widgetType: string) : void => {
         if (widgetType == "barChart") {
             let newWid = {id: "99", data: "NewOne"};
             this.items1.push(newWid);
         }
-    }
+    };
 }
 
 export const applyDrag = (arr, dragResult) => {

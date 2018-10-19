@@ -11,8 +11,16 @@ export class AppComponent {
     public dashboardLayouts: Array<any>;
 
     constructor(private layoutFetcher: LayoutFetchingService, private router: Router) {
+        /*
+        this.layoutFetcher.setLayouts(this.layoutFetcher.testLayout)
+        this.layoutFetcher.saveLayouts()
+        */
         this.dashboardLayouts = this.layoutFetcher.getAvailableLayouts()
     }
+
+    createNewDashboard = (name: string) => {
+
+    };
 
     routeToDashboard = (dashBoardId: string) => {
         this.router.navigate(['dashboard', dashBoardId]);
