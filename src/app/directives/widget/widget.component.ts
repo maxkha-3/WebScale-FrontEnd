@@ -9,10 +9,6 @@ export class WidgetComponent implements OnInit {
 
     @Input() item;
 
-    chartOptions = {
-        legend: {display: false}
-    };
-
     constructor() {
     }
 
