@@ -1,4 +1,6 @@
 import {Component} from '@angular/core';
+import {LayoutFetchingService} from './services/layout-fetching-service/layout-fetching.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-root',
@@ -6,5 +8,21 @@ import {Component} from '@angular/core';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+    public dashboardLayouts: Array<any>;
 
+    constructor(private layoutFetcher: LayoutFetchingService, private router: Router) {
+        /*
+        this.layoutFetcher.setLayouts(this.layoutFetcher.testLayout)
+        this.layoutFetcher.saveLayouts()
+        */
+        this.dashboardLayouts = this.layoutFetcher.getAvailableLayouts()
+    }
+
+    createNewDashboard = (name: string) => {
+
+    };
+
+    routeToDashboard = (dashBoardId: string) => {
+        this.router.navigate(['dashboard', dashBoardId]);
+    }
 }

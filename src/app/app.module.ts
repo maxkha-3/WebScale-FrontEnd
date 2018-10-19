@@ -1,3 +1,4 @@
+//Imported libraries
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgModule} from '@angular/core';
@@ -8,30 +9,42 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyBootstrapModule} from '@ngx-formly/bootstrap';
 import {ChartModule} from 'primeng/chart';
+import {ModalDialogModule} from 'ngx-modal-dialog';
 
+//Components
 import {AppComponent} from './app.component';
-import {NavbarComponent} from './components/navbar/navbar.component';
-import {WidgetComponent} from './components/widget/widget.component';
+import {MuuriDashboardComponent} from './components/muuri-dashboard/muuri-dashboard.component';
 import {SettingsComponent} from './components/settings/settings.component';
 
+//Directives
+import {WidgetComponent} from './directives/widget/widget.component';
+
+//Modal components
+import {NewDashboardModalComponent} from './modals/new-dashboard-modal';
+
+//Formly Wrappers
 import {FormlyHorizontalWrapper} from './formly/wrappers/horizontal-wrapper';
+
+//Services
 import {GlobalService} from './services/global-service/global.service';
-import {MuuriDashboardComponent} from './components/muuri-dashboard/muuri-dashboard.component';
+import {LayoutFetchingService} from './services/layout-fetching-service/layout-fetching.service';
+import {MiscService} from './services/misc-service/misc.service';
 
 
 //Router path template
 const appRoutes: Routes = [
+    //{path: 'dashboard/:id', component: DashboardComponent},
     {path: 'settings', component: SettingsComponent},
     {path: 'muuri', component: MuuriDashboardComponent}];
 
 @NgModule({
     declarations: [
         AppComponent,
-        NavbarComponent,
         WidgetComponent,
         SettingsComponent,
         FormlyHorizontalWrapper,
-        MuuriDashboardComponent
+        MuuriDashboardComponent,
+        NewDashboardModalComponent
     ],
     imports: [
         BrowserModule,
@@ -47,9 +60,17 @@ const appRoutes: Routes = [
             ],
         }),
         FormlyBootstrapModule,
+        ModalDialogModule.forRoot(),
         RouterModule.forRoot(appRoutes)
     ],
-    providers: [GlobalService],
+    entryComponents: [
+        NewDashboardModalComponent
+    ],
+    providers: [
+        GlobalService,
+        LayoutFetchingService,
+        MiscService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {
