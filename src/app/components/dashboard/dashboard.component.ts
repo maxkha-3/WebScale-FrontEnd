@@ -43,6 +43,10 @@ export class DashboardComponent implements OnInit {
         })
     }
 
+    addNewWidget = (widgetType: string, chartType: string, widgetLayout: string) => {
+
+    };
+
     item1 = {
         heading: 'Top 10 worst monitors (SLA)',
         type: 'bar',
