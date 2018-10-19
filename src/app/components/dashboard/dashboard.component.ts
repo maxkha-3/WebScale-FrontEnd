@@ -2,7 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {GlobalService} from '../../services/global-service/global.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LayoutFetchingService} from '../../services/layout-fetching-service/layout-fetching.service';
+
 import * as _ from 'lodash';
+import * as Muuri from 'muuri';
+import {_document} from '@angular/platform-browser/src/browser';
 
 @Component({
     selector: 'app-dashboard',
@@ -13,19 +16,21 @@ export class DashboardComponent implements OnInit {
     public currentDashboard: string;
     public widgetLayout: Array<any>;
 
-    items1 = generateItems(3, (i) => ({ id: '1' + i, data: `Draggable 1 - ${i}` }));
-    items2 = generateItems(3, (i) => ({ id: '2' + i, data: `Draggable 2 - ${i}` }));
-    items3 = generateItems(3, (i) => ({ id: '3' + i, data: `Draggable 3 - ${i}` }));
-    items4 = generateItems(3, (i) => ({ id: '4' + i, data: `Draggable 4 - ${i}` }));
+    public widgetGrid: any;
 
-    constructor(private global: GlobalService, private route: ActivatedRoute, private router: Router, private layoutFetcher: LayoutFetchingService) {
-        this.getChildPayload1 = this.getChildPayload1.bind(this);
-        this.getChildPayload2 = this.getChildPayload2.bind(this);
-        this.getChildPayload3 = this.getChildPayload3.bind(this);
-        this.getChildPayload4 = this.getChildPayload4.bind(this);
-    }
+    constructor(private global: GlobalService, private route: ActivatedRoute, private router: Router, private layoutFetcher: LayoutFetchingService) {}
 
     ngOnInit() {
+        // Instantiate the board grid so we can drag those
+        // columns around.
+        this.widgetGrid = new Muuri('.board', {
+            layoutDuration: 400,
+            layoutEasing: 'ease',
+            dragEnabled: true,
+            containerClass: 'board',
+            itemClass: 'board-item'
+        });
+
         this.route.params.subscribe(params => {
             if (params['id'] != undefined) {
                 this.currentDashboard = _.startCase(params['id']);
@@ -38,55 +43,81 @@ export class DashboardComponent implements OnInit {
         })
     }
 
-    onDrop(collection, dropResult) {
-        this[collection] = applyDrag(this[collection], dropResult);
-    }
-
-    getChildPayload1(index) {
-        return this.items1[index];
-    }
-    getChildPayload2(index) {
-        return this.items2[index];
-
-    }
-    getChildPayload3(index) {
-        return this.items3[index];
-
-    }
-    getChildPayload4(index) {
-        return this.items4[index];
-    }
-
-    addNewWidget = (widgetType: string) : void => {
-        if (widgetType == "barChart") {
-            let newWid = {id: "99", data: "NewOne"};
-            this.items1.push(newWid);
+    item1 = {
+        heading: 'Top 10 worst monitors (SLA)',
+        type: 'bar',
+        options: {
+            legend: {
+                display: false
+            }
+        },
+        data: {
+            labels: ['#104', '#665', '#211', '#133', '#766', '#1002', '#21', '#78', '#33', '#773'],
+            datasets: [
+                {
+                    label: 'SLA (%)',
+                    backgroundColor: '#42A5F5',
+                    borderColor: '#1E88E5',
+                    data: [67, 68, 68, 70, 71, 76, 83, 88, 98, 100]
+                }
+            ]
         }
     };
+
+    item2 = {
+        heading: 'Losses in monitor #1023',
+        type: 'line',
+        options: {
+            legend: {
+                position: 'top'
+            }
+        },
+        data: {
+            labels: ['10:35', '10:40', '10:45', '10:50', '10:55', '11:00', '11:05'],
+            datasets: [
+                {
+                    label: 'Far loss (%)',
+                    data: [2, 2, 4, 2, 3, 1, 2],
+                    fill: false,
+                    borderColor: '#4bc0c0'
+                },
+                {
+                    label: 'Near loss (%)',
+                    data: [2, 3, 3, 6, 6, 5, 3],
+                    fill: false,
+                    borderColor: '#565656'
+                }
+            ]
+        }
+    };
+
+    item3 = {
+        heading: 'ES contribution',
+        type: 'doughnut',
+        options: {
+            legend: {
+                position: 'top'
+            }
+        },
+        data: {
+            labels: ['Loss', 'Delay', 'Delay variation', 'SES'],
+            datasets: [
+                {
+                    data: [500, 322, 76, 34],
+                    backgroundColor: [
+                        "#FF6384",
+                        "#36A2EB",
+                        "#FFCE56",
+                        "#D45AAB"
+                    ],
+                    hoverBackgroundColor: [
+                        "#FF6384",
+                        "#36A2EB",
+                        "#FFCE56",
+                        "#D45AAB"
+                    ]
+                }
+            ]
+        }
+    }
 }
-
-export const applyDrag = (arr, dragResult) => {
-    const { removedIndex, addedIndex, payload } = dragResult;
-    if (removedIndex === null && addedIndex === null) return arr;
-
-    const result = [...arr];
-    let itemToAdd = payload;
-
-    if (removedIndex !== null) {
-        itemToAdd = result.splice(removedIndex, 1)[0];
-    }
-
-    if (addedIndex !== null) {
-        result.splice(addedIndex, 0, itemToAdd);
-    }
-
-    return result;
-};
-
-export const generateItems = (count, creator) => {
-    const result = [];
-    for (let i = 0; i < count; i++) {
-        result.push(creator(i));
-    }
-    return result;
-};

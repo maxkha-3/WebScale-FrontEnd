@@ -1,7 +1,8 @@
 <!-- Example single danger button -->
 <div class="dashboard-menu-container">
+    <h2 class="dashboard-heading"><span class="badge badge-dark">{{currentDashboard}}</span></h2>
     <div class="btn-group">
-        <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-plus"></i> Add widget
         </button>
         <div class="dropdown-menu">
@@ -10,36 +11,24 @@
         </div>
     </div>
 
-    <button type="button" class="btn btn-dark"><i class="fa fa-save"></i> Save Layout</button>
+    <button type="button" class="btn btn-dark btn-sm"><i class="fa fa-save"></i> Save Layout</button>
+    <button type="button" class="btn btn-dark btn-sm"><i class="fa fa-remove"></i> Remove Layout</button>
 </div>
 
-<div class="dashboard-container">
-    <div class="dashboard-column" style="margin-left: 0px">
-        <smooth-dnd-container [groupName]="'1'" [getChildPayload]="getChildPayload1" (drop)="onDrop('items1', $event)" [dragHandleSelector]="'.column-drag-handle'">
-            <smooth-dnd-draggable *ngFor="let item of items1">
-                <app-widget [item]="item"></app-widget>
-            </smooth-dnd-draggable>
-        </smooth-dnd-container>
+<div class="board">
+    <div class="board-item col-4">
+        <div class="board-item-content shadow">
+            <app-widget [item]="item1"></app-widget>
+        </div>
     </div>
-    <div class="dashboard-column">
-        <smooth-dnd-container [groupName]="'1'" [getChildPayload]="getChildPayload2" (drop)="onDrop('items2', $event)" [dragHandleSelector]="'.column-drag-handle'">
-            <smooth-dnd-draggable *ngFor="let item of items2">
-                <app-widget [item]="item"></app-widget>
-            </smooth-dnd-draggable>
-        </smooth-dnd-container>
+    <div class="board-item col-8">
+        <div class="board-item-content shadow">
+            <app-widget [item]="item2"></app-widget>
+        </div>
     </div>
-    <div class="dashboard-column">
-        <smooth-dnd-container [groupName]="'1'" [getChildPayload]="getChildPayload3" (drop)="onDrop('items3', $event)" [dragHandleSelector]="'.column-drag-handle'">
-            <smooth-dnd-draggable *ngFor="let item of items3">
-                <app-widget [item]="item"></app-widget>
-            </smooth-dnd-draggable>
-        </smooth-dnd-container>
-    </div>
-    <div class="dashboard-column">
-        <smooth-dnd-container [groupName]="'1'" [getChildPayload]="getChildPayload4" (drop)="onDrop('items4', $event)" [dragHandleSelector]="'.column-drag-handle'">
-            <smooth-dnd-draggable *ngFor="let item of items4">
-                <app-widget [item]="item"></app-widget>
-            </smooth-dnd-draggable>
-        </smooth-dnd-container>
+    <div class="board-item col-4">
+        <div class="board-item-content shadow">
+            <app-widget [item]="item3"></app-widget>
+        </div>
     </div>
 </div>

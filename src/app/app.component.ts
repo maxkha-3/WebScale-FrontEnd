@@ -11,10 +11,12 @@ export class AppComponent {
     public dashboardLayouts: Array<any>;
 
     constructor(private layoutFetcher: LayoutFetchingService, private router: Router) {
-        /*
-        this.layoutFetcher.setLayouts(this.layoutFetcher.testLayout)
-        this.layoutFetcher.saveLayouts()
-        */
+        //For testing purposes
+        if (localStorage.getItem("dashboardLayouts") === null) {
+            console.log("No layouts found, adding some test layouts");
+            this.layoutFetcher.setLayouts(this.layoutFetcher.testLayout);
+            this.layoutFetcher.saveLayouts()
+        }
         this.dashboardLayouts = this.layoutFetcher.getAvailableLayouts()
     }
 

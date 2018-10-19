@@ -13,7 +13,7 @@ import {ModalDialogModule} from 'ngx-modal-dialog';
 
 //Components
 import {AppComponent} from './app.component';
-import {MuuriDashboardComponent} from './components/muuri-dashboard/muuri-dashboard.component';
+import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {SettingsComponent} from './components/settings/settings.component';
 
 //Directives
@@ -33,17 +33,16 @@ import {MiscService} from './services/misc-service/misc.service';
 
 //Router path template
 const appRoutes: Routes = [
-    //{path: 'dashboard/:id', component: DashboardComponent},
-    {path: 'settings', component: SettingsComponent},
-    {path: 'muuri', component: MuuriDashboardComponent}];
+    {path: 'dashboard/:id', component: DashboardComponent},
+    {path: 'settings', component: SettingsComponent}];
 
 @NgModule({
     declarations: [
         AppComponent,
         WidgetComponent,
         SettingsComponent,
+        DashboardComponent,
         FormlyHorizontalWrapper,
-        MuuriDashboardComponent,
         NewDashboardModalComponent
     ],
     imports: [
