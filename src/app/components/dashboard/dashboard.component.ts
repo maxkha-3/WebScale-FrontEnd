@@ -19,60 +19,16 @@ export class DashboardComponent implements OnInit {
     };
 
     item2 = {
-        heading: 'Losses in monitor #1023',
-        type: 'line',
-        options: {
-            legend: {
-                position: 'top'
-            }
-        },
-        data: {
-            labels: ['10:35', '10:40', '10:45', '10:50', '10:55', '11:00', '11:05'],
-            datasets: [
-                {
-                    label: 'Far loss (%)',
-                    data: [2, 2, 4, 2, 3, 1, 2],
-                    fill: false,
-                    borderColor: '#4bc0c0'
-                },
-                {
-                    label: 'Near loss (%)',
-                    data: [2, 3, 3, 6, 6, 5, 3],
-                    fill: false,
-                    borderColor: '#565656'
-                }
-            ]
-        }
+        type: 'NearFarLossMonitorChart',
+       monitor: 1333
     };
 
     item3 = {
-        heading: 'ES contribution',
-        type: 'doughnut',
-        options: {
-            legend: {
-                position: 'top'
-            }
-        },
-        data: {
-            labels: ['Loss', 'Delay', 'Delay variation', 'SES'],
-            datasets: [
-                {
-                    data: [500, 322, 76, 34],
-                    backgroundColor: [
-                        "#FF6384",
-                        "#36A2EB",
-                        "#FFCE56",
-                        "#D45AAB"
-                    ],
-                    hoverBackgroundColor: [
-                        "#FF6384",
-                        "#36A2EB",
-                        "#FFCE56",
-                        "#D45AAB"
-                    ]
-                }
-            ]
-        }
+        type: 'ESContribution'
+    }
+
+    item4 = {
+        type: '10WorstTasksDelayList'
     }
 
     public currentDashboard: string;

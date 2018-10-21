@@ -1,9 +1,23 @@
 <div class="widget-frame">
     <div class="widget-heading">
         <i class="widget-drag-handle fa fa-bars"></i>
-        {{item.heading}}
+        {{state.heading}}
     </div>
-    <div class="widget-content" *ngIf="test">
-        <p-chart [type]="item.type" [data]="item.data" [options]="item.options"></p-chart>
+    <div class="widget-content" *ngIf="isChart">
+        <p-chart [type]="state.type" [data]="state.data" [options]="state.options"></p-chart>
+    </div>
+    <div class="widget-content" *ngIf="isList">
+        <table class="table table-striped  text-center">
+            <thead>
+            <tr>
+                <th *ngFor="let value of state.headers">{{value}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let row of state.data">
+                <td *ngFor="let value of row">{{value}}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>

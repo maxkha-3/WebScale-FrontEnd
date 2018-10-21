@@ -5,8 +5,8 @@ export class DruidDataService {
 
   constructor() { }
 
-  public WorstMonitorsSLA_15 = function(){
-      const data = [
+  WorstMonitorsSLA15 = (): Array<any> => {
+      return [
           {ID: 55, SLA: 80},
           {ID: 465, SLA: 82},
           {ID: 344, SLA: 87},
@@ -18,7 +18,6 @@ export class DruidDataService {
           {ID: 87, SLA: 99},
           {ID: 555, SLA: 99}
       ];
-      return data;
-  };
+  }
 
 }
