@@ -4,7 +4,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {FormsModule} from '@angular/forms';
-import {NgxSmoothDnDModule} from 'ngx-smooth-dnd';
 import {ReactiveFormsModule} from '@angular/forms';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyBootstrapModule} from '@ngx-formly/bootstrap';
@@ -52,7 +51,6 @@ const appRoutes: Routes = [
         BrowserAnimationsModule,
         ChartModule,
         FormsModule,
-        NgxSmoothDnDModule,
         ReactiveFormsModule,
         FormlyModule.forRoot({
             wrappers: [{name: 'form-field-horizontal', component: FormlyHorizontalWrapper}],
