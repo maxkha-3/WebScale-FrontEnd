@@ -5,24 +5,32 @@ export class LayoutFetchingService {
 
     private dashboardLayouts: any;
 
+    private availableWidgets = {
+        widgets: [
+            {widgetType: 'sla_top10', chartTypes: ['bar', 'line'], heading: 'Top 10 worst monitors (SLA)'},
+            {widgetType: 'es_contribution', chartTypes: ['doughnut'], heading: 'ES contribution'},
+            {widgetType: 'loss_1h', chartTypes: ['line'], dependencies: ['monitorId'], heading: 'Losses in monitor #'}
+        ]
+    };
+
     public testLayout = {
         layouts: [
             {
                 id: 'alarmDashboard',
                 name: 'Alarm Dashboard',
                 widgets: [
-                    {widgetType: 'loss24h', chartType: 'bar', heading: 'Loss 24h'},
-                    {widgetType: 'loss12h', chartType: 'bar', heading: 'Loss 12h'},
-                    {widgetType: 'loss1h', chartType: 'bar', heading: 'Loss 1h'},
+                    {widgetType: 'sla_top10', chartType: 'bar'},
+                    {widgetType: 'es_contribution', chartType: 'doughnut'},
+                    {widgetType: 'loss_1h', chartType: 'line', monitorId: '1023'}
                 ]
             },
             {
                 id: 'generalOverview',
                 name: 'General Overview',
                 widgets: [
-                    {widgetType: 'uptime24h', chartType: 'bar', heading: 'Uptime 24h'},
-                    {widgetType: 'uptime12h', chartType: 'bar', heading: 'Uptime 12h'},
-                    {widgetType: 'uptime1h', chartType: 'bar', heading: 'Uptime 1h'},
+                    {widgetType: 'sla_top10', chartType: 'line'},
+                    {widgetType: 'es_contribution', chartType: 'doughnut'},
+                    {widgetType: 'loss_1h', chartType: 'line', monitorId: '443'}
                 ]
             }
         ]
@@ -54,6 +62,20 @@ export class LayoutFetchingService {
 
     setLayouts = (layouts: any): void => {
         this.dashboardLayouts = layouts;
+    };
+
+    setLayout = (dashboardId: string, newLayout: any): void => {
+        if (this.dashboardLayouts != null) {
+            for (let layout of this.dashboardLayouts.layouts) {
+                if (layout.id === dashboardId) {
+                    layout = newLayout;
+                }
+            }
+        }
+    };
+
+    addLayout = (dashboardId: string, dashboardName: string): void => {
+        this.dashboardLayouts.layouts.push({id: dashboardId, name: dashboardName, widgets: []});
     };
 
     saveLayouts = (): void => {

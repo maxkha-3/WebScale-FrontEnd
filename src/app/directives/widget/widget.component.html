@@ -3,7 +3,7 @@
         <i class="widget-drag-handle fa fa-bars"></i>
         {{item.heading}}
     </div>
-    <div class="widget-content">
+    <div class="widget-content" *ngIf="test">
         <p-chart [type]="item.type" [data]="item.data" [options]="item.options"></p-chart>
     </div>
 </div>

@@ -13,25 +13,9 @@ import {_document} from '@angular/platform-browser/src/browser';
     styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+
     item1 = {
-        heading: 'Top 10 worst monitors (SLA)',
-        type: 'bar',
-        options: {
-            legend: {
-                display: false
-            }
-        },
-        data: {
-            labels: ['#104', '#665', '#211', '#133', '#766', '#1002', '#21', '#78', '#33', '#773'],
-            datasets: [
-                {
-                    label: 'SLA (%)',
-                    backgroundColor: '#42A5F5',
-                    borderColor: '#1E88E5',
-                    data: [67, 68, 68, 70, 71, 76, 83, 88, 98, 100]
-                }
-            ]
-        }
+        type: '10WorstMonitorsChart15'
     };
 
     item2 = {
@@ -95,6 +79,10 @@ export class DashboardComponent implements OnInit {
     public widgetLayout: Array<any>;
 
     public widgetGrid: any;
+
+    addNewWidget = (widgetType: string, chartType: string, widgetLayout: string) => {
+
+    };
 
     constructor(private global: GlobalService, private route: ActivatedRoute, private router: Router, private layoutFetcher: LayoutFetchingService) {}
 
