@@ -29,6 +29,8 @@ import {FormlyHorizontalWrapper} from './formly/wrappers/horizontal-wrapper';
 import {GlobalService} from './services/global-service/global.service';
 import {LayoutFetchingService} from './services/layout-fetching-service/layout-fetching.service';
 import {MiscService} from './services/misc-service/misc.service';
+import {DruidDataService} from './services/druid-data-service/druid-data.service';
+import {ChartBaseService} from './services/chart-base-service/chart-base.service';
 
 
 //Router path template
@@ -68,7 +70,9 @@ const appRoutes: Routes = [
     providers: [
         GlobalService,
         LayoutFetchingService,
-        MiscService
+        DruidDataService,
+        MiscService,
+        ChartBaseService
     ],
     bootstrap: [AppComponent]
 })
