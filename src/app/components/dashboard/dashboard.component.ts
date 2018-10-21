@@ -13,36 +13,6 @@ import {_document} from '@angular/platform-browser/src/browser';
     styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-    public currentDashboard: string;
-    public widgetLayout: Array<any>;
-
-    public widgetGrid: any;
-
-    constructor(private global: GlobalService, private route: ActivatedRoute, private router: Router, private layoutFetcher: LayoutFetchingService) {}
-
-    ngOnInit() {
-        // Instantiate the board grid so we can drag those
-        // columns around.
-        this.widgetGrid = new Muuri('.board', {
-            layoutDuration: 400,
-            layoutEasing: 'ease',
-            dragEnabled: true,
-            containerClass: 'board',
-            itemClass: 'board-item'
-        });
-
-        this.route.params.subscribe(params => {
-            if (params['id'] != undefined) {
-                this.currentDashboard = _.startCase(params['id']);
-                this.widgetLayout = this.layoutFetcher.getLayout(_.camelCase(this.currentDashboard));
-                if (this.widgetLayout == null) {
-                    console.log("Redirecting to home")
-                    //this.router.navigate("home")
-                }
-            }
-        })
-    }
-
     item1 = {
         heading: 'Top 10 worst monitors (SLA)',
         type: 'bar',
@@ -120,4 +90,41 @@ export class DashboardComponent implements OnInit {
             ]
         }
     }
+
+    public currentDashboard: string;
+    public widgetLayout: Array<any>;
+
+    public widgetGrid: any;
+
+    constructor(private global: GlobalService, private route: ActivatedRoute, private router: Router, private layoutFetcher: LayoutFetchingService) {}
+
+    ngOnInit() {
+        // Instantiate the board grid so we can drag those
+        // columns around.
+        this.widgetGrid = new Muuri('.board', {
+            layoutDuration: 400,
+            layoutEasing: 'ease',
+            dragEnabled: true,
+            dragStartPredicate: {
+                distance: 0,
+                delay: 0,
+                handle: '.widget-drag-handle'
+            },
+            containerClass: 'board',
+            itemClass: 'board-item'
+        });
+
+        this.route.params.subscribe(params => {
+            if (params['id'] != undefined) {
+                this.currentDashboard = _.startCase(params['id']);
+                this.widgetLayout = this.layoutFetcher.getLayout(_.camelCase(this.currentDashboard));
+                if (this.widgetLayout == null) {
+                    console.log("Redirecting to home")
+                    //this.router.navigate("home")
+                }
+            }
+        })
+    }
+
+
 }

@@ -5,13 +5,10 @@
     display: block;
     background-color: #fff;
     outline: 0;
-    border: 1px solid rgba(0, 0, 0, 0.7);
     margin-bottom: 10px;
 }
 
 .widget-heading {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.7);
-    background-color: rgba(60, 141, 188, 0.8);
     margin-bottom: 5px;
 }
 
@@ -19,7 +16,7 @@
     margin: 10px 10px 10px 10px;
 }
 
-.column-drag-handle {
+.widget-drag-handle {
     cursor: move;
     margin-left: 10px;
     margin-right: 5px;
