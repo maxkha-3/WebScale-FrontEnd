@@ -5,6 +5,9 @@ import {LayoutFetchingService} from '../../services/layout-fetching-service/layo
 
 import * as _ from 'lodash';
 import * as Muuri from 'muuri';
+import {forEach} from '@angular/router/src/utils/collection';
+
+
 
 @Component({
     selector: 'app-dashboard',
@@ -14,6 +17,7 @@ import * as Muuri from 'muuri';
 export class DashboardComponent implements OnInit, AfterViewInit {
 
     public currentDashboard: string;
+    public currentDashboardID: string;
     public widgetLayout: Array<any>;
 
     public widgetGrid: any;
@@ -21,6 +25,28 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     addNewWidget = (widgetType: string, chartType: string, widgetLayout: string) => {
 
     };
+
+    saveLayout = () => {
+        this.layoutFetcher.setLayout(this.currentDashboardID, this.widgetLayout);
+        this.layoutFetcher.saveLayouts();
+        alert('Layout saved!');
+    }
+
+    deleteWidget = () => {
+        if(!confirm('Do you really want to remove this widget?'))
+            return;
+
+        const widgetId = document.querySelector('#widgetSettingsDeleteBtn').getAttribute('data-widget-id');
+        for(let a = this.widgetLayout.length - 1; a >= 0; a--){
+            if(this.widgetLayout[a].ID === widgetId){
+                this.widgetLayout.splice(a, 1);
+                const elem = document.querySelector('[data-widget-id="' + widgetId + '"]');
+                this.widgetGrid.remove(elem, {removeElements: true});
+
+                break;
+            }
+        }
+    }
 
     constructor(private global: GlobalService, private route: ActivatedRoute, private router: Router, private layoutFetcher: LayoutFetchingService) {
     }
@@ -31,6 +57,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.route.params.subscribe(params => {
             if (params['id'] != undefined) {
                 this.currentDashboard = _.startCase(params['id']);
+                this.currentDashboardID = params['id'];
                 this.widgetLayout = this.layoutFetcher.getLayout(_.camelCase(this.currentDashboard));
                 console.log(this.widgetLayout);
                 if (this.widgetLayout == null) {

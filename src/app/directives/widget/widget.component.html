@@ -3,6 +3,7 @@
     <div class="widget-heading">
         <i class="widget-drag-handle fa fa-bars"></i>
         {{state.heading}}
+        <i class="widget-settings-icon fa fa-cog float-right" (click)="showSettings()"></i>
     </div>
     <div class="widget-content" *ngIf="isChart">
         <p-chart [type]="state.type" [data]="state.data" [options]="state.options"></p-chart>

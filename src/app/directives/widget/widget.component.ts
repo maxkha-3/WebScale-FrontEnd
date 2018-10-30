@@ -2,6 +2,9 @@ import {Component, Input, OnInit} from '@angular/core';
 import {DruidDataService} from '../../services/druid-data-service/druid-data.service';
 import {ChartBaseService} from '../../services/chart-base-service/chart-base.service';
 
+declare var jquery:any;
+declare var $:any;
+
 @Component({
     selector: 'app-widget',
     templateUrl: './widget.component.html',
@@ -15,6 +18,11 @@ export class WidgetComponent implements OnInit {
     @Input() item;
 
     public state: any;
+
+    showSettings = () => {
+        $('#widgetSettingsModal').modal('show');
+        document.querySelector('#widgetSettingsDeleteBtn').setAttribute('data-widget-id', this.item.ID);
+    }
 
     constructor(private druidAPI: DruidDataService, private chartBase: ChartBaseService) {
     }
