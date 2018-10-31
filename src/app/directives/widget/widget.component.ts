@@ -2,8 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {DruidDataService} from '../../services/druid-data-service/druid-data.service';
 import {ChartBaseService} from '../../services/chart-base-service/chart-base.service';
 
-declare var jquery:any;
-declare var $:any;
+declare var jquery: any;
+declare var $: any;
 
 @Component({
     selector: 'app-widget',
@@ -22,7 +22,7 @@ export class WidgetComponent implements OnInit {
     showSettings = () => {
         $('#widgetSettingsModal').modal('show');
         document.querySelector('#widgetSettingsDeleteBtn').setAttribute('data-widget-id', this.item.ID);
-    }
+    };
 
     constructor(private druidAPI: DruidDataService, private chartBase: ChartBaseService) {
     }
@@ -32,14 +32,14 @@ export class WidgetComponent implements OnInit {
         const graphData = data.map((row) => row.Data.SLA);
         this.state.data.labels = labels;
         this.state.data.datasets[0].data = graphData;
-    }
+    };
 
     doughnutChartSerializer = (data: any) => {
         const esconlabels = data.map((row) => row.ID);
         const escongraphData = data.map((row) => row.Data.ES);
         this.state.data.labels = esconlabels;
         this.state.data.datasets[0].data = escongraphData;
-    }
+    };
 
     lineChartSerializer = (data: any) => {
         const nflmlabels = data.map((row) => row.ID);
@@ -58,16 +58,16 @@ export class WidgetComponent implements OnInit {
             fill: false,
             borderColor: '#565656'
         });
-    }
+    };
 
     listSerializer = (data: any) => {
         this.state.headers = ['Task', 'Delay (ms)'];
         this.state.data = data.map((row) => ['#' + row.ID, row.Data.Delay]);
-    }
+    };
 
     ngOnInit() {
         let serializer;
-        switch (this.item.chartType){
+        switch (this.item.chartType) {
             case 'bar':
                 serializer = this.barChartSerializer;
                 this.state = this.chartBase.getBarBase();
