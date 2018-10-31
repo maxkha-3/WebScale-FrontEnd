@@ -20,32 +20,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     public widgetGrid: any;
 
-    addNewWidget = (widgetType: string, chartType: string, widgetLayout: string) => {
-
-    };
-
-    saveLayout = () => {
-        this.layoutFetcher.setLayout(this.currentDashboardID, this.widgetLayout);
-        this.layoutFetcher.saveLayouts();
-        alert('Layout saved!');
-    };
-
-    deleteWidget = () => {
-        if (!confirm('Do you really want to remove this widget?'))
-            return;
-
-        const widgetId = document.querySelector('#widgetSettingsDeleteBtn').getAttribute('data-widget-id');
-        for (let a = this.widgetLayout.length - 1; a >= 0; a--) {
-            if (this.widgetLayout[a].ID === widgetId) {
-                this.widgetLayout.splice(a, 1);
-                const elem = document.querySelector('[data-widget-id="' + widgetId + '"]');
-                this.widgetGrid.remove(elem, {removeElements: true});
-
-                break;
-            }
-        }
-    };
-
     constructor(private global: GlobalService, private route: ActivatedRoute, private router: Router, private layoutFetcher: LayoutFetchingService) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
@@ -84,4 +58,30 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             itemClass: 'board-item'
         });
     }
+
+    addNewWidget = (widgetType: string, chartType: string, widgetLayout: string) => {
+
+    };
+
+    saveLayout = (): void => {
+        this.layoutFetcher.setLayout(this.currentDashboardID, this.widgetLayout);
+        this.layoutFetcher.saveLayouts();
+        alert('Layout saved!');
+    };
+
+    deleteWidget = () => {
+        if (!confirm('Do you really want to remove this widget?'))
+            return;
+
+        const widgetId = document.querySelector('#widgetSettingsDeleteBtn').getAttribute('data-widget-id');
+        for (let a = this.widgetLayout.length - 1; a >= 0; a--) {
+            if (this.widgetLayout[a].ID === widgetId) {
+                this.widgetLayout.splice(a, 1);
+                const elem = document.querySelector('[data-widget-id="' + widgetId + '"]');
+                this.widgetGrid.remove(elem, {removeElements: true});
+
+                break;
+            }
+        }
+    };
 }

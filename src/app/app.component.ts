@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {LayoutFetchingService} from './services/layout-fetching-service/layout-fetching.service';
 import {Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
 
 import * as _ from 'lodash';
 
@@ -14,7 +15,7 @@ export class AppComponent {
     public newLayoutInitiated: boolean;
     public newLayoutName: string;
 
-    constructor(private layoutFetcher: LayoutFetchingService, private router: Router) {
+    constructor(private layoutFetcher: LayoutFetchingService, private router: Router, private toastr: ToastrService) {
         //For testing purposes
         if (localStorage.getItem('dashboardLayouts') === null) {
             console.log('No layouts found, adding some test layouts');
@@ -26,16 +27,18 @@ export class AppComponent {
     }
 
     initiateNewLayout = (status: boolean): void => {
-        this.newLayoutName = "";
+        this.newLayoutName = '';
         this.newLayoutInitiated = status;
     };
 
     createNewDashboard = (name: string): void => {
         console.log(name);
+        this.toastr.success('New layout has been added', 'Success!');
         this.layoutFetcher.addLayout(_.camelCase(name), _.startCase(name));
-        this.newLayoutName = "";
+        this.newLayoutName = '';
         this.newLayoutInitiated = false;
         this.dashboardLayouts = this.layoutFetcher.getAvailableLayouts();
+        this.router.navigate(['dashboard', _.camelCase(name)]);
     };
 
     routeToDashboard = (dashBoardId: string) => {

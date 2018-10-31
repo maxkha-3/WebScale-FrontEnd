@@ -9,6 +9,7 @@ import {FormlyModule} from '@ngx-formly/core';
 import {FormlyBootstrapModule} from '@ngx-formly/bootstrap';
 import {ChartModule} from 'primeng/chart';
 import {ModalDialogModule} from 'ngx-modal-dialog';
+import {ToastrModule} from 'ngx-toastr';
 
 //Components
 import {AppComponent} from './app.component';
@@ -62,6 +63,7 @@ const appRoutes: Routes = [
         }),
         FormlyBootstrapModule,
         ModalDialogModule.forRoot(),
+        ToastrModule.forRoot(),
         RouterModule.forRoot(appRoutes)
     ],
     entryComponents: [],
