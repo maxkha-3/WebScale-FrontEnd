@@ -19,7 +19,6 @@ import {SettingsComponent} from './components/settings/settings.component';
 import {WidgetComponent} from './directives/widget/widget.component';
 
 //Modal components
-import {NewDashboardModalComponent} from './modals/new-dashboard-modal';
 
 //Formly Wrappers
 import {FormlyHorizontalWrapper} from './formly/wrappers/horizontal-wrapper';
@@ -43,8 +42,7 @@ const appRoutes: Routes = [
         WidgetComponent,
         SettingsComponent,
         DashboardComponent,
-        FormlyHorizontalWrapper,
-        NewDashboardModalComponent
+        FormlyHorizontalWrapper
     ],
     imports: [
         BrowserModule,
@@ -63,7 +61,6 @@ const appRoutes: Routes = [
         RouterModule.forRoot(appRoutes)
     ],
     entryComponents: [
-        NewDashboardModalComponent
     ],
     providers: [
         GlobalService,

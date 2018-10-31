@@ -5,7 +5,6 @@ import {LayoutFetchingService} from '../../services/layout-fetching-service/layo
 
 import * as _ from 'lodash';
 import * as Muuri from 'muuri';
-import {forEach} from '@angular/router/src/utils/collection';
 
 
 @Component({

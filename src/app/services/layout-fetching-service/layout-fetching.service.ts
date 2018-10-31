@@ -77,6 +77,7 @@ export class LayoutFetchingService {
 
     addLayout = (dashboardId: string, dashboardName: string): void => {
         this.dashboardLayouts.layouts.push({id: dashboardId, name: dashboardName, widgets: []});
+        this.saveLayouts();
     };
 
     saveLayouts = (): void => {

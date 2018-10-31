@@ -103,7 +103,14 @@
                     <a href="#"><i class="fa fa-dashboard"></i> <span>Dashboard</span><span class="pull-right-container"><i class="fa fa-angle-down pull-right"></i></span></a>
                     <ul class="treeview-menu">
                         <li *ngFor="let layout of dashboardLayouts"><a (click)="routeToDashboard(layout.id)"><i class="fa fa-circle-o"></i> {{layout.name}}</a></li>
-                        <li><a (click)="openSimpleModalWithCallback()"><i class="fa fa-plus"></i> New Layout</a></li>
+                        <li *ngIf="!newLayoutInitiated"><a (click)="initiateNewLayout(true)"><i class="fa fa-plus"></i> New Layout</a></li>
+                        <li *ngIf="newLayoutInitiated"><div class="input-group">
+                            <input type="text" class="form-control" [(ngModel)]="newLayoutName" placeholder="Layout name" aria-label="Layout name" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" (click)="createNewDashboard(newLayoutName)"><i class="fa fa-check"></i></button>
+                                <button class="btn btn-outline-secondary" type="button" (click)="initiateNewLayout(false)"><i class="fa fa-remove"></i></button>
+                            </div>
+                        </div></li>
                     </ul>
                 </li>
                 <li class="active"><a routerLink="analytics"><i class="fa fa-bar-chart"></i> <span>Analytics</span></a></li>
@@ -483,7 +490,6 @@
     <div class="control-sidebar-bg"></div>
 
 </div>
-
 
 <!--<div class="modal fade" id="profile-modal" tabindex="-1" role="dialog" aria-labelledby="profModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
