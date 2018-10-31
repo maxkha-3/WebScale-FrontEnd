@@ -24,6 +24,10 @@ export class AppComponent {
         }
         this.dashboardLayouts = this.layoutFetcher.getAvailableLayouts();
         this.newLayoutInitiated = false;
+
+        this.layoutFetcher.layoutsUpdated.subscribe(() => {
+            this.dashboardLayouts = this.layoutFetcher.getAvailableLayouts();
+        })
     }
 
     initiateNewLayout = (status: boolean): void => {
@@ -37,7 +41,6 @@ export class AppComponent {
         this.layoutFetcher.addLayout(_.camelCase(name), _.startCase(name));
         this.newLayoutName = '';
         this.newLayoutInitiated = false;
-        this.dashboardLayouts = this.layoutFetcher.getAvailableLayouts();
         this.router.navigate(['dashboard', _.camelCase(name)]);
     };
 

@@ -2,10 +2,10 @@ import {Component, OnInit, AfterViewInit} from '@angular/core';
 import {GlobalService} from '../../services/global-service/global.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LayoutFetchingService} from '../../services/layout-fetching-service/layout-fetching.service';
+import {ToastrService} from 'ngx-toastr';
 
 import * as _ from 'lodash';
 import * as Muuri from 'muuri';
-
 
 @Component({
     selector: 'app-dashboard',
@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     public widgetGrid: any;
 
-    constructor(private global: GlobalService, private route: ActivatedRoute, private router: Router, private layoutFetcher: LayoutFetchingService) {
+    constructor(private global: GlobalService, private route: ActivatedRoute, private router: Router, private layoutFetcher: LayoutFetchingService, private toastr: ToastrService) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
 
@@ -34,8 +34,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
                 this.widgetLayout = this.layoutFetcher.getLayout(_.camelCase(this.currentDashboard));
                 console.log(this.widgetLayout);
                 if (this.widgetLayout == null) {
-                    console.log('Redirecting to home');
-                    //this.router.navigate("home")
+                    this.router.navigate(['home']);
                 }
             }
         });
@@ -69,7 +68,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         alert('Layout saved!');
     };
 
-    deleteWidget = () => {
+    deleteWidget = (): void => {
         if (!confirm('Do you really want to remove this widget?'))
             return;
 
@@ -79,9 +78,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
                 this.widgetLayout.splice(a, 1);
                 const elem = document.querySelector('[data-widget-id="' + widgetId + '"]');
                 this.widgetGrid.remove(elem, {removeElements: true});
-
                 break;
             }
         }
+    };
+
+    deleteDashboard = (): void => {
+        this.layoutFetcher.deleteLayout(this.currentDashboardID);
+        this.toastr.success('Dashboard layout was removed', 'Success!');
+        this.router.navigate(['home']);
     };
 }

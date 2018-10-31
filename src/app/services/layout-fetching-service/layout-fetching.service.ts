@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
+import {Subject} from 'rxjs/Subject';
 
 @Injectable()
 export class LayoutFetchingService {
 
     private dashboardLayouts: any;
+    public layoutsUpdated: Subject<any>;
 
     private availableWidgets = {
         widgets: [
@@ -40,6 +42,7 @@ export class LayoutFetchingService {
 
     constructor() {
         this.dashboardLayouts = JSON.parse(localStorage.getItem('dashboardLayouts'));
+        this.layoutsUpdated = new Subject<any>();
     }
 
 
@@ -80,7 +83,21 @@ export class LayoutFetchingService {
         this.saveLayouts();
     };
 
+    deleteLayout = (dashboardId: string): void => {
+        if (this.dashboardLayouts != null) {
+            let index = 0;
+            for (let layout of this.dashboardLayouts.layouts) {
+                if (layout.id === dashboardId) {
+                    this.dashboardLayouts.layouts.splice(index, 1);
+                }
+                index++;
+            }
+            this.saveLayouts();
+        }
+    };
+
     saveLayouts = (): void => {
         localStorage.setItem('dashboardLayouts', JSON.stringify(this.dashboardLayouts));
+        this.layoutsUpdated.next();
     };
 }
