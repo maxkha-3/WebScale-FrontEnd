@@ -14,6 +14,7 @@ import {ModalDialogModule} from 'ngx-modal-dialog';
 import {AppComponent} from './app.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {SettingsComponent} from './components/settings/settings.component';
+import {HomeComponent} from './components/home/home.component';
 
 //Directives
 import {WidgetComponent} from './directives/widget/widget.component';
@@ -33,6 +34,8 @@ import {ChartBaseService} from './services/chart-base-service/chart-base.service
 
 //Router path template
 const appRoutes: Routes = [
+    {path: '', component: HomeComponent},
+    {path: 'home', component: HomeComponent},
     {path: 'dashboard/:id', component: DashboardComponent},
     {path: 'settings', component: SettingsComponent}];
 
@@ -42,7 +45,8 @@ const appRoutes: Routes = [
         WidgetComponent,
         SettingsComponent,
         DashboardComponent,
-        FormlyHorizontalWrapper
+        FormlyHorizontalWrapper,
+        HomeComponent
     ],
     imports: [
         BrowserModule,
@@ -60,8 +64,7 @@ const appRoutes: Routes = [
         ModalDialogModule.forRoot(),
         RouterModule.forRoot(appRoutes)
     ],
-    entryComponents: [
-    ],
+    entryComponents: [],
     providers: [
         GlobalService,
         LayoutFetchingService,
