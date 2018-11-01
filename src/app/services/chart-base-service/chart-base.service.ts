@@ -6,6 +6,9 @@ export class ChartBaseService {
     constructor() {
     }
 
+    /**
+     * Returns a base for a Bar Chart
+     */
     getBarBase = () => {
         return {
             heading: '',
@@ -29,6 +32,9 @@ export class ChartBaseService {
         };
     };
 
+    /**
+     * Returns base for a Doughnut Chart
+     */
     getDoughnutBase = () => {
         return {
             heading: '',
@@ -59,10 +65,13 @@ export class ChartBaseService {
                 ]
             }
         };
-    }
+    };
 
+    /**
+     * Returns base for a Line Chart
+     */
     getLineBase = () => {
-        return  {
+        return {
             heading: '',
             type: 'line',
             options: {
@@ -75,5 +84,5 @@ export class ChartBaseService {
                 datasets: []
             }
         };
-    }
+    };
 }

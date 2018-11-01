@@ -22,49 +22,6 @@ export class WidgetComponent implements OnInit {
     constructor(private druidAPI: DruidDataService, private chartBase: ChartBaseService, public ngxSmartModalService: NgxSmartModalService) {
     }
 
-    showSettings = () => {
-        this.ngxSmartModalService.setModalData(this.item, "widgetSettingsModal", true);
-        this.ngxSmartModalService.getModal('widgetSettingsModal').open()
-    };
-
-    barChartSerializer = (data: any) => {
-        const labels = data.map((row) => '#' + row.ID);
-        const graphData = data.map((row) => row.Data.SLA);
-        this.state.data.labels = labels;
-        this.state.data.datasets[0].data = graphData;
-    };
-
-    doughnutChartSerializer = (data: any) => {
-        const esconlabels = data.map((row) => row.ID);
-        const escongraphData = data.map((row) => row.Data.ES);
-        this.state.data.labels = esconlabels;
-        this.state.data.datasets[0].data = escongraphData;
-    };
-
-    lineChartSerializer = (data: any) => {
-        const nflmlabels = data.map((row) => row.ID);
-        const nflmgraphDataNear = data.map((row) => row.Data.Near);
-        const nflmgraphDataFar = data.map((row) => row.Data.Far);
-        this.state.data.labels = nflmlabels;
-        this.state.data.datasets.push({
-            label: 'Far loss (%)',
-            data: nflmgraphDataFar,
-            fill: false,
-            borderColor: '#4bc0c0'
-        });
-        this.state.data.datasets.push({
-            label: 'Near loss (%)',
-            data: nflmgraphDataNear,
-            fill: false,
-            borderColor: '#565656'
-        });
-    };
-
-    listSerializer = (data: any) => {
-        this.state.headers = ['Task', 'Delay (ms)'];
-        this.state.data = data.map((row) => ['#' + row.ID, row.Data.Delay]);
-    };
-
     ngOnInit() {
         let serializer;
         switch (this.item.chartType) {
@@ -115,7 +72,69 @@ export class WidgetComponent implements OnInit {
         }
 
         serializer(data);
-
     }
+
+    /**
+     * Opens a widget settings modal.
+     */
+    showSettings = (): void => {
+        this.ngxSmartModalService.setModalData(this.item, 'widgetSettingsModal', true);
+        this.ngxSmartModalService.getModal('widgetSettingsModal').open();
+    };
+
+    /**
+     * Serializes data for a Bar Chart
+     * @param data
+     */
+    barChartSerializer = (data: any) => {
+        const labels = data.map((row) => '#' + row.ID);
+        const graphData = data.map((row) => row.Data.SLA);
+        this.state.data.labels = labels;
+        this.state.data.datasets[0].data = graphData;
+    };
+
+    /**
+     * Serializes data for a Doughnut Chart
+     * @param data
+     */
+    doughnutChartSerializer = (data: any) => {
+        const esconlabels = data.map((row) => row.ID);
+        const escongraphData = data.map((row) => row.Data.ES);
+        this.state.data.labels = esconlabels;
+        this.state.data.datasets[0].data = escongraphData;
+    };
+
+    /**
+     * Serializes data for a Line Chart
+     * @param data
+     */
+    lineChartSerializer = (data: any) => {
+        const nflmlabels = data.map((row) => row.ID);
+        const nflmgraphDataNear = data.map((row) => row.Data.Near);
+        const nflmgraphDataFar = data.map((row) => row.Data.Far);
+        this.state.data.labels = nflmlabels;
+        this.state.data.datasets.push({
+            label: 'Far loss (%)',
+            data: nflmgraphDataFar,
+            fill: false,
+            borderColor: '#4bc0c0'
+        });
+        this.state.data.datasets.push({
+            label: 'Near loss (%)',
+            data: nflmgraphDataNear,
+            fill: false,
+            borderColor: '#565656'
+        });
+    };
+
+    /**
+     * Serializes data for a List Widget
+     * @param data
+     */
+    listSerializer = (data: any) => {
+        this.state.headers = ['Task', 'Delay (ms)'];
+        this.state.data = data.map((row) => ['#' + row.ID, row.Data.Delay]);
+    };
+
 
 }

@@ -31,13 +31,20 @@ export class AppComponent {
         })
     }
 
+    /**
+     * Indicates an initiation of new layout creation, when 'status' is true. Aborts if 'status' is false.
+     * @param status
+     */
     initiateNewLayout = (status: boolean): void => {
         this.newLayoutName = '';
         this.newLayoutInitiated = status;
     };
 
+    /**
+     * Creates a new dashboard layout. Stores the layouts in local storage via LayoutFetchingService.
+     * @param name
+     */
     createNewDashboard = (name: string): void => {
-        console.log(name);
         this.toastr.success('New layout has been added', 'Success!');
         this.layoutFetcher.addLayout(_.camelCase(name), _.startCase(name));
         this.newLayoutName = '';
@@ -45,6 +52,10 @@ export class AppComponent {
         this.router.navigate(['dashboard', _.camelCase(name)]);
     };
 
+    /**
+     * Routes to a specific dashboard layout.
+     * @param dashBoardId
+     */
     routeToDashboard = (dashBoardId: string) => {
         this.router.navigate(['dashboard', dashBoardId]);
     };

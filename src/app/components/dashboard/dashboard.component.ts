@@ -18,29 +18,25 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     public currentDashboard: string;
     public currentDashboardID: string;
     public widgetLayout: Array<any>;
-
     public widgetGrid: any;
-
 
     constructor(private global: GlobalService, private route: ActivatedRoute, private router: Router, private layoutFetcher: LayoutFetchingService, private toastr: ToastrService, public ngxSmartModalService: NgxSmartModalService) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
 
     ngOnInit() {
-        // Instantiate the board grid so we can drag those
-        // columns around.
         this.route.params.subscribe(params => {
             if (params['id'] != undefined) {
                 this.currentDashboard = _.startCase(params['id']);
                 this.currentDashboardID = params['id'];
                 this.widgetLayout = this.layoutFetcher.getLayout(_.camelCase(this.currentDashboard));
-                console.log(this.widgetLayout);
                 if (this.widgetLayout == null) {
                     this.router.navigate(['home']);
                 }
             }
         });
 
+        //In order to redraw the grid, once everything is fetched
         window.dispatchEvent(new Event('resize'));
     }
 
@@ -59,6 +55,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         });
     }
 
+    /**
+     * Removes widget from a dashoard layout.
+     * @param widgetData
+     */
     removeWidget = (widgetData: any) => {
         let index = 0;
         for (let widget of this.widgetLayout) {
@@ -70,19 +70,26 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         }
         this.ngxSmartModalService.getModal('widgetSettingsModal').close();
         this.layoutFetcher.setLayout(this.currentDashboardID, this.widgetLayout);
+
+        //Triggers redrawing of the grid
         window.dispatchEvent(new Event('resize'));
     };
 
+    /**
+     * Opens New Widget modal
+     */
+    initiateNewWidget = () => {
+
+    };
+
+    //TODO:implement addition of widgets
     addNewWidget = (widgetType: string, chartType: string, widgetLayout: string) => {
 
     };
 
-    saveLayout = (): void => {
-        this.layoutFetcher.setLayout(this.currentDashboardID, this.widgetLayout);
-        this.layoutFetcher.saveLayouts();
-        alert('Layout saved!');
-    };
-
+    /**
+     * Deletes a dashboard layout
+     */
     deleteDashboard = (): void => {
         this.layoutFetcher.deleteLayout(this.currentDashboardID);
         this.toastr.success('Dashboard layout was removed', 'Success!');

@@ -40,7 +40,7 @@ export class DruidDataService {
             {ID: '10:55', Data: {Near: 4, Far: 4}},
             {ID: '11:00', Data: {Near: 3, Far: 3}},
         ];
-    }
+    };
 
     WorstTasksDelay = (): Array<any> => {
         return [
@@ -55,5 +55,5 @@ export class DruidDataService {
             {ID: 87, Data: {Delay: 18}},
             {ID: 555, Data: {Delay: 18}}
         ];
-    }
+    };
 }
