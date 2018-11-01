@@ -7,6 +7,9 @@ export class LayoutFetchingService {
     private dashboardLayouts: any;
     public layoutsUpdated: Subject<any>;
 
+    /**
+     * Lists available valid widget combinations.
+     */
     private availableWidgets = {
         widgets: [
             {widgetType: 'sla_top10', chartTypes: ['bar', 'line'], heading: 'Top 10 worst monitors (SLA)'},
@@ -15,6 +18,9 @@ export class LayoutFetchingService {
         ]
     };
 
+    /**
+     * Test layout to initiate some dashboards, in case no dashboard layouts yet exist.
+     */
     public testLayout = {
         layouts: [
             {
@@ -39,13 +45,15 @@ export class LayoutFetchingService {
         ]
     };
 
-
     constructor() {
         this.dashboardLayouts = JSON.parse(localStorage.getItem('dashboardLayouts'));
         this.layoutsUpdated = new Subject<any>();
     }
 
-
+    /**
+     * Fetches a JSON schema for a particular dashboard.
+     * @param dashboardId
+     */
     getLayout = (dashboardId: string): Array<any> => {
         if (this.dashboardLayouts != null) {
             for (let layout of this.dashboardLayouts.layouts) {
@@ -57,6 +65,10 @@ export class LayoutFetchingService {
         return null;
     };
 
+    /**
+     * Fetches a JSON schema of available layouts.
+     * Consists of 'name' and 'id' attribute
+     */
     getAvailableLayouts = (): Array<any> => {
         if (this.dashboardLayouts !== null) {
             return this.dashboardLayouts.layouts.map(a => ({name: a.name, id: a.id}));
@@ -64,10 +76,19 @@ export class LayoutFetchingService {
         return null;
     };
 
+    /**
+     * Statically sets the layouts JSON schema (mainly for testing purposes).
+     * @param layouts
+     */
     setLayouts = (layouts: any): void => {
         this.dashboardLayouts = layouts;
     };
 
+    /**
+     * Sets a schema for a particular layout (used in widget deletion and addition processes).
+     * @param dashboardId
+     * @param newLayout
+     */
     setLayout = (dashboardId: string, newLayout: any): void => {
         if (this.dashboardLayouts != null) {
             for (let layout of this.dashboardLayouts.layouts) {
@@ -79,11 +100,20 @@ export class LayoutFetchingService {
         this.saveLayouts();
     };
 
+    /**
+     * Adds a new layout to the layout JSON schema.
+     * @param dashboardId
+     * @param dashboardName
+     */
     addLayout = (dashboardId: string, dashboardName: string): void => {
         this.dashboardLayouts.layouts.push({id: dashboardId, name: dashboardName, widgets: []});
         this.saveLayouts();
     };
 
+    /**
+     * Removes a particular layout from the JSON schema.
+     * @param dashboardId
+     */
     deleteLayout = (dashboardId: string): void => {
         if (this.dashboardLayouts != null) {
             let index = 0;
@@ -97,6 +127,9 @@ export class LayoutFetchingService {
         }
     };
 
+    /**
+     * Saves the layout JSON schema to the local storage of the browser.
+     */
     saveLayouts = (): void => {
         localStorage.setItem('dashboardLayouts', JSON.stringify(this.dashboardLayouts));
         this.layoutsUpdated.next();
