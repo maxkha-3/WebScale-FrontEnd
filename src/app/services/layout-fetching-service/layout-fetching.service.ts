@@ -10,7 +10,7 @@ export class LayoutFetchingService {
     /**
      * Lists available valid widget combinations.
      */
-    private availableWidgets = {
+    public availableWidgets = {
         widgets: [
             {widgetType: 'sla_top10', chartTypes: ['bar', 'line'], heading: 'Top 10 worst monitors (SLA)'},
             {widgetType: 'es_contribution', chartTypes: ['doughnut'], heading: 'ES contribution'},

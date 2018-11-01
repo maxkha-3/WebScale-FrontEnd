@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     public currentDashboardID: string;
     public widgetLayout: Array<any>;
     public widgetGrid: any;
+    public validWidgets: any;
 
     constructor(private global: GlobalService, private route: ActivatedRoute, private router: Router, private layoutFetcher: LayoutFetchingService, private toastr: ToastrService, public ngxSmartModalService: NgxSmartModalService) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -30,6 +31,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
                 this.currentDashboard = _.startCase(params['id']);
                 this.currentDashboardID = params['id'];
                 this.widgetLayout = this.layoutFetcher.getLayout(_.camelCase(this.currentDashboard));
+                this.validWidgets = this.layoutFetcher.availableWidgets;
                 if (this.widgetLayout == null) {
                     this.router.navigate(['home']);
                 }
@@ -79,7 +81,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
      * Opens New Widget modal
      */
     initiateNewWidget = () => {
-
+        this.ngxSmartModalService.get("newWidgetModal").open();
     };
 
     //TODO:implement addition of widgets

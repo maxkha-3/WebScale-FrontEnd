@@ -3,7 +3,7 @@
     <h2 class="dashboard-heading"><span class="badge badge-dark">{{currentDashboard}}</span></h2>
 
     <!--button type="button" class="btn btn-dark btn-sm" (click)="saveLayout()"><i class="fa fa-save"></i> Save Layout</button-->
-    <button type="button" class="btn btn-success btn-sm" (click)="initiateNewWidget()" )><i class="fa fa-plus"></i> Add Widget</button>
+    <button type="button" class="btn btn-success btn-sm" (click)="initiateNewWidget()"><i class="fa fa-plus"></i> Add Widget</button>
     <button type="button" class="btn btn-danger btn-sm" (click)="deleteDashboard()"><i class="fa fa-remove"></i> Remove Layout</button>
 </div>
 
@@ -24,6 +24,22 @@
     <button class="btn btn-primary" (click)="widgetSettingsModal.close()"><i class="fa fa-remove"></i></button>
     <button class="btn btn-danger" (click)="removeWidget(widgetSettingsModal.getData())"><i class="fa fa-trash"></i></button>
     <button class="btn btn-success"><i class="fa fa-save"></i></button>
+</ngx-smart-modal>
+
+<ngx-smart-modal #newWidgetModal identifier="newWidgetModal" customClass="new-widget-modal">
+    <h1>Add New Widget</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <div *ngFor="let widget of validWidgets.widgets">
+                    <button class="btn btn-primary widget-menu-btn">{{widget.widgetType}}</button>
+                </div>
+            </div>
+            <div class="col-8">
+
+            </div>
+        </div>
+    </div>
 </ngx-smart-modal>
 
 
