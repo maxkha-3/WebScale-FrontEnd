@@ -31,11 +31,6 @@ export class AppComponent {
         })
     }
 
-    xd = () => {
-        this.ngxSmartModalService.setModalData(this.dashboardLayouts, "myModal");
-        this.ngxSmartModalService.getModal('myModal').open()
-    };
-
     initiateNewLayout = (status: boolean): void => {
         this.newLayoutName = '';
         this.newLayoutInitiated = status;
