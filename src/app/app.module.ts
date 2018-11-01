@@ -8,8 +8,8 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyBootstrapModule} from '@ngx-formly/bootstrap';
 import {ChartModule} from 'primeng/chart';
-import {ModalDialogModule} from 'ngx-modal-dialog';
 import {ToastrModule} from 'ngx-toastr';
+import {NgxSmartModalModule} from 'ngx-smart-modal';
 
 //Components
 import {AppComponent} from './app.component';
@@ -31,7 +31,6 @@ import {LayoutFetchingService} from './services/layout-fetching-service/layout-f
 import {MiscService} from './services/misc-service/misc.service';
 import {DruidDataService} from './services/druid-data-service/druid-data.service';
 import {ChartBaseService} from './services/chart-base-service/chart-base.service';
-
 
 //Router path template
 const appRoutes: Routes = [
@@ -55,6 +54,7 @@ const appRoutes: Routes = [
         ChartModule,
         FormsModule,
         ReactiveFormsModule,
+        NgxSmartModalModule.forRoot(),
         FormlyModule.forRoot({
             wrappers: [{name: 'form-field-horizontal', component: FormlyHorizontalWrapper}],
             validationMessages: [
@@ -62,7 +62,6 @@ const appRoutes: Routes = [
             ],
         }),
         FormlyBootstrapModule,
-        ModalDialogModule.forRoot(),
         ToastrModule.forRoot(),
         RouterModule.forRoot(appRoutes)
     ],

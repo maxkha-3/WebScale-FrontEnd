@@ -76,6 +76,7 @@ export class LayoutFetchingService {
                 }
             }
         }
+        this.saveLayouts();
     };
 
     addLayout = (dashboardId: string, dashboardName: string): void => {

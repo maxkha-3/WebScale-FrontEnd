@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {DruidDataService} from '../../services/druid-data-service/druid-data.service';
 import {ChartBaseService} from '../../services/chart-base-service/chart-base.service';
+import {NgxSmartModalService} from 'ngx-smart-modal';
 
 declare var jquery: any;
 declare var $: any;
@@ -12,20 +13,19 @@ declare var $: any;
 })
 export class WidgetComponent implements OnInit {
 
-    public isChart: boolean = false;
-    public isList: boolean = false;
-
     @Input() item;
 
+    public isChart: boolean = false;
+    public isList: boolean = false;
     public state: any;
 
-    showSettings = () => {
-        $('#widgetSettingsModal').modal('show');
-        document.querySelector('#widgetSettingsDeleteBtn').setAttribute('data-widget-id', this.item.ID);
-    };
-
-    constructor(private druidAPI: DruidDataService, private chartBase: ChartBaseService) {
+    constructor(private druidAPI: DruidDataService, private chartBase: ChartBaseService, public ngxSmartModalService: NgxSmartModalService) {
     }
+
+    showSettings = () => {
+        this.ngxSmartModalService.setModalData(this.item, "widgetSettingsModal", true);
+        this.ngxSmartModalService.getModal('widgetSettingsModal').open()
+    };
 
     barChartSerializer = (data: any) => {
         const labels = data.map((row) => '#' + row.ID);

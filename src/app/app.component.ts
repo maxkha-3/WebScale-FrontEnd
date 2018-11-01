@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 
 import * as _ from 'lodash';
+import {NgxSmartModalService} from 'ngx-smart-modal';
 
 @Component({
     selector: 'app-root',
@@ -15,7 +16,7 @@ export class AppComponent {
     public newLayoutInitiated: boolean;
     public newLayoutName: string;
 
-    constructor(private layoutFetcher: LayoutFetchingService, private router: Router, private toastr: ToastrService) {
+    constructor(private layoutFetcher: LayoutFetchingService, private router: Router, private toastr: ToastrService, public ngxSmartModalService: NgxSmartModalService) {
         //For testing purposes
         if (localStorage.getItem('dashboardLayouts') === null) {
             console.log('No layouts found, adding some test layouts');
@@ -29,6 +30,11 @@ export class AppComponent {
             this.dashboardLayouts = this.layoutFetcher.getAvailableLayouts();
         })
     }
+
+    xd = () => {
+        this.ngxSmartModalService.setModalData(this.dashboardLayouts, "myModal");
+        this.ngxSmartModalService.getModal('myModal').open()
+    };
 
     initiateNewLayout = (status: boolean): void => {
         this.newLayoutName = '';
