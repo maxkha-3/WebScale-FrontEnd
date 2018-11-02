@@ -20,6 +20,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     public currentDashboard: string;
     public currentDashboardID: string;
 
+    public newWidgetModalText: string;
+
     public widgetLayout: Array<any>;
     public widgetGrid: any;
 
@@ -87,27 +89,43 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     };
 
     /**
-     * Opens New Widget modal
+     * Adds a widget to the dashboard layout and redraws it by reloading the component.
+     * @param widgetProperties
+     * @param widgetType
      */
-    initiateNewWidget = () => {
-        this.ngxSmartModalService.get('newWidgetModal').open();
+    addNewWidget = (widgetProperties: any, widgetType: string) => {
+        widgetProperties.widgetType = widgetType;
+        this.widgetLayout.push(widgetProperties);
+        this.toastr.success("New widget was added!", "Success!");
+        this.layoutFetcher.setLayout(this.currentDashboardID, this.widgetLayout);
+        this.ngxSmartModalService.get("newWidgetModal").close();
+        this.router.navigate(["dashboard", this.currentDashboardID]);
     };
 
     /**
-     * Triggers, when New Widget modal is closed
+     * Opens New Widget modal.
+     */
+    openNewWidgetModal = () => {
+        this.ngxSmartModalService.get('newWidgetModal').open();
+        this.newWidgetModalText = "Add new widget";
+    };
+
+    /**
+     * Triggers, when New Widget modal is closed.
      */
     resetNewWidgetModal = () => {
-        this.selectedNewWidget = {};
+        this.selectedNewWidget = undefined;
         this.newWidgetFormFields = [];
         this.newWidgetFormModel = {};
     };
 
     /**
-     * Updates newWidgetForm according to the chosen widget type
+     * Updates newWidgetForm according to the chosen widget type.
      * @param widgetProperties
      */
     selectNewWidget = (widgetProperties: any) => {
         this.resetNewWidgetModal();
+        this.newWidgetModalText = "Add new widget (" + widgetProperties.widgetName + ")";
         this.selectedNewWidget = widgetProperties;
         if (widgetProperties.hasOwnProperty("chartTypes")) {
             let chartTypeField = {
@@ -147,13 +165,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         console.log(this.newWidgetFormFields);
     };
 
-    //TODO:implement addition of widgets
-    addNewWidget = (widgetType: string, chartType: string, widgetLayout: string) => {
-
-    };
-
     /**
-     * Deletes a dashboard layout
+     * Deletes a dashboard layout.
      */
     deleteDashboard = (): void => {
         this.layoutFetcher.deleteLayout(this.currentDashboardID);

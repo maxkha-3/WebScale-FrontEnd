@@ -5,11 +5,11 @@ import {FieldWrapper} from '@ngx-formly/core';
     selector: 'formly-horizontal-wrapper',
     template: `
         <div class="form-group row">
-            <label [attr.for]="id" class="col-sm-2 col-form-label" *ngIf="to.label">
+            <label [attr.for]="id" class="col-sm-3 col-form-label" *ngIf="to.label">
                 {{ to.label }}
                 <ng-container *ngIf="to.required">*</ng-container>
             </label>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
                 <ng-template #fieldComponent></ng-template>
             </div>
         </div>

@@ -15,7 +15,7 @@ export class LayoutFetchingService {
             widgetType: 'sla_top10',
             widgetName: 'SLA',
             chartTypes: ['bar', 'line'],
-            dependencies: ['monitorId', 'timeSpan'],
+            dependencies: ['timeSpan'],
             heading: 'Top 10 worst monitors (SLA)'
         },
         {
@@ -45,7 +45,7 @@ export class LayoutFetchingService {
         },
         {
             dependencyType: 'timeSpan',
-            dependencyName: 'Time Span',
+            dependencyName: 'Time Span (h)',
             formlyType: 'input',
             required: true
         }

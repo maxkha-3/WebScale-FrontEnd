@@ -63,7 +63,7 @@ const appRoutes: Routes = [
         }),
         FormlyBootstrapModule,
         ToastrModule.forRoot(),
-        RouterModule.forRoot(appRoutes)
+        RouterModule.forRoot(appRoutes, {onSameUrlNavigation: 'reload'})
     ],
     entryComponents: [],
     providers: [

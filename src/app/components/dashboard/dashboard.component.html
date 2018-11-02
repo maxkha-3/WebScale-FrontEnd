@@ -3,7 +3,7 @@
     <h2 class="dashboard-heading"><span class="badge badge-dark">{{currentDashboard}}</span></h2>
 
     <!--button type="button" class="btn btn-dark btn-sm" (click)="saveLayout()"><i class="fa fa-save"></i> Save Layout</button-->
-    <button type="button" class="btn btn-success btn-sm" (click)="initiateNewWidget()"><i class="fa fa-plus"></i> Add Widget</button>
+    <button type="button" class="btn btn-success btn-sm" (click)="openNewWidgetModal()"><i class="fa fa-plus"></i> Add Widget</button>
     <button type="button" class="btn btn-danger btn-sm" (click)="deleteDashboard()"><i class="fa fa-remove"></i> Remove Layout</button>
 </div>
 
@@ -27,7 +27,7 @@
 </ngx-smart-modal>
 
 <ngx-smart-modal #newWidgetModal identifier="newWidgetModal" customClass="new-widget-modal" (onClose)="resetNewWidgetModal()">
-    <h1>Add New Widget</h1>
+    <h1>{{newWidgetModalText}}</h1>
     <div class="container">
         <div class="row">
             <div class="col-4">
@@ -41,7 +41,7 @@
                     </formly-form>
                 </form>
                 <pre>{{selectedNewWidget | json}}</pre>
-                <button class="btn btn-success" (click)="addNewWidget(newWidgetModal)"><i class="fa fa-plus"></i> Add</button>
+                <button *ngIf="selectedNewWidget" class="btn btn-success" (click)="addNewWidget(newWidgetFormModel, selectedNewWidget.widgetType)"><i class="fa fa-plus"></i> Add</button>
             </div>
         </div>
     </div>
