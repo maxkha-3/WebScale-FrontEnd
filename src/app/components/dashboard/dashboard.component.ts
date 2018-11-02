@@ -5,11 +5,11 @@ import {LayoutFetchingService} from '../../services/layout-fetching-service/layo
 import {FormlyFormOptions, FormlyFieldConfig} from '@ngx-formly/core';
 import {FormGroup} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
+import {NgxSmartModalService} from 'ngx-smart-modal';
+import {FormlyFieldBaseService} from '../../formly/field-bases/formly-field-base.service';
 
 import * as _ from 'lodash';
 import * as Muuri from 'muuri';
-import {NgxSmartModalService} from 'ngx-smart-modal';
-import {FormlyFieldBaseService} from '../../formly/field-bases/formly-field-base.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -71,7 +71,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
 
     /**
-     * Removes widget from a dashoard layout.
+     * Removes widget from a dashboard layout.
      * @param widgetData
      */
     removeWidget = (widgetData: any) => {
@@ -129,6 +129,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.resetNewWidgetModal();
         this.newWidgetModalText = "Add new widget (" + widgetProperties.widgetName + ")";
         this.selectedNewWidget = widgetProperties;
+
+        let chartSizeField = this.formlyFieldBase.getSelectBase('size', 'Size', true);
+        chartSizeField.templateOptions.options.push({label: 'Small', value: 4});
+        chartSizeField.templateOptions.options.push({label: 'Medium', value: 6});
+        chartSizeField.templateOptions.options.push({label: 'Large', value: 8});
+        chartSizeField.templateOptions.options.push({label: 'X-Large', value: 12});
+        this.newWidgetFormFields = [...this.newWidgetFormFields, chartSizeField];
+
         if (widgetProperties.hasOwnProperty("chartTypes")) {
             let chartTypeField = this.formlyFieldBase.getSelectBase('chartType', 'Chart Type', true);
 
