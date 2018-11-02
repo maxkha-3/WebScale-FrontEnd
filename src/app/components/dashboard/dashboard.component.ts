@@ -2,6 +2,8 @@ import {Component, OnInit, AfterViewInit} from '@angular/core';
 import {GlobalService} from '../../services/global-service/global.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LayoutFetchingService} from '../../services/layout-fetching-service/layout-fetching.service';
+import {FormlyFormOptions, FormlyFieldConfig} from '@ngx-formly/core';
+import {FormGroup} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 
 import * as _ from 'lodash';
@@ -17,9 +19,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     public currentDashboard: string;
     public currentDashboardID: string;
+
     public widgetLayout: Array<any>;
     public widgetGrid: any;
+
     public validWidgets: any;
+    public selectedNewWidget: any;
+
+    public newWidgetForm = new FormGroup({});
+    public newWidgetFormModel: any = {};
+    public newWidgetFormFields: FormlyFieldConfig[] = [];
 
     constructor(private global: GlobalService, private route: ActivatedRoute, private router: Router, private layoutFetcher: LayoutFetchingService, private toastr: ToastrService, public ngxSmartModalService: NgxSmartModalService) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -64,9 +73,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     removeWidget = (widgetData: any) => {
         let index = 0;
         for (let widget of this.widgetLayout) {
-            if(_.isEqual(widgetData, widget)) {
+            if (_.isEqual(widgetData, widget)) {
                 this.widgetLayout.splice(index, 1);
-                this.toastr.success("Widget was successfully deleted", "Success")
+                this.toastr.success('Widget was successfully deleted', 'Success');
             }
             index++;
         }
@@ -81,7 +90,33 @@ export class DashboardComponent implements OnInit, AfterViewInit {
      * Opens New Widget modal
      */
     initiateNewWidget = () => {
-        this.ngxSmartModalService.get("newWidgetModal").open();
+        this.ngxSmartModalService.get('newWidgetModal').open();
+    };
+
+    /**
+     * Updates newWidgetForm according to the chosen widget type
+     * @param widgetProperties
+     */
+    selectNewWidget = (widgetProperties: any) => {
+        this.selectedNewWidget = widgetProperties;
+        if (widgetProperties.hasOwnProperty("chartTypes")) {
+            let chartTypeField = {
+                key: 'chartType',
+                type: 'select',
+                wrappers: ['form-field-horizontal'],
+                templateOptions: {
+                    label: 'Chart Type',
+                    options: []
+                }
+            };
+
+            for (let chartType of widgetProperties.chartTypes) {
+                chartTypeField.templateOptions.options.push({label: _.startCase(chartType), value: chartType});
+            }
+
+            this.newWidgetFormFields = [...this.newWidgetFormFields, chartTypeField];
+        }
+        console.log(this.newWidgetFormFields);
     };
 
     //TODO:implement addition of widgets

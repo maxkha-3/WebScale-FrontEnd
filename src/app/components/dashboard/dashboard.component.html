@@ -32,11 +32,15 @@
         <div class="row">
             <div class="col-4">
                 <div *ngFor="let widget of validWidgets.widgets">
-                    <button class="btn btn-primary widget-menu-btn">{{widget.widgetType}}</button>
+                    <button class="btn btn-dark widget-menu-btn" (click)="selectNewWidget(widget)">{{widget.widgetName}}</button>
                 </div>
             </div>
             <div class="col-8">
-
+                <form [formGroup]="newWidgetForm">
+                    <formly-form [model]="newWidgetFormModel" [fields]="newWidgetFormFields" [form]="newWidgetForm">
+                    </formly-form>
+                </form>
+                <pre>{{selectedNewWidget | json}}</pre>
             </div>
         </div>
     </div>

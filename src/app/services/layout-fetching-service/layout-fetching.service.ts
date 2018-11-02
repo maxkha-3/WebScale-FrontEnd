@@ -12,11 +12,38 @@ export class LayoutFetchingService {
      */
     public availableWidgets = {
         widgets: [
-            {widgetType: 'sla_top10', chartTypes: ['bar', 'line'], heading: 'Top 10 worst monitors (SLA)'},
-            {widgetType: 'es_contribution', chartTypes: ['doughnut'], heading: 'ES contribution'},
-            {widgetType: 'loss_1h', chartTypes: ['line'], dependencies: ['monitorId'], heading: 'Losses in monitor #'}
+            {
+                widgetType: 'sla_top10',
+                widgetName: 'SLA',
+                chartTypes: ['bar', 'line'],
+                dependencies: ['monitorId', 'timeSpan'],
+                heading: 'Top 10 worst monitors (SLA)'
+            },
+            {
+                widgetType: 'es_contribution',
+                widgetName: 'ES Contribution',
+                chartTypes: ['doughnut'],
+                heading: 'ES contribution'
+            },
+            {
+                widgetType: 'loss_1h',
+                widgetName: 'Losses in monitor',
+                chartTypes: ['line'],
+                dependencies: ['monitorId', 'timeSpan'],
+                heading: 'Losses in monitor #'
+            }
         ]
     };
+
+    /**
+     * Lists available formly types of dependencies.
+     */
+    public dependencyTypes = [
+        {monitorId: 'horizontalInput'},
+        {timeSpan: 'horizontalInput'}
+    ];
+
+
 
     /**
      * Test layout to initiate some dashboards, in case no dashboard layouts yet exist.
