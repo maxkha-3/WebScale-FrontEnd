@@ -94,10 +94,20 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     };
 
     /**
+     * Triggers, when New Widget modal is closed
+     */
+    resetNewWidgetModal = () => {
+        this.selectedNewWidget = {};
+        this.newWidgetFormFields = [];
+        this.newWidgetFormModel = {};
+    };
+
+    /**
      * Updates newWidgetForm according to the chosen widget type
      * @param widgetProperties
      */
     selectNewWidget = (widgetProperties: any) => {
+        this.resetNewWidgetModal();
         this.selectedNewWidget = widgetProperties;
         if (widgetProperties.hasOwnProperty("chartTypes")) {
             let chartTypeField = {
@@ -115,6 +125,24 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             }
 
             this.newWidgetFormFields = [...this.newWidgetFormFields, chartTypeField];
+        }
+
+        if (widgetProperties.hasOwnProperty("dependencies")) {
+            for (let dependencyType of widgetProperties.dependencies) {
+                let dependency = this.layoutFetcher.getDependency(dependencyType);
+                let dependencyField = {
+                    key: dependency.dependencyType,
+                    type: "input",
+                    wrappers: ['form-field-horizontal'],
+                    templateOptions: {
+                        label: dependency.dependencyName,
+                        placeholder: "Enter " + dependency.dependencyName,
+                        required: dependency.required
+                    }
+                };
+
+                this.newWidgetFormFields = [...this.newWidgetFormFields, dependencyField];
+            }
         }
         console.log(this.newWidgetFormFields);
     };

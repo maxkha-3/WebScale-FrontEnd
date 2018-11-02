@@ -26,13 +26,13 @@
     <button class="btn btn-success"><i class="fa fa-save"></i></button>
 </ngx-smart-modal>
 
-<ngx-smart-modal #newWidgetModal identifier="newWidgetModal" customClass="new-widget-modal">
+<ngx-smart-modal #newWidgetModal identifier="newWidgetModal" customClass="new-widget-modal" (onClose)="resetNewWidgetModal()">
     <h1>Add New Widget</h1>
     <div class="container">
         <div class="row">
             <div class="col-4">
-                <div *ngFor="let widget of validWidgets.widgets">
-                    <button class="btn btn-dark widget-menu-btn" (click)="selectNewWidget(widget)">{{widget.widgetName}}</button>
+                <div *ngFor="let widget of validWidgets">
+                    <button class="btn btn-dark widget-menu-btn" [ngClass]="{'active': selectedNewWidget && selectedNewWidget.widgetType == widget.widgetType}" (click)="selectNewWidget(widget)">{{widget.widgetName}}</button>
                 </div>
             </div>
             <div class="col-8">
@@ -41,10 +41,10 @@
                     </formly-form>
                 </form>
                 <pre>{{selectedNewWidget | json}}</pre>
+                <button class="btn btn-success" (click)="addNewWidget(newWidgetModal)"><i class="fa fa-plus"></i> Add</button>
             </div>
         </div>
     </div>
 </ngx-smart-modal>
-
 
 <pre>{{widgetLayout | json}}</pre>

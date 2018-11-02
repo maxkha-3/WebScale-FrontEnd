@@ -10,39 +10,46 @@ export class LayoutFetchingService {
     /**
      * Lists available valid widget combinations.
      */
-    public availableWidgets = {
-        widgets: [
-            {
-                widgetType: 'sla_top10',
-                widgetName: 'SLA',
-                chartTypes: ['bar', 'line'],
-                dependencies: ['monitorId', 'timeSpan'],
-                heading: 'Top 10 worst monitors (SLA)'
-            },
-            {
-                widgetType: 'es_contribution',
-                widgetName: 'ES Contribution',
-                chartTypes: ['doughnut'],
-                heading: 'ES contribution'
-            },
-            {
-                widgetType: 'loss_1h',
-                widgetName: 'Losses in monitor',
-                chartTypes: ['line'],
-                dependencies: ['monitorId', 'timeSpan'],
-                heading: 'Losses in monitor #'
-            }
-        ]
-    };
-
-    /**
-     * Lists available formly types of dependencies.
-     */
-    public dependencyTypes = [
-        {monitorId: 'horizontalInput'},
-        {timeSpan: 'horizontalInput'}
+    public availableWidgets = [
+        {
+            widgetType: 'sla_top10',
+            widgetName: 'SLA',
+            chartTypes: ['bar', 'line'],
+            dependencies: ['monitorId', 'timeSpan'],
+            heading: 'Top 10 worst monitors (SLA)'
+        },
+        {
+            widgetType: 'es_contribution',
+            widgetName: 'ES Contribution',
+            chartTypes: ['doughnut'],
+            heading: 'ES contribution'
+        },
+        {
+            widgetType: 'loss_1h',
+            widgetName: 'Losses in monitor',
+            chartTypes: ['line'],
+            dependencies: ['monitorId', 'timeSpan'],
+            heading: 'Losses in monitor #'
+        }
     ];
 
+    /**
+     * Lists available dependencies.
+     */
+    public availableDependencies = [
+        {
+            dependencyType: 'monitorId',
+            dependencyName: 'Monitor ID',
+            formlyType: 'input',
+            required: true
+        },
+        {
+            dependencyType: 'timeSpan',
+            dependencyName: 'Time Span',
+            formlyType: 'input',
+            required: true
+        }
+    ];
 
 
     /**
@@ -161,4 +168,16 @@ export class LayoutFetchingService {
         localStorage.setItem('dashboardLayouts', JSON.stringify(this.dashboardLayouts));
         this.layoutsUpdated.next();
     };
+
+    /**
+     * Gets a dependency and its parameters
+     * @param dependencyId
+     */
+    getDependency = (dependencyId: string): any => {
+        for (let dependency of this.availableDependencies) {
+            if (dependencyId === dependency.dependencyType) {
+                return dependency;
+            }
+        }
+    }
 }
