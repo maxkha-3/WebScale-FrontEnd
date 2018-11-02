@@ -10,6 +10,7 @@ import {FormlyBootstrapModule} from '@ngx-formly/bootstrap';
 import {ChartModule} from 'primeng/chart';
 import {ToastrModule} from 'ngx-toastr';
 import {NgxSmartModalModule} from 'ngx-smart-modal';
+import {UUID} from 'angular2-uuid';
 
 //Components
 import {AppComponent} from './app.component';
@@ -73,7 +74,8 @@ const appRoutes: Routes = [
         DruidDataService,
         MiscService,
         ChartBaseService,
-        FormlyFieldBaseService
+        FormlyFieldBaseService,
+        UUID
     ],
     bootstrap: [AppComponent]
 })

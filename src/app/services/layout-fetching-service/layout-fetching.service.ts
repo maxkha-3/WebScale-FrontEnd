@@ -61,19 +61,19 @@ export class LayoutFetchingService {
                 id: 'alarmDashboard',
                 name: 'Alarm Dashboard',
                 widgets: [
-                    {widgetType: 'sla_top10', chartType: 'bar', size: 4, ID: '12'},
-                    {widgetType: 'es_contribution', chartType: 'doughnut', size: 4, ID: '14'},
-                    {widgetType: 'loss_1h', chartType: 'line', monitorId: '1023', size: 8, ID: '17'},
-                    {widgetType: 'delay_top10', chartType: 'list', size: 4, ID: '33'}
+                    {widgetType: 'sla_top10', chartType: 'bar', size: 4, ID: '541cad2d-936f-eb62-8918-82928d3c9968'},
+                    {widgetType: 'es_contribution', chartType: 'doughnut', size: 4, ID: '6afccb76-ed47-9bf2-239f-731f714d5ae9'},
+                    {widgetType: 'loss_1h', chartType: 'line', monitorId: '1023', size: 8, ID: 'd101f0a6-3dfb-1758-a6c6-3bf83f25000a'},
+                    {widgetType: 'delay_top10', chartType: 'list', size: 4, ID: '30ca3b75-e004-5a27-0820-438452c6a912'}
                 ]
             },
             {
                 id: 'generalOverview',
                 name: 'General Overview',
                 widgets: [
-                    {widgetType: 'sla_top10', chartType: 'bar', size: 4, ID: '52'},
-                    {widgetType: 'es_contribution', chartType: 'doughnut', size: 4, ID: '55'},
-                    {widgetType: 'loss_1h', chartType: 'line', monitorId: '443', size: 8, ID: '67'}
+                    {widgetType: 'sla_top10', chartType: 'bar', size: 4, ID: 'd19f3606-6b67-7055-3668-a594b098f053'},
+                    {widgetType: 'es_contribution', chartType: 'doughnut', size: 4, ID: '43ca3b0b-c63a-19cd-d845-961581735d5d'},
+                    {widgetType: 'loss_1h', chartType: 'line', monitorId: '443', size: 8, ID: 'a04ae8f1-ae28-5f4a-8668-be4195a0b1ee'}
                 ]
             }
         ]

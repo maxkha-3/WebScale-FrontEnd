@@ -7,6 +7,7 @@ import {FormGroup} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 import {NgxSmartModalService} from 'ngx-smart-modal';
 import {FormlyFieldBaseService} from '../../formly/field-bases/formly-field-base.service';
+import {UUID} from 'angular2-uuid';
 
 import * as _ from 'lodash';
 import * as Muuri from 'muuri';
@@ -97,6 +98,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
      */
     addNewWidget = (widgetProperties: any, widgetType: string) => {
         widgetProperties.widgetType = widgetType;
+        widgetProperties.ID = UUID.UUID();
         this.widgetLayout.push(widgetProperties);
         this.toastr.success("New widget was added!", "Success!");
         this.layoutFetcher.setLayout(this.currentDashboardID, this.widgetLayout);
