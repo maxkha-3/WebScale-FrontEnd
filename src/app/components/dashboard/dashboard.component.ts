@@ -9,6 +9,7 @@ import {ToastrService} from 'ngx-toastr';
 import * as _ from 'lodash';
 import * as Muuri from 'muuri';
 import {NgxSmartModalService} from 'ngx-smart-modal';
+import {FormlyFieldBaseService} from '../../formly/field-bases/formly-field-base.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -32,7 +33,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     public newWidgetFormModel: any = {};
     public newWidgetFormFields: FormlyFieldConfig[] = [];
 
-    constructor(private global: GlobalService, private route: ActivatedRoute, private router: Router, private layoutFetcher: LayoutFetchingService, private toastr: ToastrService, public ngxSmartModalService: NgxSmartModalService) {
+    constructor(private global: GlobalService, private route: ActivatedRoute, private router: Router, private layoutFetcher: LayoutFetchingService,
+                private toastr: ToastrService, public ngxSmartModalService: NgxSmartModalService, private formlyFieldBase: FormlyFieldBaseService) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
 
@@ -128,41 +130,27 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.newWidgetModalText = "Add new widget (" + widgetProperties.widgetName + ")";
         this.selectedNewWidget = widgetProperties;
         if (widgetProperties.hasOwnProperty("chartTypes")) {
-            let chartTypeField = {
-                key: 'chartType',
-                type: 'select',
-                wrappers: ['form-field-horizontal'],
-                templateOptions: {
-                    label: 'Chart Type',
-                    options: []
-                }
-            };
+            let chartTypeField = this.formlyFieldBase.getSelectBase('chartType', 'Chart Type', true);
 
+            //append chart types to the select formly field
             for (let chartType of widgetProperties.chartTypes) {
                 chartTypeField.templateOptions.options.push({label: _.startCase(chartType), value: chartType});
             }
 
+            //append to the formFields object
             this.newWidgetFormFields = [...this.newWidgetFormFields, chartTypeField];
         }
 
         if (widgetProperties.hasOwnProperty("dependencies")) {
+            //append dependencies to the form object
             for (let dependencyType of widgetProperties.dependencies) {
                 let dependency = this.layoutFetcher.getDependency(dependencyType);
-                let dependencyField = {
-                    key: dependency.dependencyType,
-                    type: "input",
-                    wrappers: ['form-field-horizontal'],
-                    templateOptions: {
-                        label: dependency.dependencyName,
-                        placeholder: "Enter " + dependency.dependencyName,
-                        required: dependency.required
-                    }
-                };
+                let dependencyField = this.formlyFieldBase.getInputBase(dependency.dependencyType, dependency.dependencyName, true);
 
+                //append to the formFields object
                 this.newWidgetFormFields = [...this.newWidgetFormFields, dependencyField];
             }
         }
-        console.log(this.newWidgetFormFields);
     };
 
     /**

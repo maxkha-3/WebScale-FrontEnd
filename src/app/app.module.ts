@@ -31,6 +31,7 @@ import {LayoutFetchingService} from './services/layout-fetching-service/layout-f
 import {MiscService} from './services/misc-service/misc.service';
 import {DruidDataService} from './services/druid-data-service/druid-data.service';
 import {ChartBaseService} from './services/chart-base-service/chart-base.service';
+import {FormlyFieldBaseService} from './formly/field-bases/formly-field-base.service';
 
 //Router path template
 const appRoutes: Routes = [
@@ -71,7 +72,8 @@ const appRoutes: Routes = [
         LayoutFetchingService,
         DruidDataService,
         MiscService,
-        ChartBaseService
+        ChartBaseService,
+        FormlyFieldBaseService
     ],
     bootstrap: [AppComponent]
 })
