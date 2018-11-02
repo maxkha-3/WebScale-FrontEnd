@@ -6,3 +6,15 @@ Changes:
  - Basic project structure
  - Integration of Bootstrap
  - Addition of Routing
+
+=============================
+Version 0.0.2 [2018-11-02]
+=============================
+
+Changes:
+ - Integration of Muuri dashboard library
+ - Integration of modular widgets
+ - Possibility of adding several dashboard layouts
+ - Widgets can be added and removed
+ - Added test data to use in widgets
+ - Implementation of JSON schemas for dashboards, dependencies, forms, etc.
