@@ -52,6 +52,15 @@ export class LayoutFetchingService {
     ];
 
 
+    public availableSizes = [
+        {size: '4', description: 'Small'},
+        {size: '6', description: 'Medium'},
+        {size: '8', description: 'Large'},
+        {size: '4', description: 'X-Large'}
+    ];
+
+
+
     /**
      * Test layout to initiate some dashboards, in case no dashboard layouts yet exist.
      */

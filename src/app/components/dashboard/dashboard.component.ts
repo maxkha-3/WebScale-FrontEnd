@@ -3,7 +3,7 @@ import {GlobalService} from '../../services/global-service/global.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LayoutFetchingService} from '../../services/layout-fetching-service/layout-fetching.service';
 import {FormlyFormOptions, FormlyFieldConfig} from '@ngx-formly/core';
-import {FormGroup} from '@angular/forms';
+import {Form, FormGroup} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 import {NgxSmartModalService} from 'ngx-smart-modal';
 import {FormlyFieldBaseService} from '../../formly/field-bases/formly-field-base.service';
@@ -30,13 +30,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     public validWidgets: any;
     public selectedNewWidget: any;
 
-    public newWidgetForm = new FormGroup({});
-    public newWidgetFormModel: any = {};
-    public newWidgetFormFields: FormlyFieldConfig[] = [];
+    public newWidgetForm: FormGroup;
+    public newWidgetFormModel: any;
+    public newWidgetFormFields: FormlyFieldConfig[];
 
     constructor(private global: GlobalService, private route: ActivatedRoute, private router: Router, private layoutFetcher: LayoutFetchingService,
                 private toastr: ToastrService, public ngxSmartModalService: NgxSmartModalService, private formlyFieldBase: FormlyFieldBaseService) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.newWidgetForm = new FormGroup({});
+        this.newWidgetFormModel = {};
+        this.newWidgetFormFields = [];
     }
 
     ngOnInit() {
@@ -120,7 +123,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     resetNewWidgetModal = () => {
         this.selectedNewWidget = undefined;
         this.newWidgetFormFields = [];
-        this.newWidgetFormModel = {};
+        this.newWidgetFormModel = {size: 6};        //set medium size as default
     };
 
     /**
@@ -133,10 +136,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.selectedNewWidget = widgetProperties;
 
         let chartSizeField = this.formlyFieldBase.getSelectBase('size', 'Size', true);
-        chartSizeField.templateOptions.options.push({label: 'Small', value: 4});
-        chartSizeField.templateOptions.options.push({label: 'Medium', value: 6});
-        chartSizeField.templateOptions.options.push({label: 'Large', value: 8});
-        chartSizeField.templateOptions.options.push({label: 'X-Large', value: 12});
+
+        for (let size of this.layoutFetcher.availableSizes) {
+            chartSizeField.templateOptions.options.push({label: size.description, value: size.size});
+        }
         this.newWidgetFormFields = [...this.newWidgetFormFields, chartSizeField];
 
         if (widgetProperties.hasOwnProperty("chartTypes")) {
