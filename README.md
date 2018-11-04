@@ -18,8 +18,10 @@ Run `ng g service services/<name>Service/<name>` to generate a new service.
 
 ## Code style
 
-The project uses 4 spaced inlines. Variables are to use camelCase. General rules, regarding the code style are declared in `tslint.json`
+The project uses 4 spaced inlines. Variables are to use camelCase, CSS class names are to use kebab-case. General rules, regarding the code style are declared in `tslint.json`.
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Run `ng build --prod --base-href "https://<USER_NAME>.github.io/<REPO_NAME>/"
+` to build the application and deploy it to GitHub Pages by running `ngh` command (requires `angular-cli-ghpages
+` package, that can be installed by `npm install -g angular-cli-ghpages`). The build artifacts will be stored in the `dist/` directory and committed to `gh-pages` branch.
