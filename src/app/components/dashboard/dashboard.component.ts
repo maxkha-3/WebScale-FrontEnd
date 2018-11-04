@@ -38,6 +38,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     public widgetSettingsFormModel: any;
     public widgetSettingsFormFields: FormlyFieldConfig[];
 
+    public acceptWidgetActionModalArgument: any;
+
     constructor(private global: GlobalService, private route: ActivatedRoute, private router: Router, private layoutFetcher: LayoutFetchingService,
                 private toastr: ToastrService, public ngxSmartModalService: NgxSmartModalService, private formlyFieldBase: FormlyFieldBaseService) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -229,10 +231,38 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     };
 
     /**
+     * Opens the Accept Widget Action modal and sets its callback function.
+     * @param callback
+     * @param widgetData
+     */
+    openAcceptWidgetActionModal = (callback: Function, widgetData: any): void => {
+        this.acceptWidgetActionModalArgument = widgetData;
+        this.ngxSmartModalService.setModalData(callback,'acceptWidgetActionModal', true);
+        this.ngxSmartModalService.getModal('acceptWidgetActionModal').open(true);
+    };
+
+    /**
+     * Resets the Accept Widget Action modal.
+     */
+    resetAcceptWidgetActionModal = (): void => {
+        this.acceptWidgetActionModalArgument = {};
+        this.ngxSmartModalService.getModal('acceptWidgetActionModal').removeData();
+    };
+
+    /**
+     * Executes the callback, assigned to the Accept Widget Action modal.
+     * @param callback
+     */
+    executeAcceptWidgetActionModalFunction = (callback: Function): void => {
+        callback(this.acceptWidgetActionModalArgument);
+        this.ngxSmartModalService.getModal('acceptWidgetActionModal').close();
+    };
+
+    /**
      * Saves widget settings.
      * @param widgetData
      */
-    saveWidgetSettings = (widgetData: any) => {
+    saveWidgetSettings = (widgetData: any): void => {
         delete widgetData.widgetName;
 
         let index = 0;
@@ -249,13 +279,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.layoutFetcher.setLayout(this.currentDashboardID, this.widgetLayout);
         this.ngxSmartModalService.get("widgetSettingsModal").close();
         this.router.navigate(["dashboard", this.currentDashboardID]);
-
     };
 
     /**
      * Resets WidgetSettings modal.
      */
-    resetWidgetSettingsModal = () => {
+    resetWidgetSettingsModal = (): void => {
         this.widgetSettingsModalText = "";
         this.widgetSettingsFormFields = [];
         this.widgetSettingsFormModel = {};
@@ -264,8 +293,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     /**
      * Deletes a dashboard layout.
      */
-    deleteDashboard = (): void => {
-        this.layoutFetcher.deleteLayout(this.currentDashboardID);
+    deleteDashboard = (dashboardID: string): void => {
+        this.layoutFetcher.deleteLayout(dashboardID);
         this.toastr.success('Dashboard layout was removed', 'Success!');
         this.router.navigate(['home']);
     };

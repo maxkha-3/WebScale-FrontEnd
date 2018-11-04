@@ -28,3 +28,4 @@ Changes:
  - Widges can now be reconfigured
  - Improved styling of modals
  - Widget forms are now validated before being saved
+ - Widget and Dashboard manipulations now require confirmation

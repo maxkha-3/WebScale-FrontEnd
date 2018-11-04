@@ -4,7 +4,7 @@
 
     <!--button type="button" class="btn btn-dark btn-sm" (click)="saveLayout()"><i class="fa fa-save"></i> Save Layout</button-->
     <button type="button" class="btn btn-success btn-sm" (click)="openNewWidgetModal()"><i class="fa fa-plus"></i> Add Widget</button>
-    <button type="button" class="btn btn-danger btn-sm" (click)="deleteDashboard()"><i class="fa fa-remove"></i> Remove Layout</button>
+    <button type="button" class="btn btn-danger btn-sm" (click)="openAcceptWidgetActionModal(deleteDashboard, currentDashboardID)"><i class="fa fa-remove"></i> Remove Layout</button>
 </div>
 
 <div class="board">
@@ -26,8 +26,18 @@
 
     <hr>
 
-    <button class="btn btn-danger pull-right" (click)="removeWidget(widgetSettingsModal.getData())"><i class="fa fa-trash"></i> Remove</button>
-    <button style="margin-right: 5px;" class="btn btn-success pull-right" (click)="saveWidgetSettings(widgetSettingsFormModel)" [disabled]="widgetSettingsForm.invalid"><i class="fa fa-save"></i> Save</button>
+    <button class="btn btn-danger pull-right" (click)="openAcceptWidgetActionModal(removeWidget, widgetSettingsModal.getData())"><i class="fa fa-trash"></i> Remove</button>
+    <button style="margin-right: 5px;" class="btn btn-success pull-right" (click)="openAcceptWidgetActionModal(saveWidgetSettings, widgetSettingsFormModel)" [disabled]="widgetSettingsForm.invalid"><i class="fa fa-save"></i> Save</button>
+</ngx-smart-modal>
+
+<ngx-smart-modal #acceptWidgetActionModal identifier="acceptWidgetActionModal" (onClose)="resetAcceptWidgetActionModal()">
+    <h2 align="center">Are you sure?</h2>
+    <hr>
+
+    <div align="center">
+        <button class="btn btn-success" (click)="executeAcceptWidgetActionModalFunction(acceptWidgetActionModal.getData())">Yes</button>
+        <button class="btn btn-danger" (click)="acceptWidgetActionModal.close()">No</button>
+    </div>
 </ngx-smart-modal>
 
 <ngx-smart-modal #newWidgetModal identifier="newWidgetModal" customClass="wide-modal" (onClose)="resetNewWidgetModal()">
