@@ -33,6 +33,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     public newWidgetFormModel: any;
     public newWidgetFormFields: FormlyFieldConfig[];
 
+    public widgetSettingsModalText: string;
     public widgetSettingsForm: FormGroup;
     public widgetSettingsFormModel: any;
     public widgetSettingsFormFields: FormlyFieldConfig[];
@@ -136,7 +137,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     /**
      * Updates newWidgetForm according to the chosen widget type.
-     * @param widgetProperties
+     * @param widgetTypeBase
      */
     selectNewWidget = (widgetTypeBase: any): void => {
         this.resetNewWidgetModal();
@@ -180,7 +181,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
      * @param widgetData
      */
     setWidgetSettingsModal = (widgetData: any): void => {
-        //this.widgetSettingsDefaultData = widgetData;
         this.widgetSettingsFormModel = {...widgetData};
 
         let widgetTypeBase;
@@ -190,6 +190,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             }
         }
         this.widgetSettingsFormModel.widgetName = widgetTypeBase.widgetName;
+        this.widgetSettingsModalText = "Widget Settings (" + widgetTypeBase.widgetName + ")";
+
 
         this.widgetSettingsFormFields = [...this.widgetSettingsFormFields, this.formlyFieldBase.getInputBase('widgetName', 'Widget Type', true, true)];
         this.widgetSettingsFormFields = [...this.widgetSettingsFormFields, this.formlyFieldBase.getInputBase('ID', 'ID', true, true)];
@@ -254,6 +256,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
      * Resets WidgetSettings modal.
      */
     resetWidgetSettingsModal = () => {
+        this.widgetSettingsModalText = "";
         this.widgetSettingsFormFields = [];
         this.widgetSettingsFormModel = {};
     };

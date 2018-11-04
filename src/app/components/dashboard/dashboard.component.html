@@ -16,22 +16,24 @@
 </div>
 
 <ngx-smart-modal #widgetSettingsModal identifier="widgetSettingsModal" customClass="wide-modal" (onOpen)="setWidgetSettingsModal(widgetSettingsModal.getData())" (onClose)="resetWidgetSettingsModal()">
-    <h1>Widget Settings</h1>
+    <h2>{{widgetSettingsModalText}}</h2>
+    <hr>
+
 
     <form [formGroup]="widgetSettingsForm">
         <formly-form [model]="widgetSettingsFormModel" [fields]="widgetSettingsFormFields" [form]="widgetSettingsForm">
         </formly-form>
     </form>
 
-    <pre>{{widgetSettingsFormModel | json}}</pre>
+    <hr>
 
-    <button class="btn btn-primary" (click)="widgetSettingsModal.close()"><i class="fa fa-remove"></i></button>
-    <button class="btn btn-danger" (click)="removeWidget(widgetSettingsModal.getData())"><i class="fa fa-trash"></i></button>
-    <button class="btn btn-success" (click)="saveWidgetSettings(widgetSettingsFormModel)"><i class="fa fa-save"></i></button>
+    <button class="btn btn-danger pull-right" (click)="removeWidget(widgetSettingsModal.getData())"><i class="fa fa-trash"></i> Remove</button>
+    <button style="margin-right: 5px;" class="btn btn-success pull-right" (click)="saveWidgetSettings(widgetSettingsFormModel)" [disabled]="widgetSettingsForm.invalid"><i class="fa fa-save"></i> Save</button>
 </ngx-smart-modal>
 
 <ngx-smart-modal #newWidgetModal identifier="newWidgetModal" customClass="wide-modal" (onClose)="resetNewWidgetModal()">
-    <h1>{{newWidgetModalText}}</h1>
+    <h2>{{newWidgetModalText}}</h2>
+    <hr>
     <div class="container">
         <div class="row">
             <div class="col-4">
@@ -44,8 +46,7 @@
                     <formly-form [model]="newWidgetFormModel" [fields]="newWidgetFormFields" [form]="newWidgetForm">
                     </formly-form>
                 </form>
-                <pre>{{selectedNewWidget | json}}</pre>
-                <button *ngIf="selectedNewWidget" class="btn btn-success" (click)="addNewWidget(newWidgetFormModel, selectedNewWidget.widgetType)"><i class="fa fa-plus"></i> Add</button>
+                <button *ngIf="selectedNewWidget" class="btn btn-success pull-right" [disabled]="newWidgetForm.invalid" (click)="addNewWidget(newWidgetFormModel, selectedNewWidget.widgetType)"><i class="fa fa-plus"></i> Add</button>
             </div>
         </div>
     </div>

@@ -27,3 +27,4 @@ Changes:
  - Major bug fixes
  - Widges can now be reconfigured
  - Improved styling of modals
+ - Widget forms are now validated before being saved
