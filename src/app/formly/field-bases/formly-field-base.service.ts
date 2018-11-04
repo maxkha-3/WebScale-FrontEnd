@@ -6,7 +6,7 @@ export class FormlyFieldBaseService {
     constructor() {
     }
 
-    getSelectBase = (key: string, label: string, required: boolean) => {
+    getSelectBase = (key: string, label: string, required: boolean, disabled: boolean) => {
         return {
             key: key,
             type: 'select',
@@ -19,7 +19,7 @@ export class FormlyFieldBaseService {
         };
     };
 
-    getInputBase = (key: string, label: string, required: boolean) => {
+    getInputBase = (key: string, label: string, required: boolean, disabled: boolean) => {
         return {
             key: key,
             type: "input",
@@ -27,7 +27,8 @@ export class FormlyFieldBaseService {
             templateOptions: {
                 label: label,
                 placeholder: "Enter " + label,
-                required: required
+                required: required,
+                disabled: disabled
             }
         };
     }

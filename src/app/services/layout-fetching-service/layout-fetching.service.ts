@@ -15,7 +15,7 @@ export class LayoutFetchingService {
             widgetType: 'sla_top10',
             widgetName: 'SLA',
             chartTypes: ['bar', 'line'],
-            dependencies: ['timeSpan'],
+            dependencies: ['timeSpan', 'numOfEntries'],
             heading: 'Top 10 worst monitors (SLA)'
         },
         {
@@ -30,6 +30,14 @@ export class LayoutFetchingService {
             chartTypes: ['line'],
             dependencies: ['monitorId', 'timeSpan'],
             heading: 'Losses in monitor #'
+        },
+        {
+            widgetType: 'delay_top10',
+            widgetName: '10 Worst Delays',
+            chartTypes: ['list'],
+            dependencies: ['numOfEntries'],
+            heading: '10 Worst Tasks (delay)'
+
         }
     ];
 
@@ -48,18 +56,24 @@ export class LayoutFetchingService {
             dependencyName: 'Time Span (h)',
             formlyType: 'input',
             required: true
+        },
+        {
+            dependencyType: 'numOfEntries',
+            dependencyName: 'Entries',
+            formlyType: 'input',
+            required: true
         }
     ];
 
-
+    /**
+     * Lists available widget sizes and its descriptions, which are used to populate options in the select formly fields.
+     */
     public availableSizes = [
         {size: '4', description: 'Small'},
         {size: '6', description: 'Medium'},
         {size: '8', description: 'Large'},
-        {size: '4', description: 'X-Large'}
+        {size: '12', description: 'X-Large'}
     ];
-
-
 
     /**
      * Test layout to initiate some dashboards, in case no dashboard layouts yet exist.

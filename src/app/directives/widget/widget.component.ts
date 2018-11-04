@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {DruidDataService} from '../../services/druid-data-service/druid-data.service';
 import {ChartBaseService} from '../../services/chart-base-service/chart-base.service';
 import {NgxSmartModalService} from 'ngx-smart-modal';
+import {FormGroup} from '@angular/forms';
 
 declare var jquery: any;
 declare var $: any;
@@ -18,6 +19,10 @@ export class WidgetComponent implements OnInit {
     public isChart: boolean = false;
     public isList: boolean = false;
     public state: any;
+
+    public widgetSettingsForm = new FormGroup({});
+    public widgetSettingsFormModel = {};
+    public widgetSettingsFormFields = [];
 
     constructor(private druidAPI: DruidDataService, private chartBase: ChartBaseService, public ngxSmartModalService: NgxSmartModalService) {
     }
@@ -78,7 +83,8 @@ export class WidgetComponent implements OnInit {
      * Opens a widget settings modal.
      */
     showSettings = (): void => {
-        this.ngxSmartModalService.setModalData(this.item, 'widgetSettingsModal', true);
+        let modalData = this.item;
+        this.ngxSmartModalService.setModalData(modalData, 'widgetSettingsModal', true);
         this.ngxSmartModalService.getModal('widgetSettingsModal').open();
     };
 

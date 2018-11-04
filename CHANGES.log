@@ -18,3 +18,12 @@ Changes:
  - Widgets can be added and removed
  - Added test data to use in widgets
  - Implementation of JSON schemas for dashboards, dependencies, forms, etc.
+
+=============================
+Version 0.0.3 [2018-11-04]
+=============================
+
+Changes:
+ - Major bug fixes
+ - Widges can now be reconfigured
+ - Improved styling of modals
