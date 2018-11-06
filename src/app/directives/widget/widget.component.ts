@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {DruidDataService} from '../../services/druid-data-service/druid-data.service';
 import {ChartBaseService} from '../../services/chart-base-service/chart-base.service';
 import {NgxSmartModalService} from 'ngx-smart-modal';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 declare var jquery: any;
 declare var $: any;
@@ -15,8 +16,7 @@ export class WidgetComponent implements OnInit {
 
     @Input() item;
 
-    public isChart: boolean = false;
-    public isList: boolean = false;
+    public layout = '';
     public state: any;
 
     constructor(private druidAPI: DruidDataService, private chartBase: ChartBaseService, public ngxSmartModalService: NgxSmartModalService) {
@@ -28,50 +28,61 @@ export class WidgetComponent implements OnInit {
             case 'bar':
                 serializer = this.barChartSerializer;
                 this.state = this.chartBase.getBarBase();
-                this.isChart = true;
+                this.layout = 'bar-chart';
                 break;
             case 'doughnut':
                 serializer = this.doughnutChartSerializer;
                 this.state = this.chartBase.getDoughnutBase();
-                this.isChart = true;
+                this.layout = 'pie-chart';
                 break;
             case 'line':
                 serializer = this.lineChartSerializer;
                 this.state = this.chartBase.getLineBase();
-                this.isChart = true;
+                this.layout = 'line-chart';
                 break;
             case 'list':
                 serializer = this.listSerializer;
                 this.state = {};
-                this.isList = true;
+                this.layout = 'list';
                 break;
             default:
                 break;
         }
 
-        let data;
+        let datafunc;
         switch (this.item.widgetType) {
             case 'sla_top10':
-                this.state.heading = 'Top 10 worst monitors (SLA)';
-                data = this.druidAPI.WorstMonitorsSLA15();
+                this.state.xAxisLabel = 'Monitor';
+                this.state.yAxisLabel = 'SLA'
+                this.state.heading = 'Top worst monitors';
+                datafunc = this.druidAPI.WorstMonitorsSLA15;
+                setInterval(() => { serializer(datafunc()); }, 5000);
+
                 break;
             case 'es_contribution':
+                this.state.legendTitle = 'Contributor';
                 this.state.heading = 'ES contribution';
-                data = this.druidAPI.ESContribution();
+                datafunc = this.druidAPI.ESContribution;
+                setInterval(() => { serializer(datafunc()); }, 5000);
+
                 break;
             case 'loss_1h':
+                this.state.xAxisLabel = 'Time';
+                this.state.yAxisLabel = 'Delay'
                 this.state.heading = 'Losses in monitor #' + this.item.monitorId;
-                data = this.druidAPI.NFLMonitors();
+                datafunc = this.druidAPI.NFLMonitors;
+                setInterval(() => { serializer(datafunc()); }, 5000);
+
                 break;
             case 'delay_top10':
                 this.state.heading = '10 Worst Tasks (Delay)';
-                data = this.druidAPI.WorstTasksDelay();
+                datafunc = this.druidAPI.WorstTasksDelay;
                 break;
             default:
-                data = [];
+                datafunc = null;
         }
 
-        serializer(data);
+        serializer(datafunc());
     }
 
     /**
@@ -87,10 +98,8 @@ export class WidgetComponent implements OnInit {
      * @param data
      */
     barChartSerializer = (data: any) => {
-        const labels = data.map((row) => '#' + row.ID);
-        const graphData = data.map((row) => row.Data.SLA);
-        this.state.data.labels = labels;
-        this.state.data.datasets[0].data = graphData;
+        const graphData = data.map((row) => ({'name': '#' + row.ID, 'value': row.Data.SLA}));
+        this.state.results = graphData;
     };
 
     /**
@@ -98,10 +107,8 @@ export class WidgetComponent implements OnInit {
      * @param data
      */
     doughnutChartSerializer = (data: any) => {
-        const esconlabels = data.map((row) => row.ID);
-        const escongraphData = data.map((row) => row.Data.ES);
-        this.state.data.labels = esconlabels;
-        this.state.data.datasets[0].data = escongraphData;
+        const graphData = data.map((row) => ({'name': '#' + row.ID, 'value': row.Data.ES}));
+        this.state.results = graphData;
     };
 
     /**
@@ -109,22 +116,18 @@ export class WidgetComponent implements OnInit {
      * @param data
      */
     lineChartSerializer = (data: any) => {
-        const nflmlabels = data.map((row) => row.ID);
-        const nflmgraphDataNear = data.map((row) => row.Data.Near);
-        const nflmgraphDataFar = data.map((row) => row.Data.Far);
-        this.state.data.labels = nflmlabels;
-        this.state.data.datasets.push({
-            label: 'Far loss (%)',
-            data: nflmgraphDataFar,
-            fill: false,
-            borderColor: '#4bc0c0'
-        });
-        this.state.data.datasets.push({
-            label: 'Near loss (%)',
-            data: nflmgraphDataNear,
-            fill: false,
-            borderColor: '#565656'
-        });
+        const DataNear = data.map((row) => ({'value': row.Data.Near, 'name': row.ID}));
+        const DataFar = data.map((row) => ({'value': row.Data.Far, 'name': row.ID}));
+        this.state.results = [
+            {
+                name: 'Near',
+                series: DataNear
+            },
+            {
+                name: 'Far',
+                series: DataFar
+            }
+            ];
     };
 
     /**

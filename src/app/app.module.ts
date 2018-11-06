@@ -8,6 +8,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyBootstrapModule} from '@ngx-formly/bootstrap';
 import {ChartModule} from 'primeng/chart';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import {ToastrModule} from 'ngx-toastr';
 import {NgxSmartModalModule} from 'ngx-smart-modal';
 import {UUID} from 'angular2-uuid';
@@ -54,6 +55,7 @@ const appRoutes: Routes = [
         BrowserModule,
         BrowserAnimationsModule,
         ChartModule,
+        NgxChartsModule,
         FormsModule,
         ReactiveFormsModule,
         NgxSmartModalModule.forRoot(),

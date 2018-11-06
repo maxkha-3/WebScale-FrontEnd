@@ -4,11 +4,10 @@
         {{state.heading}}
         <i class="widget-settings-icon fa fa-cog float-right" (click)="showSettings()"></i>
     </div>
-    <div class="widget-content" *ngIf="isChart">
-        <p-chart [type]="state.type" [data]="state.data" [options]="state.options"></p-chart>
-    </div>
-    <div class="widget-content" *ngIf="isList">
-        <table class="table table-striped  text-center">
+    <div class="widget-content" [ngSwitch]="layout">
+        <p-chart [type]="state.type" [data]="state.data" [options]="state.options" *ngSwitchCase="'chart'"></p-chart>
+
+        <table class="table table-striped  text-center" *ngSwitchCase="'list'">
             <thead>
             <tr>
                 <th *ngFor="let value of state.headers">{{value}}</th>
@@ -20,5 +19,50 @@
             </tr>
             </tbody>
         </table>
+
+        <div class="chart-test" *ngSwitchCase="'bar-chart'">
+        <ngx-charts-bar-vertical
+            [view]="state.view"
+            [results]="state.results"
+            [scheme]="state.scheme"
+            [xAxisLabel]="state.xAxisLabel"
+            [yAxisLabel]="state.yAxisLabel"
+            [showXAxisLabel]="state.showXAxisLabel"
+            [showYAxisLabel]="state.showYAxisLabel"
+            [xAxis]="state.xAxis"
+            [yAxis]="state.yAxis"
+            [gradient]="state.gradient"
+            ></ngx-charts-bar-vertical>
+        </div>
+
+        <div class="chart-test" *ngSwitchCase="'pie-chart'">
+            <ngx-charts-pie-chart
+                [view]="state.view"
+                [results]="state.results"
+                [scheme]="state.scheme"
+                [labels]="state.labels"
+                [doughnut]="state.doughnut"
+                [legend]="state.legend"
+                [legendTitle]="state.legendTitle"
+                [legendPosition]="state.legendPosition"
+                [gradient]="state.gradient"
+                [maxLabelLength]="state.maxLabelLength"
+            ></ngx-charts-pie-chart>
+        </div>
+
+        <div class="chart-test" *ngSwitchCase="'line-chart'">
+            <ngx-charts-line-chart
+                [view]="state.view"
+                [results]="state.results"
+                [scheme]="state.scheme"
+                [xAxisLabel]="state.xAxisLabel"
+                [yAxisLabel]="state.yAxisLabel"
+                [showXAxisLabel]="state.showXAxisLabel"
+                [showYAxisLabel]="state.showYAxisLabel"
+                [xAxis]="state.xAxis"
+                [yAxis]="state.yAxis"
+                [gradient]="state.gradient"
+            ></ngx-charts-line-chart>
+        </div>
     </div>
 </div>
