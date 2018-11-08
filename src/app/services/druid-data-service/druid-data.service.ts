@@ -17,6 +17,30 @@ export class DruidDataService {
     constructor() {
     }
 
+    MonitorOverview = (id: any): any => {
+
+        let dt = new Date('1995-12-17T11:00:00');
+        let tarr = new Array();
+        for(let i = 0; i < 100; i++){
+            tarr.push(dt.toISOString());
+            dt.setMinutes(dt.getMinutes() + 30);
+        }
+
+        let retval = {
+            ID: id,
+            tasks: []
+        };
+
+        for(let z = 0; z < 5; z++){
+            retval.tasks.push({
+               ID: 'tsk' + (z+1),
+               ESData: tarr.map(x => ({Timestamp: x, ES: Math.floor((Math.random() * 3) + 1)}))
+            });
+        }
+
+        return retval;
+    };
+
     WorstMonitorsSLA15 = (): Array<any> => {
         let rnd = function(){
             return Math.random()/2 + 0.5;

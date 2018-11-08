@@ -34,13 +34,15 @@ import {MiscService} from './services/misc-service/misc.service';
 import {DruidDataService} from './services/druid-data-service/druid-data.service';
 import {ChartBaseService} from './services/chart-base-service/chart-base.service';
 import {FormlyFieldBaseService} from './formly/field-bases/formly-field-base.service';
+import { DatatreeComponent } from './components/datatree/datatree.component';
 
 //Router path template
 const appRoutes: Routes = [
     {path: '', component: HomeComponent},
     {path: 'home', component: HomeComponent},
     {path: 'dashboard/:id', component: DashboardComponent},
-    {path: 'settings', component: SettingsComponent}];
+    {path: 'settings', component: SettingsComponent},
+    {path: 'overview/:id', component: DatatreeComponent}];
 
 @NgModule({
     declarations: [
@@ -49,7 +51,8 @@ const appRoutes: Routes = [
         SettingsComponent,
         DashboardComponent,
         FormlyHorizontalWrapper,
-        HomeComponent
+        HomeComponent,
+        DatatreeComponent
     ],
     imports: [
         BrowserModule,

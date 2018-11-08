@@ -59,4 +59,22 @@ export class ChartBaseService {
             gradient: false
         };
     };
+
+    getStackedTimelineBase = () => {
+        return {
+            results: [],
+            scheme: 'vivid',
+            schemeType: 'linear',
+            xAxisLabel: '',
+            yAxisLabel: '',
+            showXAxisLabel: false,
+            showYAxisLabel: false,
+            xAxis: true,
+            yAxis: true,
+            gradient: false,
+            timeline: true,
+            roundDomains: false,
+            tooltipDisabled: false
+        };
+    };
 }
