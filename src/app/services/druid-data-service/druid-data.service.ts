@@ -17,6 +17,10 @@ export class DruidDataService {
     constructor() {
     }
 
+    rnd = (lowest, highest): any => {
+        return Math.floor((Math.random() * (highest-lowest+1)) + lowest);
+    }
+
     MonitorOverview = (id: any): any => {
 
         let dt = new Date('1995-12-17T11:00:00');
@@ -42,22 +46,23 @@ export class DruidDataService {
     };
 
     WorstMonitorsSLA15 = (): Array<any> => {
-        let rnd = function(){
-            return Math.random()/2 + 0.5;
-        }
 
-        return [
-            {ID: 55, Data: {SLA: rnd()*80}},
-            {ID: 465, Data: {SLA: rnd()*82}},
-            {ID: 344, Data: {SLA: rnd()*87}},
-            {ID: 254, Data: {SLA: rnd()*91}},
-            {ID: 11, Data: {SLA: rnd()*95}},
-            {ID: 755, Data: {SLA: rnd()*96}},
-            {ID: 343, Data: {SLA: rnd()*96}},
-            {ID: 222, Data: {SLA: rnd()*98}},
-            {ID: 87, Data: {SLA: rnd()*99}},
-            {ID: 555, Data: {SLA: rnd()*99}}
+        let data = [
+            {ID: this.rnd(1, 2), Data: {SLA: this.rnd(60, 100)}},
+            {ID: this.rnd(3, 4), Data: {SLA: this.rnd(60, 100)}},
+            {ID: this.rnd(5, 6), Data: {SLA: this.rnd(60, 100)}},
+            {ID: this.rnd(7, 8), Data: {SLA: this.rnd(60, 100)}},
+            {ID: this.rnd(9, 10), Data: {SLA: this.rnd(60, 100)}},
+            {ID: this.rnd(11, 12), Data: {SLA: this.rnd(60, 100)}},
+            {ID: this.rnd(13, 14), Data: {SLA: this.rnd(60, 100)}},
+            {ID: this.rnd(15, 16), Data: {SLA: this.rnd(60, 100)}},
+            {ID: this.rnd(17, 18), Data: {SLA: this.rnd(60, 100)}},
+            {ID: this.rnd(19, 20), Data: {SLA: this.rnd(60, 100)}}
         ];
+
+        data.sort((a, b) => a.Data.SLA - b.Data.SLA);
+
+        return data;
     };
 
     ESContribution = (): Array<any> => {
@@ -88,17 +93,21 @@ export class DruidDataService {
     };
 
     WorstTasksDelay = (): Array<any> => {
-        return [
-            {ID: 55, Data: {Delay: 45}},
-            {ID: 465, Data: {Delay: 34}},
-            {ID: 344, Data: {Delay: 24}},
-            {ID: 254, Data: {Delay: 23}},
-            {ID: 11, Data: {Delay: 23}},
-            {ID: 755, Data: {Delay: 21}},
-            {ID: 343, Data: {Delay: 20}},
-            {ID: 222, Data: {Delay: 19}},
-            {ID: 87, Data: {Delay: 18}},
-            {ID: 555, Data: {Delay: 18}}
+        let data = [
+            {ID: this.rnd(1, 1000), Data: {Delay: this.rnd(1, 50)}},
+            {ID: this.rnd(1, 1000), Data: {Delay: this.rnd(1, 50)}},
+            {ID: this.rnd(1, 1000), Data: {Delay: this.rnd(1, 50)}},
+            {ID: this.rnd(1, 1000), Data: {Delay: this.rnd(1, 50)}},
+            {ID: this.rnd(1, 1000), Data: {Delay: this.rnd(1, 50)}},
+            {ID: this.rnd(1, 1000), Data: {Delay: this.rnd(1, 50)}},
+            {ID: this.rnd(1, 1000), Data: {Delay: this.rnd(1, 50)}},
+            {ID: this.rnd(1, 1000), Data: {Delay: this.rnd(1, 50)}},
+            {ID: this.rnd(1, 1000), Data: {Delay: this.rnd(1, 50)}},
+            {ID: this.rnd(1, 1000), Data: {Delay: this.rnd(1, 50)}}
         ];
+
+        data.sort((a, b) => a.Data.Delay - b.Data.Delay);
+
+        return data;
     };
 }

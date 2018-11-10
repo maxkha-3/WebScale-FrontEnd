@@ -56,14 +56,12 @@ export class WidgetComponent implements OnInit {
                 this.state.yAxisLabel = 'SLA'
                 this.state.heading = 'Top worst monitors';
                 datafunc = this.druidAPI.WorstMonitorsSLA15;
-                setInterval(() => { serializer(datafunc()); }, 5000);
 
                 break;
             case 'es_contribution':
                 this.state.legendTitle = 'Contributor';
                 this.state.heading = 'ES contribution';
                 datafunc = this.druidAPI.ESContribution;
-                setInterval(() => { serializer(datafunc()); }, 5000);
 
                 break;
             case 'loss_1h':
@@ -71,7 +69,6 @@ export class WidgetComponent implements OnInit {
                 this.state.yAxisLabel = 'Delay'
                 this.state.heading = 'Losses in monitor #' + this.item.monitorId;
                 datafunc = this.druidAPI.NFLMonitors;
-                setInterval(() => { serializer(datafunc()); }, 5000);
 
                 break;
             case 'delay_top10':
@@ -83,6 +80,7 @@ export class WidgetComponent implements OnInit {
         }
 
         serializer(datafunc());
+        setInterval(() => { serializer(datafunc()); }, 5000);
     }
 
     /**

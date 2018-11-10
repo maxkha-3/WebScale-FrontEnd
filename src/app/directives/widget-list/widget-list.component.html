@@ -1,0 +1,12 @@
+<table class="table table-striped  text-center">
+    <thead>
+    <tr>
+        <th *ngFor="let value of item.headers">{{value}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let row of item.data">
+        <td *ngFor="let value of row">{{value}}</td>
+    </tr>
+    </tbody>
+</table>

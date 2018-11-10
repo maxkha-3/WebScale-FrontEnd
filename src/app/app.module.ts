@@ -35,6 +35,7 @@ import {DruidDataService} from './services/druid-data-service/druid-data.service
 import {ChartBaseService} from './services/chart-base-service/chart-base.service';
 import {FormlyFieldBaseService} from './formly/field-bases/formly-field-base.service';
 import { DatatreeComponent } from './components/datatree/datatree.component';
+import { WidgetListComponent } from './directives/widget-list/widget-list.component';
 
 //Router path template
 const appRoutes: Routes = [
@@ -52,7 +53,8 @@ const appRoutes: Routes = [
         DashboardComponent,
         FormlyHorizontalWrapper,
         HomeComponent,
-        DatatreeComponent
+        DatatreeComponent,
+        WidgetListComponent
     ],
     imports: [
         BrowserModule,
