@@ -16,8 +16,19 @@
 }
 
 .chart-test{
+    position: relative;
     display:inline-block;
-    height: 300px;
+    width:100%;
+    padding: 30%;
+}
+
+.chart-test-inner{
+    position: absolute;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+
 }
 
 .widget-drag-handle {

@@ -10,6 +10,7 @@
         <app-widget-list [item]="state" *ngSwitchCase="'list'"></app-widget-list>
 
         <div class="chart-test" *ngSwitchCase="'bar-chart'">
+            <div class="chart-test-inner">
         <ngx-charts-bar-vertical
             [view]="state.view"
             [results]="state.results"
@@ -23,8 +24,10 @@
             [gradient]="state.gradient"
             ></ngx-charts-bar-vertical>
         </div>
+        </div>
 
         <div class="chart-test" *ngSwitchCase="'pie-chart'">
+            <div class="chart-test-inner">
             <ngx-charts-pie-chart
                 [view]="state.view"
                 [results]="state.results"
@@ -38,8 +41,10 @@
                 [maxLabelLength]="state.maxLabelLength"
             ></ngx-charts-pie-chart>
         </div>
+        </div>
 
         <div class="chart-test" *ngSwitchCase="'line-chart'">
+            <div class="chart-test-inner">
             <ngx-charts-line-chart
                 [view]="state.view"
                 [results]="state.results"
@@ -52,6 +57,7 @@
                 [yAxis]="state.yAxis"
                 [gradient]="state.gradient"
             ></ngx-charts-line-chart>
+        </div>
         </div>
     </div>
 </div>
