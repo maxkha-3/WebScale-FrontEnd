@@ -3,6 +3,7 @@ import {DruidDataService} from '../../services/druid-data-service/druid-data.ser
 import {ChartBaseService} from '../../services/chart-base-service/chart-base.service';
 import {NgxSmartModalService} from 'ngx-smart-modal';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import {d3} from 'd3';
 
 declare var jquery: any;
 declare var $: any;

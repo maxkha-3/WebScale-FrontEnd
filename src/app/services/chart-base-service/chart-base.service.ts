@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import * as d3 from 'd3';
 
 @Injectable()
 export class ChartBaseService {
@@ -32,8 +33,8 @@ export class ChartBaseService {
             results: [],
             scheme: 'vivid',
             schemeType: 'linear',
-            labels: false,
-            legend: true,
+            labels: true,
+            legend: false,
             doughnut: true,
             legendTitle: '',
             legendPosition: 'right',
@@ -56,7 +57,8 @@ export class ChartBaseService {
             showYAxisLabel: true,
             xAxis: true,
             yAxis: true,
-            gradient: false
+            gradient: false,
+            curve: d3.curveMonotoneX
         };
     };
 
