@@ -52,29 +52,30 @@ export class WidgetComponent implements OnInit {
 
         let datafunc;
         switch (this.item.widgetType) {
-            case 'sla_top10':
+            case 'topNWorst':
                 this.state.xAxisLabel = 'Monitor';
                 this.state.yAxisLabel = 'SLA'
-                this.state.heading = 'Top worst monitors';
-                datafunc = this.druidAPI.WorstMonitorsSLA15;
+                this.state.heading = 'Top ' + this.item.count + ' worst ' + this.item.dataGroup;
+
+                if (this.item.chartType === 'list') {
+                    datafunc = this.druidAPI.WorstTasksDelay;
+                } else {
+                    datafunc = this.druidAPI.WorstMonitorsSLA15;
+                }
 
                 break;
-            case 'es_contribution':
+            case 'esContribution':
                 this.state.legendTitle = 'Contributor';
                 this.state.heading = 'ES contribution';
                 datafunc = this.druidAPI.ESContribution;
 
                 break;
-            case 'loss_1h':
+            case 'realTime':
                 this.state.xAxisLabel = 'Time';
                 this.state.yAxisLabel = 'Delay'
                 this.state.heading = 'Losses in monitor #' + this.item.monitorId;
                 datafunc = this.druidAPI.NFLMonitors;
 
-                break;
-            case 'delay_top10':
-                this.state.heading = '10 Worst Tasks (Delay)';
-                datafunc = this.druidAPI.WorstTasksDelay;
                 break;
             default:
                 datafunc = null;

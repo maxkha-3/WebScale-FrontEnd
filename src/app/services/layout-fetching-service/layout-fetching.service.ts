@@ -12,56 +12,175 @@ export class LayoutFetchingService {
      */
     public availableWidgets = [
         {
-            widgetType: 'sla_top10',
-            widgetName: 'SLA',
-            chartTypes: ['bar', 'line'],
-            dependencies: ['timeSpan', 'numOfEntries'],
+            widgetType: 'topNWorst',
+            widgetName: 'Top N Worst',
+            options: [
+                {
+                    heading: 'Selector',
+                    type: 'dataGroup',
+                    choices: [
+                        {
+                            type: 'monitor',
+                            name: 'Monitors'
+                        },
+                        {
+                            type: 'task',
+                            name: 'Tasks'
+                        },
+                        {
+                            type: 'stream',
+                            name: 'Streams'
+                        }
+                    ]
+                },
+                {
+                    heading: 'Measure',
+                    type: 'dataType',
+                    choices: [
+                        {
+                            type: 'sla',
+                            name: 'SLA'
+                        },
+                        {
+                            type: 'delay',
+                            name: 'Delay'
+                        },
+                        {
+                            type: 'es',
+                            name: 'Error seconds'
+                        }
+                    ]
+                },
+                {
+                    heading: 'Chart Type',
+                    type: 'chartType',
+                    choices: [
+                        {
+                            type: 'bar',
+                            name: 'Bar chart'
+                        },
+                        {
+                            type: 'list',
+                            name: 'List'
+                        }
+                    ]
+                },
+                {
+                    heading: 'Entries',
+                    type: 'count'
+                }
+            ],
             heading: 'Top 10 worst monitors (SLA)'
         },
         {
-            widgetType: 'es_contribution',
+            widgetType: 'esContribution',
             widgetName: 'ES Contribution',
-            chartTypes: ['doughnut'],
+            options: [
+                {
+                    heading: 'Selector',
+                    type: 'dataGroup',
+                    choices: [
+                        {
+                            type: 'all',
+                            name: 'All'
+                        },
+                        {
+                            type: 'monitor',
+                            name: 'Monitors'
+                        },
+                        {
+                            type: 'task',
+                            name: 'Tasks'
+                        },
+                        {
+                            type: 'stream',
+                            name: 'Streams'
+                        }
+                    ]
+                },
+                {
+                    heading: 'Chart Type',
+                    type: 'chartType',
+                    choices: [
+                        {
+                            type: 'doughnut',
+                            name: 'Doughnut chart'
+                        }
+                    ]
+                }
+            ],
             heading: 'ES contribution'
         },
         {
-            widgetType: 'loss_1h',
-            widgetName: 'Losses in monitor',
-            chartTypes: ['line'],
-            dependencies: ['monitorId', 'timeSpan'],
+            widgetType: 'realTime',
+            widgetName: 'Real-Time',
+            options: [
+                {
+                    heading: 'Selector',
+                    type: 'dataGroup',
+                    choices: [
+                        {
+                            type: 'monitor',
+                            name: 'Monitor'
+                        },
+                        {
+                            type: 'task',
+                            name: 'Task'
+                        },
+                        {
+                            type: 'stream',
+                            name: 'Stream'
+                        }
+                    ]
+                },
+                {
+                    heading: 'Selector ID',
+                    type: 'dataSourceID'
+                },
+                {
+                    heading: 'Measure',
+                    type: 'dataType',
+                    choices: [
+                        {
+                            type: 'sla',
+                            name: 'SLA'
+                        },
+                        {
+                            type: 'delay',
+                            name: 'Delay'
+                        },
+                        {
+                            type: 'es',
+                            name: 'Error seconds'
+                        }
+                    ]
+                },
+                {
+                    heading: 'Chart Type',
+                    type: 'chartType',
+                    choices: [
+                        {
+                            type: 'line',
+                            name: 'Line chart'
+                        }
+                    ]
+                }
+            ],
             heading: 'Losses in monitor #'
         },
-        {
-            widgetType: 'delay_top10',
-            widgetName: '10 Worst Delays',
-            chartTypes: ['list'],
-            dependencies: ['numOfEntries'],
-            heading: '10 Worst Tasks (delay)'
-
-        }
     ];
 
     /**
-     * Lists available dependencies.
+     * Lists available timespans.
      */
-    public availableDependencies = [
+    public availableTimespans = [
         {
-            dependencyType: 'monitorId',
-            dependencyName: 'Monitor ID',
-            formlyType: 'input',
-            required: true
+            key: '15',
+            value: 'Last 15 minutes',
         },
         {
-            dependencyType: 'timeSpan',
-            dependencyName: 'Time Span (h)',
-            formlyType: 'input',
-            required: true
-        },
-        {
-            dependencyType: 'numOfEntries',
-            dependencyName: 'Entries',
-            formlyType: 'input',
-            required: true
+            key: '60',
+            value: 'Last 60 minutes',
         }
     ];
 
@@ -84,19 +203,19 @@ export class LayoutFetchingService {
                 id: 'alarmDashboard',
                 name: 'Alarm Dashboard',
                 widgets: [
-                    {widgetType: 'sla_top10', chartType: 'bar', size: {sm: 12, md: 12, lg: 6, xl: 4}, ID: '541cad2d-936f-eb62-8918-82928d3c9968'},
-                    {widgetType: 'es_contribution', chartType: 'doughnut', size: {sm: 12, md: 12, lg: 6, xl: 4}, ID: '6afccb76-ed47-9bf2-239f-731f714d5ae9'},
-                    {widgetType: 'loss_1h', chartType: 'line', monitorId: '1023', size: {sm: 12, md: 12, lg: 12, xl: 8}, ID: 'd101f0a6-3dfb-1758-a6c6-3bf83f25000a'},
-                    {widgetType: 'delay_top10', chartType: 'list', size: {sm: 12, md: 12, lg: 6, xl: 4}, ID: '30ca3b75-e004-5a27-0820-438452c6a912'}
+                    {widgetType: 'topNWorst', dataGroup: 'monitor', dataType: 'sla', count: 10, chartType: 'bar', timeSpan: 60, size: {sm: 12, md: 12, lg: 6, xl: 4}, ID: '541cad2d-936f-eb62-8918-82928d3c9968'},
+                    {widgetType: 'esContribution', dataGroup: 'all', chartType: 'doughnut', timeSpan: 60, size: {sm: 12, md: 12, lg: 6, xl: 4}, ID: '6afccb76-ed47-9bf2-239f-731f714d5ae9'},
+                    {widgetType: 'realTime', dataGroup: 'monitor', dataType: 'delay', chartType: 'line', dataSourceID: '1023', timeSpan: 60, size: {sm: 12, md: 12, lg: 12, xl: 8}, ID: 'd101f0a6-3dfb-1758-a6c6-3bf83f25000a'},
+                    {widgetType: 'topNWorst', dataGroup: 'task', dataType: 'delay', count: 10, chartType: 'list', timeSpan: 60, size: {sm: 12, md: 12, lg: 6, xl: 4}, ID: '30ca3b75-e004-5a27-0820-438452c6a912'}
                 ]
             },
             {
                 id: 'generalOverview',
                 name: 'General Overview',
                 widgets: [
-                    {widgetType: 'sla_top10', chartType: 'bar', size: {sm: 12, md: 12, lg: 6, xl: 4}, ID: 'd19f3606-6b67-7055-3668-a594b098f053'},
-                    {widgetType: 'es_contribution', chartType: 'doughnut', size: {sm: 12, md: 12, lg: 6, xl: 4}, ID: '43ca3b0b-c63a-19cd-d845-961581735d5d'},
-                    {widgetType: 'loss_1h', chartType: 'line', monitorId: '443', size: {sm: 12, md: 12, lg: 12, xl: 8}, ID: 'a04ae8f1-ae28-5f4a-8668-be4195a0b1ee'}
+                    {widgetType: 'topNWorst', dataGroup: 'monitor', dataType: 'sla', count: 10,  chartType: 'bar', timeSpan: 60, size: {sm: 12, md: 12, lg: 6, xl: 4}, ID: 'd19f3606-6b67-7055-3668-a594b098f053'},
+                    {widgetType: 'esContribution', dataGroup: 'all', chartType: 'doughnut', timeSpan: 60, size: {sm: 12, md: 12, lg: 6, xl: 4}, ID: '43ca3b0b-c63a-19cd-d845-961581735d5d'},
+                    {widgetType: 'realTime', dataGroup: 'monitor', dataType: 'delay', count: 10,  chartType: 'line', dataSourceID: '1023', timeSpan: 60, size: {sm: 12, md: 12, lg: 12, xl: 8}, ID: 'a04ae8f1-ae28-5f4a-8668-be4195a0b1ee'}
                 ]
             }
         ]
@@ -192,15 +311,4 @@ export class LayoutFetchingService {
         this.layoutsUpdated.next();
     };
 
-    /**
-     * Gets a dependency and its parameters
-     * @param dependencyId
-     */
-    getDependency = (dependencyId: string): any => {
-        for (let dependency of this.availableDependencies) {
-            if (dependencyId === dependency.dependencyType) {
-                return dependency;
-            }
-        }
-    }
 }

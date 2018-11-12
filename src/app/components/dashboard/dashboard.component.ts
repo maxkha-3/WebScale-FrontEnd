@@ -134,7 +134,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     resetNewWidgetModal = (): void => {
         this.selectedNewWidget = undefined;
         this.newWidgetFormFields = [];
-        this.newWidgetFormModel = {size: {sm: 12, md: 6, lg: 6, xl: 6}};        //set medium size as default
     };
 
     /**
@@ -146,15 +145,38 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.newWidgetModalText = "Add new widget (" + widgetTypeBase.widgetName + ")";
         this.selectedNewWidget = widgetTypeBase;
 
+        for (let option of widgetTypeBase.options) {
+            if (option.hasOwnProperty('choices')) {
+                let newSelectField = this.formlyFieldBase.getSelectBase(option.type, option.heading, true, false);
+                newSelectField['defaultValue'] = option.choices[0].type;
+                for (let choice of option.choices) {
+                    newSelectField.templateOptions.options.push({label: choice.name, value: choice.type});
+                }
+                this.newWidgetFormFields = [...this.newWidgetFormFields, newSelectField];
+            } else {
+                let newTextField = this.formlyFieldBase.getInputBase(option.type, option.heading, true, false);
+                this.newWidgetFormFields = [...this.newWidgetFormFields, newTextField];
+            }
+        }
+
         let chartSizeField = this.formlyFieldBase.getSelectBase('size', 'Size', true, false);
 
         //append sizes to size option formly field
         for (let size of this.layoutFetcher.availableSizes) {
             chartSizeField.templateOptions.options.push({label: size.description, value: size.size});
         }
+        chartSizeField['defaultValue'] = chartSizeField.templateOptions.options[0].value;
         this.newWidgetFormFields = [...this.newWidgetFormFields, chartSizeField];
 
-        if (widgetTypeBase.hasOwnProperty("chartTypes")) {
+        let chartTimeField = this.formlyFieldBase.getSelectBase('timeSpan', 'Timespan', true, false);
+
+        for (let span of this.layoutFetcher.availableTimespans) {
+            chartTimeField.templateOptions.options.push({label: span.value, value: span.key});
+        }
+        chartTimeField['defaultValue'] = chartTimeField.templateOptions.options[0].value;
+        this.newWidgetFormFields = [...this.newWidgetFormFields, chartTimeField];
+
+        /*if (widgetTypeBase.hasOwnProperty("chartTypes")) {
             let chartTypeField = this.formlyFieldBase.getSelectBase('chartType', 'Chart Type', true, false);
 
             //append chart types to the select formly field
@@ -175,7 +197,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
                 //append to the formFields object
                 this.newWidgetFormFields = [...this.newWidgetFormFields, dependencyField];
             }
-        }
+        }*/
     };
 
     /**
@@ -198,16 +220,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.widgetSettingsFormFields = [...this.widgetSettingsFormFields, this.formlyFieldBase.getInputBase('widgetName', 'Widget Type', true, true)];
         this.widgetSettingsFormFields = [...this.widgetSettingsFormFields, this.formlyFieldBase.getInputBase('ID', 'ID', true, true)];
 
-        if (widgetTypeBase.hasOwnProperty("chartTypes")) {
-            let chartTypeField = this.formlyFieldBase.getSelectBase('chartType', 'Chart Type', true, false);
-
-            //append chart types to the select formly field
-            for (let chartType of widgetTypeBase.chartTypes) {
-                chartTypeField.templateOptions.options.push({label: _.startCase(chartType), value: chartType});
+        for (let option of widgetTypeBase.options) {
+            if (option.hasOwnProperty('choices')) {
+                let newSelectField = this.formlyFieldBase.getSelectBase(option.type, option.heading, true, false);
+                for (let choice of option.choices) {
+                    newSelectField.templateOptions.options.push({label: choice.name, value: choice.type});
+                }
+                this.widgetSettingsFormFields = [...this.widgetSettingsFormFields, newSelectField];
+            } else {
+                let newTextField = this.formlyFieldBase.getInputBase(option.type, option.heading, true, false);
+                this.widgetSettingsFormFields = [...this.widgetSettingsFormFields, newTextField];
             }
-
-            //append to the formFields object
-            this.widgetSettingsFormFields = [...this.widgetSettingsFormFields, chartTypeField];
         }
 
         let chartSizeField = this.formlyFieldBase.getSelectBase('size', 'Size', true, false);
@@ -218,16 +241,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         }
         this.widgetSettingsFormFields = [...this.widgetSettingsFormFields, chartSizeField];
 
-        if (widgetTypeBase.hasOwnProperty("dependencies")) {
-            //append dependencies to the form object
-            for (let dependencyType of widgetTypeBase.dependencies) {
-                let dependency = this.layoutFetcher.getDependency(dependencyType);
-                let dependencyField = this.formlyFieldBase.getInputBase(dependency.dependencyType, dependency.dependencyName, true, false);
+        let chartTimeField = this.formlyFieldBase.getSelectBase('timeSpan', 'Timespan', true, false);
 
-                //append to the formFields object
-                this.widgetSettingsFormFields = [...this.widgetSettingsFormFields, dependencyField];
-            }
+        for (let span of this.layoutFetcher.availableTimespans) {
+            chartTimeField.templateOptions.options.push({label: span.value, value: span.key});
         }
+        this.widgetSettingsFormFields = [...this.widgetSettingsFormFields, chartTimeField];
     };
 
     /**
