@@ -18,14 +18,14 @@ export class DruidDataService {
     }
 
     rnd = (lowest, highest): any => {
-        return Math.floor((Math.random() * (highest-lowest+1)) + lowest);
-    }
+        return Math.floor((Math.random() * (highest - lowest + 1)) + lowest);
+    };
 
     MonitorOverview = (id: any): any => {
 
         let dt = new Date('1995-12-17T11:00:00');
         let tarr = new Array();
-        for(let i = 0; i < 100; i++){
+        for (let i = 0; i < 100; i++) {
             tarr.push(dt.toISOString());
             dt.setMinutes(dt.getMinutes() + 30);
         }
@@ -35,10 +35,10 @@ export class DruidDataService {
             tasks: []
         };
 
-        for(let z = 0; z < 5; z++){
+        for (let z = 0; z < 5; z++) {
             retval.tasks.push({
-               ID: 'tsk' + (z+1),
-               ESData: tarr.map(x => ({Timestamp: x, ES: Math.floor((Math.random() * 3) + 1)}))
+                ID: 'tsk' + (z + 1),
+                ESData: tarr.map(x => ({Timestamp: x, ES: Math.floor((Math.random() * 3) + 1)}))
             });
         }
 
@@ -66,20 +66,20 @@ export class DruidDataService {
     };
 
     ESContribution = (): Array<any> => {
-        let rnd = function(){
-            return Math.random()/2 + 0.5;
-        }
+        let rnd = function () {
+            return Math.random() / 2 + 0.5;
+        };
 
         return [
-            {ID: 'Loss', Data: {ES: rnd()*500}},
-            {ID: 'Delay', Data: {ES: rnd()*322}},
-            {ID: 'Delay variation', Data: {ES: rnd()*350}},
-            {ID: 'SES', Data: {ES: rnd()*200}}
+            {ID: 'Loss', Data: {ES: rnd() * 500}},
+            {ID: 'Delay', Data: {ES: rnd() * 322}},
+            {ID: 'Delay variation', Data: {ES: rnd() * 350}},
+            {ID: 'SES', Data: {ES: rnd() * 200}}
         ];
     };
 
     NFLMonitors = (): Array<any> => {
-        this.NFLDate.setMinutes(this.NFLDate.getMinutes()+5);
+        this.NFLDate.setMinutes(this.NFLDate.getMinutes() + 5);
         let hours = this.NFLDate.getHours();
         let minutes = this.NFLDate.getMinutes();
 
@@ -106,7 +106,7 @@ export class DruidDataService {
             {ID: this.rnd(1, 1000), Data: {Delay: this.rnd(1, 50)}}
         ];
 
-        data.sort((a, b) => a.Data.Delay - b.Data.Delay);
+        data.sort((b, a) => a.Data.Delay - b.Data.Delay);
 
         return data;
     };
