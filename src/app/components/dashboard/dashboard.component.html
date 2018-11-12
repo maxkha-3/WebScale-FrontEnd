@@ -8,7 +8,7 @@
 </div>
 
 <div class="board">
-    <div class="board-item col-{{widget.size}}" attr.data-widget-id="{{widget.ID}}" *ngFor="let widget of widgetLayout">
+    <div class="board-item p-2 m-0 col-sm-{{widget.size.sm}} col-md-{{widget.size.md}} col-lg-{{widget.size.lg}} col-xl-{{widget.size.xl}}" attr.data-widget-id="{{widget.ID}}" *ngFor="let widget of widgetLayout">
         <div class="board-item-content shadow">
             <app-widget [item]="widget"></app-widget>
         </div>

@@ -8,6 +8,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyBootstrapModule} from '@ngx-formly/bootstrap';
 import {ChartModule} from 'primeng/chart';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import {ToastrModule} from 'ngx-toastr';
 import {NgxSmartModalModule} from 'ngx-smart-modal';
 import {UUID} from 'angular2-uuid';
@@ -33,13 +34,16 @@ import {MiscService} from './services/misc-service/misc.service';
 import {DruidDataService} from './services/druid-data-service/druid-data.service';
 import {ChartBaseService} from './services/chart-base-service/chart-base.service';
 import {FormlyFieldBaseService} from './formly/field-bases/formly-field-base.service';
+import { DatatreeComponent } from './components/datatree/datatree.component';
+import { WidgetListComponent } from './directives/widget-list/widget-list.component';
 
 //Router path template
 const appRoutes: Routes = [
     {path: '', component: HomeComponent},
     {path: 'home', component: HomeComponent},
     {path: 'dashboard/:id', component: DashboardComponent},
-    {path: 'settings', component: SettingsComponent}];
+    {path: 'settings', component: SettingsComponent},
+    {path: 'overview/:id', component: DatatreeComponent}];
 
 @NgModule({
     declarations: [
@@ -48,12 +52,15 @@ const appRoutes: Routes = [
         SettingsComponent,
         DashboardComponent,
         FormlyHorizontalWrapper,
-        HomeComponent
+        HomeComponent,
+        DatatreeComponent,
+        WidgetListComponent
     ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
         ChartModule,
+        NgxChartsModule,
         FormsModule,
         ReactiveFormsModule,
         NgxSmartModalModule.forRoot(),
