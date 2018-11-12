@@ -69,10 +69,10 @@ export class LayoutFetchingService {
      * Lists available widget sizes and its descriptions, which are used to populate options in the select formly fields.
      */
     public availableSizes = [
-        {size: '4', description: 'Small'},
-        {size: '6', description: 'Medium'},
-        {size: '8', description: 'Large'},
-        {size: '12', description: 'X-Large'}
+        {size: {sm: 8, md: 4, lg: 4, xl: 4}, description: 'Small'},
+        {size: {sm: 12, md: 6, lg: 6, xl: 6}, description: 'Medium'},
+        {size: {sm: 12, md: 8, lg: 8, xl: 8}, description: 'Large'},
+        {size: {sm: 12, md: 12, lg: 12, xl: 12}, description: 'X-Large'}
     ];
 
     /**

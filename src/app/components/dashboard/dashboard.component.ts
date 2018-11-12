@@ -134,7 +134,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     resetNewWidgetModal = (): void => {
         this.selectedNewWidget = undefined;
         this.newWidgetFormFields = [];
-        this.newWidgetFormModel = {size: 6};        //set medium size as default
+        this.newWidgetFormModel = {size: {sm: 12, md: 6, lg: 6, xl: 6}};        //set medium size as default
     };
 
     /**
