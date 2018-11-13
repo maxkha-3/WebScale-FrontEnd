@@ -101,8 +101,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.ngxSmartModalService.getModal('widgetSettingsModal').close();
         this.layoutFetcher.setLayout(this.currentDashboardID, this.widgetLayout);
 
-        //Triggers redrawing of the grid
-        window.dispatchEvent(new Event('resize'));
+        this.router.navigate(["dashboard", this.currentDashboardID]).then();
+
     };
 
     /**
@@ -118,7 +118,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.toastr.success("New widget was added!", "Success!");
         this.layoutFetcher.setLayout(this.currentDashboardID, this.widgetLayout);
         this.ngxSmartModalService.get("newWidgetModal").close();
-        this.router.navigate(["dashboard", this.currentDashboardID]);
+        this.router.navigate(["dashboard", this.currentDashboardID]).then();
     };
 
     /**
