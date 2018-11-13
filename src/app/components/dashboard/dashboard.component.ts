@@ -111,6 +111,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
      * @param widgetType
      */
     addNewWidget = (widgetProperties: any, widgetType: string) => {
+        widgetProperties.size = JSON.parse(widgetProperties.size);
         widgetProperties.widgetType = widgetType;
         widgetProperties.ID = UUID.UUID();
         this.widgetLayout.push(widgetProperties);
@@ -163,7 +164,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
         //append sizes to size option formly field
         for (let size of this.layoutFetcher.availableSizes) {
-            chartSizeField.templateOptions.options.push({label: size.description, value: size.size});
+            chartSizeField.templateOptions.options.push({label: size.description, value: JSON.stringify(size.size)});
         }
         chartSizeField['defaultValue'] = chartSizeField.templateOptions.options[0].value;
         this.newWidgetFormFields = [...this.newWidgetFormFields, chartSizeField];
@@ -237,7 +238,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
         //append sizes to size option formly field
         for (let size of this.layoutFetcher.availableSizes) {
-            chartSizeField.templateOptions.options.push({label: size.description, value: size.size});
+            chartSizeField.templateOptions.options.push({label: size.description, value: JSON.stringify(size.size)});
         }
         this.widgetSettingsFormFields = [...this.widgetSettingsFormFields, chartSizeField];
 
@@ -247,6 +248,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             chartTimeField.templateOptions.options.push({label: span.value, value: span.key});
         }
         this.widgetSettingsFormFields = [...this.widgetSettingsFormFields, chartTimeField];
+
+        for (let size of this.layoutFetcher.availableSizes) {
+            if(_.isEqual(size.size, widgetData.size)) {
+                this.widgetSettingsFormModel.size = JSON.stringify(size.size);
+            }
+        }
     };
 
     /**
@@ -283,6 +290,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
      */
     saveWidgetSettings = (widgetData: any): void => {
         delete widgetData.widgetName;
+
+        widgetData.size = JSON.parse(widgetData.size);
 
         let index = 0;
         for (let widget of this.widgetLayout) {

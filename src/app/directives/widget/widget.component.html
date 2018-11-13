@@ -11,54 +11,57 @@
 
         <div class="chart-test" *ngSwitchCase="'bar-chart'">
             <div class="chart-test-inner">
-        <ngx-charts-bar-vertical
-            [view]="state.view"
-            [results]="state.results"
-            [scheme]="state.scheme"
-            [xAxisLabel]="state.xAxisLabel"
-            [yAxisLabel]="state.yAxisLabel"
-            [showXAxisLabel]="state.showXAxisLabel"
-            [showYAxisLabel]="state.showYAxisLabel"
-            [xAxis]="state.xAxis"
-            [yAxis]="state.yAxis"
-            [gradient]="state.gradient"
-            ></ngx-charts-bar-vertical>
-        </div>
+                <ngx-charts-bar-vertical
+                    [view]="state.view"
+                    [results]="state.results"
+                    [scheme]="state.scheme"
+                    [xAxisLabel]="state.xAxisLabel"
+                    [yAxisLabel]="state.yAxisLabel"
+                    [showXAxisLabel]="state.showXAxisLabel"
+                    [showYAxisLabel]="state.showYAxisLabel"
+                    [xAxis]="state.xAxis"
+                    [yAxis]="state.yAxis"
+                    [gradient]="state.gradient">
+
+                </ngx-charts-bar-vertical>
+            </div>
         </div>
 
         <div class="chart-test" *ngSwitchCase="'pie-chart'">
             <div class="chart-test-inner">
-            <ngx-charts-pie-chart
-                [view]="state.view"
-                [results]="state.results"
-                [scheme]="state.scheme"
-                [labels]="state.labels"
-                [doughnut]="state.doughnut"
-                [legend]="state.legend"
-                [legendTitle]="state.legendTitle"
-                [legendPosition]="state.legendPosition"
-                [gradient]="state.gradient"
-                [maxLabelLength]="state.maxLabelLength"
-            ></ngx-charts-pie-chart>
-        </div>
+                <ngx-charts-pie-chart
+                    [view]="state.view"
+                    [results]="state.results"
+                    [scheme]="state.scheme"
+                    [labels]="state.labels"
+                    [doughnut]="state.doughnut"
+                    [legend]="state.legend"
+                    [legendTitle]="state.legendTitle"
+                    [legendPosition]="state.legendPosition"
+                    [gradient]="state.gradient"
+                    [maxLabelLength]="state.maxLabelLength">
+
+                </ngx-charts-pie-chart>
+            </div>
         </div>
 
         <div class="chart-test" *ngSwitchCase="'line-chart'">
             <div class="chart-test-inner">
-            <ngx-charts-line-chart
-                [view]="state.view"
-                [results]="state.results"
-                [scheme]="state.scheme"
-                [xAxisLabel]="state.xAxisLabel"
-                [yAxisLabel]="state.yAxisLabel"
-                [showXAxisLabel]="state.showXAxisLabel"
-                [showYAxisLabel]="state.showYAxisLabel"
-                [xAxis]="state.xAxis"
-                [yAxis]="state.yAxis"
-                [gradient]="state.gradient"
-                [curve]="state.curve"
-            ></ngx-charts-line-chart>
-        </div>
+                <ngx-charts-line-chart
+                    [view]="state.view"
+                    [results]="state.results"
+                    [scheme]="state.scheme"
+                    [xAxisLabel]="state.xAxisLabel"
+                    [yAxisLabel]="state.yAxisLabel"
+                    [showXAxisLabel]="state.showXAxisLabel"
+                    [showYAxisLabel]="state.showYAxisLabel"
+                    [xAxis]="state.xAxis"
+                    [yAxis]="state.yAxis"
+                    [gradient]="state.gradient"
+                    [curve]="state.curve">
+
+                </ngx-charts-line-chart>
+            </div>
         </div>
     </div>
 </div>
