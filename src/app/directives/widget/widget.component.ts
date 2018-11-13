@@ -25,6 +25,13 @@ export class WidgetComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.initializeWidget();
+    }
+
+    /**
+     * Initializes the widgets and refreshed its data
+     */
+    initializeWidget = () => {
         let serializer;
         switch (this.item.chartType) {
             case 'bar':
@@ -51,7 +58,6 @@ export class WidgetComponent implements OnInit {
                 break;
         }
 
-        let datafunc;
         switch (this.item.widgetType) {
 
             case 'topNWorst':
@@ -102,9 +108,9 @@ export class WidgetComponent implements OnInit {
                 break;
 
             default:
-                datafunc = null;
+                console.log("Invalid widget type", this.item);
         }
-    }
+    };
 
     /**
      * Opens a widget settings modal.
