@@ -59,4 +59,12 @@ export class AppComponent {
     routeToDashboard = (dashBoardId: string) => {
         this.router.navigate(['dashboard', dashBoardId]);
     };
+
+    /**
+     * Routes to a specific dashboard layout.
+     * @param sourceType
+     */
+    routeToMonitoring = (sourceType: string) => {
+        this.router.navigate(['monitoring', sourceType]);
+    };
 }

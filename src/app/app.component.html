@@ -9,9 +9,9 @@
         <!-- Logo -->
         <a href="index2.html" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini"><b>K</b>S</span>
+            <span class="logo-mini"><i class="fa fa-cube"></i></span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Kube</b>SCALE</span>
+            <span class="logo-lg"><i class="fa fa-cube"></i> <b>Kube</b>SCALE</span>
         </a>
 
         <!-- Header Navbar: style can be found in header.less -->
@@ -111,6 +111,14 @@
                                 <button class="btn btn-outline-secondary" type="button" (click)="initiateNewLayout(false)"><i class="fa fa-remove"></i></button>
                             </div>
                         </div></li>
+                    </ul>
+                </li>
+                <li class="active treeview menu-open">
+                    <a href="#"><i class="fa fa-desktop"></i> <span>Monitoring</span><span class="pull-right-container"><i class="fa fa-angle-down pull-right"></i></span></a>
+                    <ul class="treeview-menu">
+                        <li><a (click)="routeToMonitoring('monitors')"><i class="fa fa-circle-o"></i> Monitors</a></li>
+                        <li><a (click)="routeToMonitoring('streams')"><i class="fa fa-circle-o"></i> Streams</a></li>
+                        <li><a (click)="routeToMonitoring('tasks')"><i class="fa fa-circle-o"></i> Tasks</a></li>
                     </ul>
                 </li>
                 <li class="active"><a routerLink="analytics"><i class="fa fa-bar-chart"></i> <span>Analytics</span></a></li>
