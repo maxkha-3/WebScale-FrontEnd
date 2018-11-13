@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {DruidDataService} from '../../services/druid-data-service/druid-data.service';
 import {ChartBaseService} from '../../services/chart-base-service/chart-base.service';
 import {NgxSmartModalService} from 'ngx-smart-modal';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import {HttpClient} from '@angular/common/http';
 import {d3} from 'd3';
 
 declare var jquery: any;
@@ -19,6 +19,7 @@ export class WidgetComponent implements OnInit {
 
     public layout = '';
     public state: any;
+
 
     constructor(private druidAPI: DruidDataService, private chartBase: ChartBaseService, public ngxSmartModalService: NgxSmartModalService) {
     }
@@ -52,37 +53,57 @@ export class WidgetComponent implements OnInit {
 
         let datafunc;
         switch (this.item.widgetType) {
+
             case 'topNWorst':
-                this.state.xAxisLabel = 'Monitor';
-                this.state.yAxisLabel = 'SLA'
-                this.state.heading = 'Top ' + this.item.count + ' worst ' + this.item.dataGroup;
+                this.druidAPI.dataRetriever.topNWorst(this.item.dataGroup, this.item.dataType, this.item.count, this.item.timeSpan).then(data => {
+                    this.state.xAxisLabel = 'Monitor';
+                    this.state.yAxisLabel = 'SLA';
+                    this.state.heading = 'Top ' + this.item.count + ' worst ' + this.item.dataGroup;
 
-                if (this.item.chartType === 'list') {
-                    datafunc = this.druidAPI.WorstTasksDelay;
-                } else {
-                    datafunc = this.druidAPI.WorstMonitorsSLA15;
-                }
-
+                    serializer(data, this.item.dataType);
+                    setInterval(() => {
+                        this.druidAPI.dataRetriever.topNWorst(this.item.dataGroup, this.item.dataType, this.item.count, this.item.timeSpan).then(refreshedData => {
+                            serializer(refreshedData, this.item.dataType);
+                        });
+                    }, 5000);
+                });
                 break;
-            case 'esContribution':
-                this.state.legendTitle = 'Contributor';
-                this.state.heading = 'ES contribution';
-                datafunc = this.druidAPI.ESContribution;
 
-                break;
             case 'realTime':
-                this.state.xAxisLabel = 'Time';
-                this.state.yAxisLabel = 'Delay'
-                this.state.heading = 'Losses in monitor #' + this.item.monitorId;
-                datafunc = this.druidAPI.NFLMonitors;
+                this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(data => {
+                    this.state.xAxisLabel = 'Time';
+                    this.state.yAxisLabel = 'Delay';
+                    this.state.heading = 'Losses in monitor #' + this.item.dataSourceID;
 
+                    serializer(data);
+                    setInterval(() => {
+                        this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(refreshedData => {
+                            serializer(refreshedData);
+                        });
+
+                    }, 5000);
+
+                });
                 break;
+
+            case 'esContribution':
+                this.druidAPI.dataRetriever.esContribution(this.item.dataGroup, this.item.timeSpan).then(data => {
+                    this.state.legendTitle = 'Contributor';
+                    this.state.heading = 'ES contribution';
+
+                    serializer(data, "es");
+                    setInterval(() => {
+                        this.druidAPI.dataRetriever.esContribution(this.item.dataGroup, this.item.timeSpan).then(refreshedData => {
+                            serializer(refreshedData, "es");
+                        });
+
+                    }, 5000);
+                });
+                break;
+
             default:
                 datafunc = null;
         }
-
-        serializer(datafunc());
-        setInterval(() => { serializer(datafunc()); }, 5000);
     }
 
     /**
@@ -98,8 +119,8 @@ export class WidgetComponent implements OnInit {
      * Serializes data for a Bar Chart
      * @param data
      */
-    barChartSerializer = (data: any) => {
-        const graphData = data.map((row) => ({'name': '#' + row.ID, 'value': row.Data.SLA}));
+    barChartSerializer = (data: any, measure: string) => {
+        const graphData = data.map((row) => ({'name': '#' + row.ID, 'value': row.Data[measure]}));
         this.state.results = graphData;
     };
 
@@ -107,8 +128,8 @@ export class WidgetComponent implements OnInit {
      * Serializes data for a Doughnut Chart
      * @param data
      */
-    doughnutChartSerializer = (data: any) => {
-        const graphData = data.map((row) => ({'name': '#' + row.ID, 'value': row.Data.ES}));
+    doughnutChartSerializer = (data: any, measure: string) => {
+        const graphData = data.map((row) => ({'name': '#' + row.ID, 'value': row.Data[measure]}));
         this.state.results = graphData;
     };
 
@@ -128,16 +149,16 @@ export class WidgetComponent implements OnInit {
                 name: 'Far',
                 series: DataFar
             }
-            ];
+        ];
     };
 
     /**
      * Serializes data for a List Widget
      * @param data
      */
-    listSerializer = (data: any) => {
+    listSerializer = (data: any, measure: string) => {
         this.state.headers = ['Task', 'Delay (ms)'];
-        this.state.data = data.map((row) => ['#' + row.ID, row.Data.Delay]);
+        this.state.data = data.map((row) => ['#' + row.ID, row.Data[measure]]);
     };
 
 

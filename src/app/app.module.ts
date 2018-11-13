@@ -8,10 +8,12 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyBootstrapModule} from '@ngx-formly/bootstrap';
 import {ChartModule} from 'primeng/chart';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {ToastrModule} from 'ngx-toastr';
 import {NgxSmartModalModule} from 'ngx-smart-modal';
 import {UUID} from 'angular2-uuid';
+import {HttpClientModule} from '@angular/common/http';
+import {HttpModule} from '@angular/http';
 
 //Components
 import {AppComponent} from './app.component';
@@ -34,8 +36,8 @@ import {MiscService} from './services/misc-service/misc.service';
 import {DruidDataService} from './services/druid-data-service/druid-data.service';
 import {ChartBaseService} from './services/chart-base-service/chart-base.service';
 import {FormlyFieldBaseService} from './formly/field-bases/formly-field-base.service';
-import { DatatreeComponent } from './components/datatree/datatree.component';
-import { WidgetListComponent } from './directives/widget-list/widget-list.component';
+import {DatatreeComponent} from './components/datatree/datatree.component';
+import {WidgetListComponent} from './directives/widget-list/widget-list.component';
 
 //Router path template
 const appRoutes: Routes = [
@@ -71,6 +73,8 @@ const appRoutes: Routes = [
             ],
         }),
         FormlyBootstrapModule,
+        HttpClientModule,
+        HttpModule,
         ToastrModule.forRoot(),
         RouterModule.forRoot(appRoutes, {onSameUrlNavigation: 'reload'})
     ],
