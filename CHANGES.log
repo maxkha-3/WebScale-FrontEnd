@@ -29,3 +29,13 @@ Changes:
  - Improved styling of modals
  - Widget forms are now validated before being saved
  - Widget and Dashboard manipulations now require confirmation
+
+ =============================
+ Version 0.0.4 [2018-11-14]
+ =============================
+ - Major bux fixes
+ - Redesigned widget settings
+ - Data is fetched via HTTP GET
+ - Server error detection mechanism
+ - Static monitoring page
+ - Migration to ngx-charts from prime-ng charts

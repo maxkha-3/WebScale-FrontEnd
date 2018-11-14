@@ -1,10 +1,11 @@
 import {Component} from '@angular/core';
 import {LayoutFetchingService} from './services/layout-fetching-service/layout-fetching.service';
 import {Router} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
+import {GlobalService} from './services/global-service/global.service';
 
 import * as _ from 'lodash';
-import {NgxSmartModalService} from 'ngx-smart-modal';
 
 @Component({
     selector: 'app-root',
@@ -16,7 +17,7 @@ export class AppComponent {
     public newLayoutInitiated: boolean;
     public newLayoutName: string;
 
-    constructor(private layoutFetcher: LayoutFetchingService, private router: Router, private toastr: ToastrService, public ngxSmartModalService: NgxSmartModalService) {
+    constructor(private layoutFetcher: LayoutFetchingService, private router: Router, private toastr: ToastrService, public global: GlobalService, private http: HttpClient) {
         //For testing purposes
         if (localStorage.getItem('dashboardLayouts') === null) {
             console.log('No layouts found, adding some test layouts');
@@ -67,4 +68,20 @@ export class AppComponent {
     routeToMonitoring = (sourceType: string) => {
         this.router.navigate(['monitoring', sourceType]);
     };
+
+    /**
+     * Pings the server to see if it is alive
+     */
+    pingServer = () => {
+        if (this.router.url !== "/serverError") {
+            this.http.get(this.global.serverTargetAddressBase + "?dataType=ping").subscribe(data => {
+                if (data != "pong") {
+                    this.router.navigate(['serverError']).then();
+                }
+            },err => {
+                console.error(err);
+                this.router.navigate(['serverError']).then();
+            });
+        }
+    }
 }

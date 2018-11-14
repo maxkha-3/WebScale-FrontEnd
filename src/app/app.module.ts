@@ -23,6 +23,7 @@ import {HomeComponent} from './components/home/home.component';
 import {WidgetListComponent} from './directives/widget-list/widget-list.component';
 import {MonitoringComponent} from './components/monitoring/monitoring.component';
 import {InstanceOverviewComponent} from './components/instance-overview/instance-overview.component';
+import {ServerErrorComponent} from './components/server-error/server-error.component';
 
 //Directives
 import {WidgetComponent} from './directives/widget/widget.component';
@@ -38,7 +39,6 @@ import {DruidDataService} from './services/druid-data-service/druid-data.service
 import {ChartBaseService} from './services/chart-base-service/chart-base.service';
 import {FormlyFieldBaseService} from './formly/field-bases/formly-field-base.service';
 
-
 //Router path template
 const appRoutes: Routes = [
     {path: '', component: HomeComponent},
@@ -46,7 +46,8 @@ const appRoutes: Routes = [
     {path: 'dashboard/:id', component: DashboardComponent},
     {path: 'settings', component: SettingsComponent},
     {path: 'monitoring/:sourceType', component: InstanceOverviewComponent},
-    {path: 'monitoring/:sourceType/:id', component: MonitoringComponent}
+    {path: 'monitoring/:sourceType/:id', component: MonitoringComponent},
+    {path: 'serverError', component: ServerErrorComponent}
 ];
 
 @NgModule({
@@ -59,7 +60,8 @@ const appRoutes: Routes = [
         HomeComponent,
         WidgetListComponent,
         MonitoringComponent,
-        InstanceOverviewComponent
+        InstanceOverviewComponent,
+        ServerErrorComponent
     ],
     imports: [
         BrowserModule,
