@@ -1,25 +1,26 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {GlobalService} from '../global-service/global.service';
 
 @Injectable()
 export class DruidDataService {
 
-    public serverTargetAddressBase = 'http://localhost/kubescale-backend-dummy/api-main.php';
 
-    constructor(private http: HttpClient) {
+
+    constructor(private http: HttpClient, private global: GlobalService) {
     }
 
     public dataRetriever = {
         topNWorst: (selector: string, measure: string, count: number, interval: number): Promise<any> => {
-            let serverTargetAddress = this.serverTargetAddressBase + "?dataType=topNWorst&selector=" + selector + "&measure=" + measure + "&count=" + count +"&interval=" + interval;
+            let serverTargetAddress = this.global.serverTargetAddressBase + "?dataType=topNWorst&selector=" + selector + "&measure=" + measure + "&count=" + count +"&interval=" + interval;
             return this.httpGetter(serverTargetAddress);
         },
         realTime: (selector: string, measure: string, sourceID: string, interval: number): Promise<any> => {
-            let serverTargetAddress = this.serverTargetAddressBase + "?dataType=realTime&selector=" + selector + "&measure=" + measure + "&sourceID=" + sourceID + "&interval=" + interval;
+            let serverTargetAddress = this.global.serverTargetAddressBase + "?dataType=realTime&selector=" + selector + "&measure=" + measure + "&sourceID=" + sourceID + "&interval=" + interval;
             return this.httpGetter(serverTargetAddress);
         },
         esContribution: (selector: string, interval: number): Promise<any> => {
-            let serverTargetAddress = this.serverTargetAddressBase + "?dataType=esContribution&selector=" + selector + "&interval=" + interval;
+            let serverTargetAddress = this.global.serverTargetAddressBase + "?dataType=esContribution&selector=" + selector + "&interval=" + interval;
             return this.httpGetter(serverTargetAddress);
         }
     };
