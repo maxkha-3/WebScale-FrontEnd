@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {DruidDataService} from '../../services/druid-data-service/druid-data.service';
 import {ChartBaseService} from '../../services/chart-base-service/chart-base.service';
 import {NgxSmartModalService} from 'ngx-smart-modal';
@@ -13,12 +13,13 @@ declare var $: any;
     templateUrl: './widget.component.html',
     styleUrls: ['./widget.component.scss']
 })
-export class WidgetComponent implements OnInit {
+export class WidgetComponent implements OnInit, OnDestroy {
 
     @Input() item;
 
     public layout = '';
     public state: any;
+    public interval: number;
 
 
     constructor(private druidAPI: DruidDataService, private chartBase: ChartBaseService, public ngxSmartModalService: NgxSmartModalService) {
@@ -26,6 +27,10 @@ export class WidgetComponent implements OnInit {
 
     ngOnInit() {
         this.initializeWidget();
+    }
+
+    ngOnDestroy() {
+        clearInterval(this.interval);
     }
 
     /**
@@ -67,7 +72,7 @@ export class WidgetComponent implements OnInit {
                     this.state.heading = 'Top ' + this.item.count + ' worst ' + this.item.dataGroup;
 
                     serializer(data, this.item.dataType);
-                    setInterval(() => {
+                    this.interval = setInterval(() => {
                         this.druidAPI.dataRetriever.topNWorst(this.item.dataGroup, this.item.dataType, this.item.count, this.item.timeSpan).then(refreshedData => {
                             serializer(refreshedData, this.item.dataType);
                         });
@@ -82,7 +87,7 @@ export class WidgetComponent implements OnInit {
                     this.state.heading = 'Losses in monitor #' + this.item.dataSourceID;
 
                     serializer(data);
-                    setInterval(() => {
+                    this.interval = setInterval(() => {
                         this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(refreshedData => {
                             serializer(refreshedData);
                         });
@@ -98,7 +103,7 @@ export class WidgetComponent implements OnInit {
                     this.state.heading = 'ES contribution';
 
                     serializer(data, "es");
-                    setInterval(() => {
+                    this.interval = setInterval(() => {
                         this.druidAPI.dataRetriever.esContribution(this.item.dataGroup, this.item.timeSpan).then(refreshedData => {
                             serializer(refreshedData, "es");
                         });

@@ -50,7 +50,7 @@ export class AppComponent {
         this.layoutFetcher.addLayout(_.camelCase(name), _.startCase(name));
         this.newLayoutName = '';
         this.newLayoutInitiated = false;
-        this.router.navigate(['dashboard', _.camelCase(name)]);
+        this.router.navigate(['dashboard', _.camelCase(name)]).then();
     };
 
     /**
@@ -58,7 +58,7 @@ export class AppComponent {
      * @param dashBoardId
      */
     routeToDashboard = (dashBoardId: string) => {
-        this.router.navigate(['dashboard', dashBoardId]);
+        this.router.navigate(['dashboard', dashBoardId]).then();
     };
 
     /**
@@ -66,7 +66,7 @@ export class AppComponent {
      * @param sourceType
      */
     routeToMonitoring = (sourceType: string) => {
-        this.router.navigate(['monitoring', sourceType]);
+        this.router.navigate(['monitoring', sourceType]).then();
     };
 
     /**
