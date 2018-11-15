@@ -58,7 +58,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             if (params['id'] != undefined) {
                 this.currentDashboard = _.startCase(params['id']);
                 this.currentDashboardID = params['id'];
-                this.widgetLayout = this.layoutFetcher.getLayout(_.camelCase(this.currentDashboard));
+                this.widgetLayout = this.layoutFetcher.getLayout(_.camelCase(this.currentDashboard)).sort((a, b) => a.order - b.order);
                 this.validWidgets = this.layoutFetcher.availableWidgets;
                 if (this.widgetLayout == null) {
                     this.router.navigate(['home']);
@@ -83,6 +83,18 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             containerClass: 'board',
             itemClass: 'board-item'
         });
+        let theGrid = this.widgetGrid;
+        let layout = this.widgetLayout;
+
+        this.widgetGrid.on('dragEnd', this.saveNewWidgetOrder);
+    }
+
+    saveNewWidgetOrder = () => {
+        const orderArray = this.widgetGrid.getItems().map((elem, index) => ({order: index + 1, id: elem._element.getAttribute('data-widget-id')}));
+        for (let widget of this.widgetLayout) {
+            widget.order = orderArray.find(x => x.id == widget.ID).order;
+        }
+        this.layoutFetcher.setLayout(this.currentDashboardID, this.widgetLayout);
     }
 
     /**
@@ -114,6 +126,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         widgetProperties.size = JSON.parse(widgetProperties.size);
         widgetProperties.widgetType = widgetType;
         widgetProperties.ID = UUID.UUID();
+        widgetProperties.Order = this.widgetLayout.length + 1;
         this.widgetLayout.push(widgetProperties);
         this.toastr.success("New widget was added!", "Success!");
         this.layoutFetcher.setLayout(this.currentDashboardID, this.widgetLayout);
@@ -313,6 +326,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
      * Resets WidgetSettings modal.
      */
     resetWidgetSettingsModal = (): void => {
+        console.log("hej");
         this.widgetSettingsModalText = "";
         this.widgetSettingsFormFields = [];
         this.widgetSettingsFormModel = {};

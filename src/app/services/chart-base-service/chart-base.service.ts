@@ -62,6 +62,27 @@ export class ChartBaseService {
         };
     };
 
+    /**
+     * Returns base for a Tree Chart
+     */
+    getTreeBase = () => {
+        return {
+            results: [],
+            scheme: 'vivid',
+            gradient: false
+        };
+    };
+
+    /**
+     * Returns base for Number Cards Chart
+     */
+    getNumberCardsBase = () => {
+        return {
+            results: [],
+            scheme: 'vivid'
+        };
+    };
+
     getStackedTimelineBase = () => {
         return {
             results: [],

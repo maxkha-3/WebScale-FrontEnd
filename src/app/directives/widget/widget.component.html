@@ -45,6 +45,29 @@
             </div>
         </div>
 
+        <div class="chart-test" *ngSwitchCase="'tree-chart'">
+            <div class="chart-test-inner">
+                <ngx-charts-tree-map
+                    [view]="state.view"
+                    [results]="state.results"
+                    [scheme]="state.scheme"
+                    [gradient]="state.gradient">
+
+                </ngx-charts-tree-map>
+            </div>
+        </div>
+
+        <div class="chart-test" *ngSwitchCase="'number-cards-chart'">
+            <div class="chart-test-inner">
+                <ngx-charts-number-card
+                    [view]="state.view"
+                    [results]="state.results"
+                    [scheme]="state.scheme">
+
+                </ngx-charts-number-card>
+            </div>
+        </div>
+
         <div class="chart-test" *ngSwitchCase="'line-chart'">
             <div class="chart-test-inner">
                 <ngx-charts-line-chart

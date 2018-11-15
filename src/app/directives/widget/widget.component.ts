@@ -49,6 +49,16 @@ export class WidgetComponent implements OnInit, OnDestroy {
                 this.state = this.chartBase.getDoughnutBase();
                 this.layout = 'pie-chart';
                 break;
+            case 'tree':
+                serializer = this.treeChartSerializer;
+                this.state = this.chartBase.getTreeBase();
+                this.layout = 'tree-chart';
+                break;
+            case 'number_cards':
+                serializer = this.numberCardsChartSerializer;
+                this.state = this.chartBase.getNumberCardsBase();
+                this.layout = 'number-cards-chart';
+                break;
             case 'line':
                 serializer = this.lineChartSerializer;
                 this.state = this.chartBase.getLineBase();
@@ -131,6 +141,24 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * @param data
      */
     barChartSerializer = (data: any, measure: string) => {
+        const graphData = data.map((row) => ({'name': '#' + row.ID, 'value': row.Data[measure]}));
+        this.state.results = graphData;
+    };
+
+    /**
+     * Serializes data for Number Cards Chart
+     * @param data
+     */
+    numberCardsChartSerializer = (data: any, measure: string) => {
+        const graphData = data.map((row) => ({'name': '#' + row.ID, 'value': row.Data[measure]}));
+        this.state.results = graphData;
+    };
+
+    /**
+     * Serializes data for a Tree Chart
+     * @param data
+     */
+    treeChartSerializer = (data: any, measure: string) => {
         const graphData = data.map((row) => ({'name': '#' + row.ID, 'value': row.Data[measure]}));
         this.state.results = graphData;
     };

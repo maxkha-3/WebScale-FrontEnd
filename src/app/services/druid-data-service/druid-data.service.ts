@@ -29,7 +29,6 @@ export class DruidDataService {
     httpGetter = (requestAddress: any): Promise<any> => {
         return new Promise((resolve) => {
             this.http.get(requestAddress).subscribe(data => {
-                console.log(data);
                 resolve(data)
             });
         });

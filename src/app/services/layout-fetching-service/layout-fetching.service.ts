@@ -105,6 +105,14 @@ export class LayoutFetchingService {
                         {
                             type: 'doughnut',
                             name: 'Doughnut chart'
+                        },
+                        {
+                            type: 'tree',
+                            name: 'Tree map'
+                        },
+                        {
+                            type: 'number_cards',
+                            name: 'Number Cards'
                         }
                     ]
                 }
@@ -211,7 +219,8 @@ export class LayoutFetchingService {
                         chartType: 'bar',
                         timeSpan: 60,
                         size: {sm: 12, md: 12, lg: 6, xl: 4},
-                        ID: '541cad2d-936f-eb62-8918-82928d3c9968'
+                        ID: '541cad2d-936f-eb62-8918-82928d3c9968',
+                        order: 1
                     },
                     {
                         widgetType: 'esContribution',
@@ -219,7 +228,8 @@ export class LayoutFetchingService {
                         chartType: 'doughnut',
                         timeSpan: 60,
                         size: {sm: 12, md: 12, lg: 6, xl: 4},
-                        ID: '6afccb76-ed47-9bf2-239f-731f714d5ae9'
+                        ID: '6afccb76-ed47-9bf2-239f-731f714d5ae9',
+                        order: 2
                     },
                     {
                         widgetType: 'realTime',
@@ -229,7 +239,8 @@ export class LayoutFetchingService {
                         dataSourceID: '1023',
                         timeSpan: 60,
                         size: {sm: 12, md: 12, lg: 12, xl: 8},
-                        ID: 'd101f0a6-3dfb-1758-a6c6-3bf83f25000a'
+                        ID: 'd101f0a6-3dfb-1758-a6c6-3bf83f25000a',
+                        order: 3
                     },
                     {
                         widgetType: 'topNWorst',
@@ -239,7 +250,8 @@ export class LayoutFetchingService {
                         chartType: 'list',
                         timeSpan: 60,
                         size: {sm: 12, md: 12, lg: 6, xl: 4},
-                        ID: '30ca3b75-e004-5a27-0820-438452c6a912'
+                        ID: '30ca3b75-e004-5a27-0820-438452c6a912',
+                        order: 4
                     }
                 ]
             },
@@ -255,7 +267,8 @@ export class LayoutFetchingService {
                         chartType: 'bar',
                         timeSpan: 60,
                         size: {sm: 12, md: 12, lg: 6, xl: 4},
-                        ID: 'd19f3606-6b67-7055-3668-a594b098f053'
+                        ID: 'd19f3606-6b67-7055-3668-a594b098f053',
+                        order: 1
                     },
                     {
                         widgetType: 'esContribution',
@@ -263,7 +276,8 @@ export class LayoutFetchingService {
                         chartType: 'doughnut',
                         timeSpan: 60,
                         size: {sm: 12, md: 12, lg: 6, xl: 4},
-                        ID: '43ca3b0b-c63a-19cd-d845-961581735d5d'
+                        ID: '43ca3b0b-c63a-19cd-d845-961581735d5d',
+                        order: 2
                     },
                     {
                         widgetType: 'realTime',
@@ -274,7 +288,8 @@ export class LayoutFetchingService {
                         dataSourceID: '1023',
                         timeSpan: 60,
                         size: {sm: 12, md: 12, lg: 12, xl: 8},
-                        ID: 'a04ae8f1-ae28-5f4a-8668-be4195a0b1ee'
+                        ID: 'a04ae8f1-ae28-5f4a-8668-be4195a0b1ee',
+                        order: 3
                     }
                 ]
             }
