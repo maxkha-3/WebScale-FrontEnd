@@ -4,6 +4,7 @@ import {ChartBaseService} from '../../services/chart-base-service/chart-base.ser
 import {NgxSmartModalService} from 'ngx-smart-modal';
 import {HttpClient} from '@angular/common/http';
 import {d3} from 'd3';
+import {LayoutFetchingService} from '../../services/layout-fetching-service/layout-fetching.service';
 
 declare var jquery: any;
 declare var $: any;
@@ -22,7 +23,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
     public interval: number;
 
 
-    constructor(private druidAPI: DruidDataService, private chartBase: ChartBaseService, public ngxSmartModalService: NgxSmartModalService) {
+    constructor(private druidAPI: DruidDataService, private chartBase: ChartBaseService, public ngxSmartModalService: NgxSmartModalService, private layoutService: LayoutFetchingService) {
     }
 
     ngOnInit() {
@@ -37,35 +38,47 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * Initializes the widgets and refreshed its data
      */
     initializeWidget = () => {
-        let serializer;
+        let serializer, hasXAxis, hasYAxis;
         switch (this.item.chartType) {
             case 'bar':
                 serializer = this.barChartSerializer;
+                hasXAxis = true;
+                hasYAxis = true;
                 this.state = this.chartBase.getBarBase();
                 this.layout = 'bar-chart';
                 break;
             case 'doughnut':
                 serializer = this.doughnutChartSerializer;
+                hasXAxis = false;
+                hasYAxis = false;
                 this.state = this.chartBase.getDoughnutBase();
                 this.layout = 'pie-chart';
                 break;
             case 'tree':
                 serializer = this.treeChartSerializer;
+                hasXAxis = false;
+                hasYAxis = false;
                 this.state = this.chartBase.getTreeBase();
                 this.layout = 'tree-chart';
                 break;
             case 'number_cards':
                 serializer = this.numberCardsChartSerializer;
+                hasXAxis = false;
+                hasYAxis = false;
                 this.state = this.chartBase.getNumberCardsBase();
                 this.layout = 'number-cards-chart';
                 break;
             case 'line':
                 serializer = this.lineChartSerializer;
+                hasXAxis = true;
+                hasYAxis = true;
                 this.state = this.chartBase.getLineBase();
                 this.layout = 'line-chart';
                 break;
             case 'list':
                 serializer = this.listSerializer;
+                hasXAxis = true;
+                hasYAxis = true;
                 this.state = {};
                 this.layout = 'list';
                 break;
@@ -73,13 +86,18 @@ export class WidgetComponent implements OnInit, OnDestroy {
                 break;
         }
 
+        this.state.heading = this.layoutService.availableWidgets.find(x => x.widgetType == this.item.widgetType).headerFunc(this.item);
+        if (hasXAxis) {
+            this.state.xAxisLabel = this.layoutService.availableWidgets.find(x => x.widgetType == this.item.widgetType).xAxisFunc(this.item);
+        }
+        if (hasYAxis) {
+            this.state.yAxisLabel = this.layoutService.availableWidgets.find(x => x.widgetType == this.item.widgetType).yAxisFunc(this.item);
+        }
+
         switch (this.item.widgetType) {
 
             case 'topNWorst':
                 this.druidAPI.dataRetriever.topNWorst(this.item.dataGroup, this.item.dataType, this.item.count, this.item.timeSpan).then(data => {
-                    this.state.xAxisLabel = 'Monitor';
-                    this.state.yAxisLabel = 'SLA';
-                    this.state.heading = 'Top ' + this.item.count + ' worst ' + this.item.dataGroup;
 
                     serializer(data, this.item.dataType);
                     this.interval = setInterval(() => {
@@ -92,9 +110,6 @@ export class WidgetComponent implements OnInit, OnDestroy {
 
             case 'realTime':
                 this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(data => {
-                    this.state.xAxisLabel = 'Time';
-                    this.state.yAxisLabel = 'Delay';
-                    this.state.heading = 'Losses in monitor #' + this.item.dataSourceID;
 
                     serializer(data);
                     this.interval = setInterval(() => {
@@ -109,8 +124,6 @@ export class WidgetComponent implements OnInit, OnDestroy {
 
             case 'esContribution':
                 this.druidAPI.dataRetriever.esContribution(this.item.dataGroup, this.item.timeSpan).then(data => {
-                    this.state.legendTitle = 'Contributor';
-                    this.state.heading = 'ES contribution';
 
                     serializer(data, "es");
                     this.interval = setInterval(() => {
@@ -196,7 +209,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * @param data
      */
     listSerializer = (data: any, measure: string) => {
-        this.state.headers = ['Task', 'Delay (ms)'];
+        this.state.headers = [this.state.xAxisLabel, this.state.yAxisLabel];
         this.state.data = data.map((row) => ['#' + row.ID, row.Data[measure]]);
     };
 

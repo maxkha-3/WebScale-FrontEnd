@@ -14,6 +14,16 @@ export class LayoutFetchingService {
         {
             widgetType: 'topNWorst',
             widgetName: 'Top N Worst',
+            headerFunc: function(w) {
+                return `Top ${w.count} Worst ${this.options[0].choices.find(x => x.type == w.dataGroup).name} (${w.timeSpan} min)`;
+            },
+            xAxisFunc: function(w) {
+                return  this.options[0].choices.find(x => x.type == w.dataGroup).name.slice(0, -1);
+            },
+            yAxisFunc: function(w) {
+                let opt = this.options[1].choices.find(x => x.type == w.dataType);
+                return `${opt.name} (${opt.unit})`;
+            },
             options: [
                 {
                     heading: 'Selector',
@@ -39,15 +49,18 @@ export class LayoutFetchingService {
                     choices: [
                         {
                             type: 'sla',
-                            name: 'SLA'
+                            name: 'SLA',
+                            unit: '%'
                         },
                         {
                             type: 'delay',
-                            name: 'Delay'
+                            name: 'Delay',
+                            unit: 'ms'
                         },
                         {
                             type: 'es',
-                            name: 'Error seconds'
+                            name: 'Error seconds',
+                            unit: 's'
                         }
                     ]
                 },
@@ -69,12 +82,20 @@ export class LayoutFetchingService {
                     heading: 'Entries',
                     type: 'count'
                 }
-            ],
-            heading: 'Top 10 worst monitors (SLA)'
+            ]
         },
         {
             widgetType: 'esContribution',
             widgetName: 'ES Contribution',
+            headerFunc: function(w) {
+                return w.dataGroup == 'all' ? `ES Contribution (${w.timeSpan} min)` : `ESC ${this.options[0].choices.find(x => x.type == w.dataGroup).name} (${w.timeSpan} min)`;
+            },
+            xAxisFunc: function(w) {
+                return  'Not created';
+            },
+            yAxisFunc: function(w) {
+                return 'Not created';
+            },
             options: [
                 {
                     heading: 'Selector',
@@ -116,12 +137,21 @@ export class LayoutFetchingService {
                         }
                     ]
                 }
-            ],
-            heading: 'ES contribution'
+            ]
         },
         {
             widgetType: 'realTime',
             widgetName: 'Real-Time',
+            headerFunc: function(w) {
+                return `${this.options[2].choices.find(x => x.type == w.dataType).name} in ${this.options[0].choices.find(x => x.type == w.dataGroup).name} ${w.dataSourceID} (${w.timeSpan} min)`;
+            },
+            xAxisFunc: function(w) {
+                return  'Time';
+            },
+            yAxisFunc: function(w) {
+                let opt = this.options[2].choices.find(x => x.type == w.dataType);
+                return `${opt.name} (${opt.unit})`;
+            },
             options: [
                 {
                     heading: 'Selector',
@@ -151,15 +181,18 @@ export class LayoutFetchingService {
                     choices: [
                         {
                             type: 'sla',
-                            name: 'SLA'
+                            name: 'SLA',
+                            unit: '%'
                         },
                         {
                             type: 'delay',
-                            name: 'Delay'
+                            name: 'Delay',
+                            unit: 'ms'
                         },
                         {
                             type: 'es',
-                            name: 'Error seconds'
+                            name: 'Error seconds',
+                            unit: 's'
                         }
                     ]
                 },
@@ -173,8 +206,7 @@ export class LayoutFetchingService {
                         }
                     ]
                 }
-            ],
-            heading: 'Losses in monitor #'
+            ]
         },
     ];
 
