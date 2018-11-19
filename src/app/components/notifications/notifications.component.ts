@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {EventServerService} from '../../services/event-server-service/event-server.service';
 
 @Component({
     selector: 'app-notifications',
@@ -7,10 +8,17 @@ import {Component, OnInit} from '@angular/core';
 })
 export class NotificationsComponent implements OnInit {
 
-    constructor() {
+    public notifications: Array<any>;
+
+    constructor(private eventFetcher: EventServerService) {
     }
 
     ngOnInit() {
+        this.getNotifications();
+    }
+
+    getNotifications = () => {
+        this.notifications = this.eventFetcher.getEventNotifications();
     }
 
 }

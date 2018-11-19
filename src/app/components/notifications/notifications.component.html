@@ -1,30 +1,18 @@
 <table class="table">
     <thead>
     <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
+        <th scope="col">Notification</th>
+        <th scope="col">Severity</th>
+        <th scope="col">Acknowledge</th>
+        <th scope="col">Clear</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-    </tr>
-    <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-    </tr>
-    <tr>
-        <th scope="row">3</th>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
+    <tr *ngFor="let notification of notifications">
+        <th scope="row">{{notification.text}}</th>
+        <td>{{notification.severity}}</td>
+        <td><i class="fa fa-thumbs-up"></i></td>
+        <td><i class="fa fa-remove"></i></td>
     </tr>
     </tbody>
 </table>
