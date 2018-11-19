@@ -40,8 +40,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     public acceptWidgetActionModalArgument: any;
 
-    constructor(private global: GlobalService, private route: ActivatedRoute, private router: Router, private layoutFetcher: LayoutFetchingService,
-                private toastr: ToastrService, public ngxSmartModalService: NgxSmartModalService, private formlyFieldBase: FormlyFieldBaseService) {
+    constructor(private global: GlobalService, private route: ActivatedRoute, private router: Router, private layoutFetcher: LayoutFetchingService, private toastr: ToastrService, public ngxSmartModalService: NgxSmartModalService, private formlyFieldBase: FormlyFieldBaseService) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
 
         this.newWidgetForm = new FormGroup({});
@@ -61,7 +60,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
                 this.widgetLayout = this.layoutFetcher.getLayout(_.camelCase(this.currentDashboard)).sort((a, b) => a.order - b.order);
                 this.validWidgets = this.layoutFetcher.availableWidgets;
                 if (this.widgetLayout == null) {
-                    this.router.navigate(['home']);
+                    this.router.navigate(['home']).then();
                 }
             }
         });
@@ -83,19 +82,20 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             containerClass: 'board',
             itemClass: 'board-item'
         });
-        let theGrid = this.widgetGrid;
-        let layout = this.widgetLayout;
 
         this.widgetGrid.on('dragEnd', this.saveNewWidgetOrder);
     }
 
+    /**
+     * Save the dashboard layout's grid order.
+     */
     saveNewWidgetOrder = () => {
         const orderArray = this.widgetGrid.getItems().map((elem, index) => ({order: index + 1, id: elem._element.getAttribute('data-widget-id')}));
         for (let widget of this.widgetLayout) {
             widget.order = orderArray.find(x => x.id == widget.ID).order;
         }
         this.layoutFetcher.setLayout(this.currentDashboardID, this.widgetLayout);
-    }
+    };
 
     /**
      * Removes widget from a dashboard layout.
@@ -189,29 +189,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         }
         chartTimeField['defaultValue'] = chartTimeField.templateOptions.options[0].value;
         this.newWidgetFormFields = [...this.newWidgetFormFields, chartTimeField];
-
-        /*if (widgetTypeBase.hasOwnProperty("chartTypes")) {
-            let chartTypeField = this.formlyFieldBase.getSelectBase('chartType', 'Chart Type', true, false);
-
-            //append chart types to the select formly field
-            for (let chartType of widgetTypeBase.chartTypes) {
-                chartTypeField.templateOptions.options.push({label: _.startCase(chartType), value: chartType});
-            }
-
-            //append to the formFields object
-            this.newWidgetFormFields = [...this.newWidgetFormFields, chartTypeField];
-        }
-
-        if (widgetTypeBase.hasOwnProperty("dependencies")) {
-            //append dependencies to the form object
-            for (let dependencyType of widgetTypeBase.dependencies) {
-                let dependency = this.layoutFetcher.getDependency(dependencyType);
-                let dependencyField = this.formlyFieldBase.getInputBase(dependency.dependencyType, dependency.dependencyName, true, false);
-
-                //append to the formFields object
-                this.newWidgetFormFields = [...this.newWidgetFormFields, dependencyField];
-            }
-        }*/
     };
 
     /**
@@ -326,7 +303,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
      * Resets WidgetSettings modal.
      */
     resetWidgetSettingsModal = (): void => {
-        console.log("hej");
+        this.widgetSettingsForm = new FormGroup({});
         this.widgetSettingsModalText = "";
         this.widgetSettingsFormFields = [];
         this.widgetSettingsFormModel = {};
