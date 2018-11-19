@@ -24,6 +24,8 @@ import {WidgetListComponent} from './directives/widget-list/widget-list.componen
 import {MonitoringComponent} from './components/monitoring/monitoring.component';
 import {InstanceOverviewComponent} from './components/instance-overview/instance-overview.component';
 import {ServerErrorComponent} from './components/server-error/server-error.component';
+import {NotificationsComponent} from './components/notifications/notifications.component';
+
 
 //Directives
 import {WidgetComponent} from './directives/widget/widget.component';
@@ -38,6 +40,7 @@ import {MiscService} from './services/misc-service/misc.service';
 import {DruidDataService} from './services/druid-data-service/druid-data.service';
 import {ChartBaseService} from './services/chart-base-service/chart-base.service';
 import {FormlyFieldBaseService} from './formly/field-bases/formly-field-base.service';
+import {EventServerService} from './services/event-server-service/event-server.service';
 
 //Router path template
 const appRoutes: Routes = [
@@ -47,7 +50,8 @@ const appRoutes: Routes = [
     {path: 'settings', component: SettingsComponent},
     {path: 'monitoring/:sourceType', component: InstanceOverviewComponent},
     {path: 'monitoring/:sourceType/:id', component: MonitoringComponent},
-    {path: 'serverError', component: ServerErrorComponent}
+    {path: 'serverError', component: ServerErrorComponent},
+    {path: 'notifications', component: NotificationsComponent}
 ];
 
 @NgModule({
@@ -61,7 +65,8 @@ const appRoutes: Routes = [
         WidgetListComponent,
         MonitoringComponent,
         InstanceOverviewComponent,
-        ServerErrorComponent
+        ServerErrorComponent,
+        NotificationsComponent
     ],
     imports: [
         BrowserModule,
@@ -91,6 +96,7 @@ const appRoutes: Routes = [
         MiscService,
         ChartBaseService,
         FormlyFieldBaseService,
+        EventServerService,
         UUID
     ],
     bootstrap: [AppComponent]

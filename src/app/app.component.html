@@ -7,7 +7,7 @@
     <header class="main-header">
 
         <!-- Logo -->
-        <a href="index2.html" class="logo">
+        <a (click)="routeToComponent('home')" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><i class="fa fa-cube"></i></span>
             <!-- logo for regular state and mobile devices -->
@@ -31,21 +31,16 @@
                             <i class="fa fa-bell-o"></i>
                             <span class="badge  badge-warning">3</span>
                         </a>
+                        <!--TODO: integrate different colors according to severity-->
                         <ul class="dropdown-menu dropdown-menu-right" style="white-space: normal;">
-                            <li class="dropdown-header">You currently have 3 new notifications</li>
+                            <li class="dropdown-header">You currently have {{notifications.length}} new notifications</li>
                             <li class="dropdown-divider"></li>
-                            <li class="list-group-item list-group-item-warning list-group-item-action text-nowrap">
-                                <i class="fa fa-area-chart"></i> Monitor #2432 close to SLA boundary
-                            </li>
-                            <li class="list-group-item list-group-item-danger list-group-item-action text-nowrap">
-                                <i class="fa fa-area-chart"></i> Monitor #263 exceeded SLA boundary
-                            </li>
-                            <li class="list-group-item list-group-item-danger list-group-item-action text-nowrap">
-                                <i class="fa fa-server"></i> Agent #5432 appears to be down
+                            <li *ngFor="let notification of notifications" class="list-group-item list-group-item-warning list-group-item-action text-nowrap">
+                                <i class="fa fa-area-chart"></i> {{notification.text}}
                             </li>
                             <li class="dropdown-divider"></li>
                             <li class="dropdown-item text-center">
-                                View all
+                                <a (click)="routeToComponent('notifications')"><i class="fa fa-bell"></i> <span>View all</span></a>
                             </li>
                         </ul>
                     </li>
@@ -93,8 +88,9 @@
                         <li><a (click)="routeToMonitoring('tasks')"><i class="fa fa-circle-o"></i> Tasks</a></li>
                     </ul>
                 </li>
-                <li class="active"><a routerLink="analytics"><i class="fa fa-bar-chart"></i> <span>Analytics</span></a></li>
-                <li class="active"><a routerLink="settings"><i class="fa fa-cogs"></i> <span>Settings</span></a></li>
+                <li class="active"><a (click)="routeToComponent('analytics')"><i class="fa fa-bar-chart"></i> <span>Analytics</span></a></li>
+                <li class="active"><a (click)="routeToComponent('notifications')"><i class="fa fa-bell"></i> <span>Notifications</span></a></li>
+                <li class="active"><a (click)="routeToComponent('settings')"><i class="fa fa-cogs"></i> <span>Settings</span></a></li>
             </ul>
         </section>
     </aside>

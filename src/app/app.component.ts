@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
 import {GlobalService} from './services/global-service/global.service';
+import {EventServerService} from './services/event-server-service/event-server.service';
 
 import * as _ from 'lodash';
 
@@ -16,8 +17,9 @@ export class AppComponent {
     public dashboardLayouts: Array<any>;
     public newLayoutInitiated: boolean;
     public newLayoutName: string;
+    public notifications: Array<any>;
 
-    constructor(private layoutFetcher: LayoutFetchingService, private router: Router, private toastr: ToastrService, public global: GlobalService, private http: HttpClient) {
+    constructor(private layoutFetcher: LayoutFetchingService, private router: Router, private toastr: ToastrService, public global: GlobalService, private http: HttpClient, private eventFetcher: EventServerService) {
         //For testing purposes
         if (localStorage.getItem('dashboardLayouts') === null) {
             console.log('No layouts found, adding some test layouts');
@@ -25,6 +27,7 @@ export class AppComponent {
             this.layoutFetcher.saveLayouts();
         }
         this.dashboardLayouts = this.layoutFetcher.getAvailableLayouts();
+        this.notifications = this.eventFetcher.getEventNotifications();
         this.newLayoutInitiated = false;
 
         this.layoutFetcher.layoutsUpdated.subscribe(() => {
@@ -67,6 +70,14 @@ export class AppComponent {
      */
     routeToMonitoring = (sourceType: string) => {
         this.router.navigate(['monitoring', sourceType]).then();
+    };
+
+    /**
+     * Routes to specific component.
+     * @param componentName
+     */
+    routeToComponent = (componentName: string) => {
+        this.router.navigate([componentName]).then();
     };
 
     /**
