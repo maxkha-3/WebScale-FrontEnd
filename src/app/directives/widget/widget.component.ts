@@ -82,6 +82,12 @@ export class WidgetComponent implements OnInit, OnDestroy {
                 this.state = {};
                 this.layout = 'list';
                 break;
+            case 'map':
+                this.layout = 'map';
+                this.state = {};
+                hasXAxis = false;
+                hasYAxis = false;
+                break;
             default:
                 break;
         }
@@ -133,6 +139,9 @@ export class WidgetComponent implements OnInit, OnDestroy {
 
                     }, 5000);
                 });
+                break;
+
+            case 'geo':
                 break;
 
             default:

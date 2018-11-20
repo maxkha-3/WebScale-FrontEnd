@@ -14,6 +14,8 @@ import {NgxSmartModalModule} from 'ngx-smart-modal';
 import {UUID} from 'angular2-uuid';
 import {HttpClientModule} from '@angular/common/http';
 import {HttpModule} from '@angular/http';
+import {LeafletModule} from '@asymmetrik/ngx-leaflet';
+import {LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster';
 
 //Components
 import {AppComponent} from './app.component';
@@ -24,6 +26,7 @@ import {WidgetListComponent} from './directives/widget-list/widget-list.componen
 import {MonitoringComponent} from './components/monitoring/monitoring.component';
 import {InstanceOverviewComponent} from './components/instance-overview/instance-overview.component';
 import {ServerErrorComponent} from './components/server-error/server-error.component';
+import { WidgetGeoComponent } from './directives/widget-geo/widget-geo.component';
 
 //Directives
 import {WidgetComponent} from './directives/widget/widget.component';
@@ -61,7 +64,8 @@ const appRoutes: Routes = [
         WidgetListComponent,
         MonitoringComponent,
         InstanceOverviewComponent,
-        ServerErrorComponent
+        ServerErrorComponent,
+        WidgetGeoComponent
     ],
     imports: [
         BrowserModule,
@@ -73,6 +77,8 @@ const appRoutes: Routes = [
         FormlyBootstrapModule,
         HttpClientModule,
         HttpModule,
+        LeafletModule.forRoot(),
+        LeafletMarkerClusterModule.forRoot(),
         NgxSmartModalModule.forRoot(),
         FormlyModule.forRoot({
             wrappers: [{name: 'form-field-horizontal', component: FormlyHorizontalWrapper}],

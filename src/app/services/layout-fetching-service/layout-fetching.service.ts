@@ -85,6 +85,31 @@ export class LayoutFetchingService {
             ]
         },
         {
+            widgetType: 'geo',
+            widgetName: 'Geographic',
+            headerFunc: function(w) {
+                return `none`;
+            },
+            xAxisFunc: function(w) {
+                return  'none';
+            },
+            yAxisFunc: function(w) {
+                return `none`;
+            },
+            options: [
+                {
+                    heading: 'Chart Type',
+                    type: 'chartType',
+                    choices: [
+                        {
+                            type: 'map',
+                            name: 'Map'
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             widgetType: 'esContribution',
             widgetName: 'ES Contribution',
             headerFunc: function(w) {
