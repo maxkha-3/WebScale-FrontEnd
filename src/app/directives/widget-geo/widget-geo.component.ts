@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
+import {MarkerOptions} from 'leaflet';
 
 @Component({
   selector: 'app-widget-geo',
@@ -15,7 +16,8 @@ export class WidgetGeoComponent implements OnInit {
     public options;
     public bounds;
     public cluster: any[];
-    public clusteroptions: L.MarkerClusterGroupOptions;
+    public clusteroptions: L.MarkerClusterGroupOptions = {};
+    public markerstatus: any = {};
 
   constructor() { }
 
@@ -30,11 +32,31 @@ export class WidgetGeoComponent implements OnInit {
 
       this.cluster = [];
       for (let i = 0; i < 100; i++) {
-          this.cluster.push(L.marker(rnd()));
+          let a = L.marker(rnd(), {icon: L.divIcon({html: '', className: i % 10 == 0 ? 'my-marker-red' : 'my-marker-green', iconSize: new L.Point(20, 20)})});
+          a.bindPopup('<b>Reflector ###</b><br>Some more info perhaps.');
+          a.bindTooltip('Reflector ###');
+          if( i % 10 == 0) {
+              a.options['violate'] = true;
+          } else {
+              a.options['violate'] = false;
+          }
+          this.cluster.push(a);
       }
 
       this.bounds = L.latLngBounds(TL, BR);
-      // this.clusteroptions.
+      this.clusteroptions.iconCreateFunction = function(cluster) {
+          let children = cluster.getAllChildMarkers();
+          let className = 'my-cluster-green';
+
+          for(let i = 0; i < children.length; i++){
+              if(children[i].options['violate']) {
+                  className = 'my-cluster-red';
+                  break;
+              }
+          }
+
+          return L.divIcon({ html: '<div>' + cluster.getChildCount() + '</div>', className: className, iconSize: new L.Point(40, 40) });
+      };
 
         this.options = {
             layers: [
