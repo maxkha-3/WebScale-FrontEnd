@@ -20,15 +20,16 @@ import {AppComponent} from './app.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {SettingsComponent} from './components/settings/settings.component';
 import {HomeComponent} from './components/home/home.component';
-import {WidgetListComponent} from './directives/widget-list/widget-list.component';
-import {MonitoringComponent} from './components/monitoring/monitoring.component';
 import {InstanceOverviewComponent} from './components/instance-overview/instance-overview.component';
 import {ServerErrorComponent} from './components/server-error/server-error.component';
 import {NotificationsComponent} from './components/notifications/notifications.component';
-
+import {MonitorOverviewComponent} from './components/instance-overview/monitor-overview/monitor-overview.component';
+import {TaskOverviewComponent} from './components/instance-overview/task-overview/task-overview.component';
+import {StreamOverviewComponent} from './components/instance-overview/stream-overview/stream-overview.component';
 
 //Directives
 import {WidgetComponent} from './directives/widget/widget.component';
+import {WidgetListComponent} from './directives/widget-list/widget-list.component';
 
 //Formly Wrappers
 import {FormlyHorizontalWrapper} from './formly/wrappers/horizontal-wrapper';
@@ -49,7 +50,9 @@ const appRoutes: Routes = [
     {path: 'dashboard/:id', component: DashboardComponent},
     {path: 'settings', component: SettingsComponent},
     {path: 'monitoring/:sourceType', component: InstanceOverviewComponent},
-    {path: 'monitoring/:sourceType/:id', component: MonitoringComponent},
+    {path: 'monitoring/monitors/:id', component: MonitorOverviewComponent},
+    {path: 'monitoring/tasks/:id', component: TaskOverviewComponent},
+    {path: 'monitoring/streams/:id', component: StreamOverviewComponent},
     {path: 'serverError', component: ServerErrorComponent},
     {path: 'notifications', component: NotificationsComponent}
 ];
@@ -63,10 +66,12 @@ const appRoutes: Routes = [
         FormlyHorizontalWrapper,
         HomeComponent,
         WidgetListComponent,
-        MonitoringComponent,
         InstanceOverviewComponent,
         ServerErrorComponent,
-        NotificationsComponent
+        NotificationsComponent,
+        MonitorOverviewComponent,
+        TaskOverviewComponent,
+        StreamOverviewComponent
     ],
     imports: [
         BrowserModule,

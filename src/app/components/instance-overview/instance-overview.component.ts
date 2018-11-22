@@ -24,7 +24,7 @@ export class InstanceOverviewComponent implements OnInit {
     }
 
     routeToInstance = (sourceType: string, sourceID : string) => {
-        this.router.navigate(['monitoring', sourceType, sourceID]).then();
+        this.router.navigate(['monitoring/' + sourceType, sourceID]).then();
     }
 
 }
