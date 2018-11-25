@@ -71,7 +71,7 @@ const appRoutes: Routes = [
         WidgetListComponent,
         InstanceOverviewComponent,
         ServerErrorComponent,
-        WidgetGeoComponent
+        WidgetGeoComponent,
         ServerErrorComponent,
         NotificationsComponent,
         MonitorOverviewComponent,

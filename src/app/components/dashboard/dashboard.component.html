@@ -1,13 +1,14 @@
 <!-- Example single danger button -->
-<div class="dashboard-menu-container">
+<div class="dashboard-menu-container hide-in-fullscreen">
     <h2 class="dashboard-heading"><span class="badge badge-dark">{{currentDashboard}}</span></h2>
 
     <!--button type="button" class="btn btn-dark btn-sm" (click)="saveLayout()"><i class="fa fa-save"></i> Save Layout</button-->
     <button type="button" class="btn btn-success btn-sm" (click)="openNewWidgetModal()"><i class="fa fa-plus"></i> Add Widget</button>
     <button type="button" class="btn btn-danger btn-sm" (click)="openAcceptWidgetActionModal(deleteDashboard, currentDashboardID)"><i class="fa fa-remove"></i> Remove Layout</button>
+    <button type="button" class="btn btn-info btn-sm" (click)="setFullscreen()"><i class="fa fa-expand"></i> Fullscreen</button>
 </div>
 
-<div class="board">
+<div class="board" >
     <div class="board-item p-2 m-0 col-sm-{{widget.size.sm}} col-md-{{widget.size.md}} col-lg-{{widget.size.lg}} col-xl-{{widget.size.xl}}" attr.data-widget-id="{{widget.ID}}" *ngFor="let widget of widgetLayout">
         <div class="board-item-content shadow">
             <app-widget [item]="widget"></app-widget>

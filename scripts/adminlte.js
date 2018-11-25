@@ -12,6 +12,8 @@
 * @license MIT <http://opensource.org/licenses/MIT>
 */
 
+var windowResizeEvent = new Event('resize');
+
 // Make sure jQuery has been loaded
 if (typeof jQuery === 'undefined') {
 throw new Error('AdminLTE requires jQuery')
@@ -748,6 +750,11 @@ throw new Error('AdminLTE requires jQuery')
   };
 
   PushMenu.prototype.init = function () {
+
+      $(".content-wrapper").on('transitionend', () => {
+          window.dispatchEvent(windowResizeEvent);
+      });
+
     if (this.options.expandOnHover
       || ($('body').is(Selector.mini + Selector.layoutFixed))) {
       this.expandOnHover();

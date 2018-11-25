@@ -87,6 +87,23 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
 
     /**
+     * Indicates an initiation of new layout creation, when 'status' is true. Aborts if 'status' is false.
+     * @param status
+     */
+    setFullscreen = (): void => {
+        var elem: any = document.getElementsByTagName('body')[0];
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+            elem.msRequestFullscreen();
+        } else if (elem.mozRequestFullScreen) {
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) {
+            elem.webkitRequestFullscreen();
+        }
+    };
+
+    /**
      * Save the dashboard layout's grid order.
      */
     saveNewWidgetOrder = () => {

@@ -69,3 +69,11 @@ hr {
 
 }
 
+:fullscreen .hide-in-fullscreen{
+    display: none;
+}
+
+:fullscreen .content-wrapper{
+    margin-left: 0;
+}
+
