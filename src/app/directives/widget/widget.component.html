@@ -7,7 +7,7 @@
     <div class="widget-content" [ngSwitch]="layout">
         <p-chart [type]="state.type" [data]="state.data" [options]="state.options" *ngSwitchCase="'chart'"></p-chart>
 
-        <app-widget-list [item]="state" *ngSwitchCase="'list'"></app-widget-list>
+        <app-widget-list [item]="state.data" [options]="state.listOptions" *ngSwitchCase="'list'"></app-widget-list>
 
         <div class="chart-test" *ngSwitchCase="'bar-chart'">
             <div class="chart-test-inner">
@@ -89,7 +89,7 @@
 
         <div class="chart-test" *ngSwitchCase="'map'">
             <div class="chart-test-inner">
-                <app-widget-geo></app-widget-geo>
+                <app-widget-geo [data]="state.data" [context]="state.mapOptions"></app-widget-geo>
             </div>
         </div>
     </div>

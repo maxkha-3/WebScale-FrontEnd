@@ -79,12 +79,26 @@ export class WidgetComponent implements OnInit, OnDestroy {
                 serializer = this.listSerializer;
                 hasXAxis = true;
                 hasYAxis = true;
-                this.state = {};
+                this.state = {
+                    data: {},
+                    listOptions: {
+                        count: this.item.count
+                    }
+                };
                 this.layout = 'list';
                 break;
             case 'map':
+                serializer = this.mapSerializer;
                 this.layout = 'map';
                 this.state = {};
+                this.state.mapOptions = {
+                    bounds: {
+                        fromLat: this.item.fromLat,
+                        toLat: this.item.toLat,
+                        fromLng: this.item.fromLng,
+                        toLng: this.item.toLng,
+                    }
+                };
                 hasXAxis = false;
                 hasYAxis = false;
                 break;
@@ -142,6 +156,16 @@ export class WidgetComponent implements OnInit, OnDestroy {
                 break;
 
             case 'geo':
+                this.druidAPI.GeographicOverview(this.item.fromLat, this.item.fromLng, this.item.toLat, this.item.toLng).then(data => {
+                    serializer(data);
+
+                    this.interval = setInterval(() => {
+                        this.druidAPI.GeographicOverview(this.item.fromLat, this.item.fromLng, this.item.toLat, this.item.toLng).then(refreshedData => {
+                            serializer(refreshedData);
+                        });
+
+                    }, 5000);
+                });
                 break;
 
             default:
@@ -218,8 +242,17 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * @param data
      */
     listSerializer = (data: any, measure: string) => {
-        this.state.headers = [this.state.xAxisLabel, this.state.yAxisLabel];
+        this.state.listOptions.headers = [this.state.xAxisLabel, this.state.yAxisLabel];
         this.state.data = data.map((row) => ['#' + row.ID, row.Data[measure]]);
+    };
+
+    /**
+     * Serializes data for a Map Widget
+     * @param data
+     */
+    mapSerializer = (data: any) => {
+
+        this.state.data = data;
     };
 
 

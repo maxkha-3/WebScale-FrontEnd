@@ -1,12 +1,27 @@
 <table class="table table-striped  text-center">
+    <ng-container *ngIf="!isLoading">
     <thead>
     <tr>
-        <th *ngFor="let value of item.headers">{{value}}</th>
+        <th *ngFor="let value of options.headers">{{value}}</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let row of item.data">
+    <tr *ngFor="let row of item">
         <td *ngFor="let value of row">{{value}}</td>
     </tr>
     </tbody>
+    </ng-container>
+
+    <ng-container *ngIf="isLoading">
+        <thead>
+        <tr>
+            <th>Loading</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let row of loadingArray">
+            <td>...</td>
+        </tr>
+        </tbody>
+    </ng-container>
 </table>

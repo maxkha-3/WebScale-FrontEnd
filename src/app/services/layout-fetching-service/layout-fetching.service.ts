@@ -106,7 +106,23 @@ export class LayoutFetchingService {
                             name: 'Map'
                         }
                     ]
-                }
+                },
+                {
+                    heading: 'From Latitude',
+                    type: 'fromLat'
+                },
+                {
+                    heading: 'To Latitude',
+                    type: 'toLat'
+                },
+                {
+                    heading: 'From Longitude',
+                    type: 'fromLng'
+                },
+                {
+                    heading: 'To Longitude',
+                    type: 'toLng'
+                },
             ]
         },
         {
@@ -277,7 +293,7 @@ export class LayoutFetchingService {
                         timeSpan: 60,
                         size: {sm: 12, md: 12, lg: 6, xl: 4},
                         ID: '541cad2d-936f-eb62-8918-82928d3c9968',
-                        order: 1
+                        order: 5
                     },
                     {
                         widgetType: 'esContribution',
@@ -309,6 +325,18 @@ export class LayoutFetchingService {
                         size: {sm: 12, md: 12, lg: 6, xl: 4},
                         ID: '30ca3b75-e004-5a27-0820-438452c6a912',
                         order: 4
+                    },
+                    {
+                        widgetType: 'geo',
+                        chartType: 'map',
+                        fromLat: 65.594954,
+                        toLat: 65.574413,
+                        fromLng: 22.113728,
+                        toLng: 22.179343,
+                        timeSpan: 60,
+                        size: {sm: 12, md: 12, lg: 6, xl: 4},
+                        ID: '30ca3b75-e004-5a27-0820-438452c6a222',
+                        order: 1
                     }
                 ]
             },

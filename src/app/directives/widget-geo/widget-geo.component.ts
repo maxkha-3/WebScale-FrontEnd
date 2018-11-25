@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import {MarkerOptions} from 'leaflet';
@@ -9,41 +9,28 @@ import {MarkerOptions} from 'leaflet';
   styleUrls: ['./widget-geo.component.scss']
 })
 
-export class WidgetGeoComponent implements OnInit {
+export class WidgetGeoComponent implements OnInit, OnChanges {
 
-    @Input() item;
+    @Input() data;
+    @Input() context;
 
     public options;
     public bounds;
-    public cluster: any[];
+    public cluster: any[] = [];
     public clusteroptions: L.MarkerClusterGroupOptions = {};
     public markerstatus: any = {};
 
   constructor() { }
 
   ngOnInit() {
-      const TL = L.latLng(65.594954, 22.113728);
-      const BR = L.latLng(65.574413, 22.179343);
-      let rnd = function(){
-          let lat = BR.lat + (TL.lat - BR.lat)*Math.random();
-          let lng = TL.lng + (BR.lng - TL.lng)*Math.random();
-          return L.latLng(lat, lng);
+      this.options = {
+          layers: [
+              L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
+          ],
+          zoom: 5,
+          center: L.latLng(46.879966, -121.726909)
       };
 
-      this.cluster = [];
-      for (let i = 0; i < 100; i++) {
-          let a = L.marker(rnd(), {icon: L.divIcon({html: '', className: i % 10 == 0 ? 'my-marker-red' : 'my-marker-green', iconSize: new L.Point(20, 20)})});
-          a.bindPopup('<b>Reflector ###</b><br>Some more info perhaps.');
-          a.bindTooltip('Reflector ###');
-          if( i % 10 == 0) {
-              a.options['violate'] = true;
-          } else {
-              a.options['violate'] = false;
-          }
-          this.cluster.push(a);
-      }
-
-      this.bounds = L.latLngBounds(TL, BR);
       this.clusteroptions.iconCreateFunction = function(cluster) {
           let children = cluster.getAllChildMarkers();
           let className = 'my-cluster-green';
@@ -58,13 +45,33 @@ export class WidgetGeoComponent implements OnInit {
           return L.divIcon({ html: '<div>' + cluster.getChildCount() + '</div>', className: className, iconSize: new L.Point(40, 40) });
       };
 
-        this.options = {
-            layers: [
-                L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
-            ],
-            zoom: 5,
-            center: L.latLng(46.879966, -121.726909)
-        };
+      this.bounds = L.latLngBounds(L.latLng(this.context.bounds.fromLat, this.context.bounds.fromLng), L.latLng(this.context.bounds.toLat, this.context.bounds.toLng));
   }
+
+  ngOnChanges(changes: SimpleChanges) {
+      if(changes.data.firstChange)
+          return;
+
+      this.cluster = [];
+      for (let reflector of changes.data.currentValue) {
+          let a = L.marker(L.latLng(reflector.lat, reflector.lng), {icon: L.divIcon({html: '', className: reflector.breachedSLA ? 'my-marker-red' : 'my-marker-green', iconSize: new L.Point(20, 20)})});
+          a.bindPopup('<b>' + reflector.name + '</b><br>Some more info perhaps.');
+          a.bindTooltip(reflector.name);
+          if ( reflector.breachedSLA ) {
+              a.options['violate'] = true;
+          } else {
+              a.options['violate'] = false;
+          }
+          this.cluster.push(a);
+      }
+
+  }
+
+    initializeMap = () => {
+
+
+
+
+    };
 
 }

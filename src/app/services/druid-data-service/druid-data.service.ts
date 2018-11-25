@@ -58,4 +58,26 @@ export class DruidDataService {
 
         return retval;
     };
+
+    GeographicOverview = (FromLat, FromLng, ToLat, ToLng): any => {
+
+        return new Promise(function(resolve, reject) {
+            let rnd = (from, to) => {
+                return (Math.min(from, to) + Math.abs(from - to) * Math.random());
+            };
+
+            let retval = [];
+            for (let i = 1; i < 101; i++) {
+                retval.push({
+                    ID: i,
+                    name: 'reflector' + i,
+                    lat: rnd(FromLat, ToLat),
+                    lng: rnd(FromLng, ToLng),
+                    breachedSLA: i % 10 === 0 ? true : false
+                });
+            }
+
+            resolve(retval);
+        });
+    };
 }
