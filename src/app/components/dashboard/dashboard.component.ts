@@ -88,10 +88,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     /**
      * Indicates an initiation of new layout creation, when 'status' is true. Aborts if 'status' is false.
-     * @param status
      */
     setFullscreen = (): void => {
-        var elem: any = document.getElementsByTagName('body')[0];
+        let elem: any = document.getElementsByTagName('body')[0];
         if (elem.requestFullscreen) {
             elem.requestFullscreen();
         } else if (elem.msRequestFullscreen) {
@@ -163,6 +162,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
      * Triggers, when New Widget modal is closed.
      */
     resetNewWidgetModal = (): void => {
+        this.newWidgetForm = new FormGroup({});
         this.selectedNewWidget = undefined;
         this.newWidgetFormFields = [];
     };

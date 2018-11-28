@@ -5,6 +5,7 @@ import {NgxSmartModalService} from 'ngx-smart-modal';
 import {HttpClient} from '@angular/common/http';
 import {d3} from 'd3';
 import {LayoutFetchingService} from '../../services/layout-fetching-service/layout-fetching.service';
+import {Router} from '@angular/router';
 
 declare var jquery: any;
 declare var $: any;
@@ -23,7 +24,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
     public interval: number;
 
 
-    constructor(private druidAPI: DruidDataService, private chartBase: ChartBaseService, public ngxSmartModalService: NgxSmartModalService, private layoutService: LayoutFetchingService) {
+    constructor(private druidAPI: DruidDataService, private chartBase: ChartBaseService, public ngxSmartModalService: NgxSmartModalService, private layoutService: LayoutFetchingService, private router: Router) {
     }
 
     ngOnInit() {
@@ -129,6 +130,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                 break;
 
             case 'realTime':
+                this.state.route = ['monitoring/' + this.item.dataGroup + "s", this.item.dataSourceID];
                 this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(data => {
 
                     serializer(data);
@@ -251,9 +253,13 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * @param data
      */
     mapSerializer = (data: any) => {
-
         this.state.data = data;
     };
 
 
+    routeToInstance = () => {
+        if (this.state.route) {
+            this.router.navigate(this.state.route).then();
+        }
+    }
 }
