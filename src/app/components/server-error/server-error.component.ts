@@ -28,8 +28,8 @@ export class ServerErrorComponent implements OnInit, OnDestroy {
     }
 
     reconnectToServer = () => {
-        this.http.get(this.global.serverTargetAddressBase + "?dataType=ping").subscribe(data => {
-            if (data == "pong") {
+        this.http.get(this.global.serverTargetAddressBase + "ping").subscribe(data => {
+            if (data["result"] == "pong") {
                 this.router.navigate(['home']).then();
             }
         });

@@ -12,15 +12,15 @@ export class DruidDataService {
 
     public dataRetriever = {
         topNWorst: (selector: string, measure: string, count: number, interval: number): Promise<any> => {
-            let serverTargetAddress = this.global.serverTargetAddressBase + "?dataType=topNWorst&selector=" + selector + "&measure=" + measure + "&threshold=" + count +"&interval=" + interval;
+            let serverTargetAddress = this.global.dummyServerTargetAddressBase + "?dataType=topNWorst&selector=" + selector + "&measure=" + measure + "&threshold=" + count +"&interval=" + interval;
             return this.httpGetter(serverTargetAddress);
         },
         realTime: (selector: string, measure: string, sourceID: string, interval: number): Promise<any> => {
-            let serverTargetAddress = this.global.serverTargetAddressBase + "?dataType=realTime&selector=" + selector + "&measure=" + measure + "&sourceID=" + sourceID + "&interval=" + interval;
+            let serverTargetAddress = this.global.dummyServerTargetAddressBase + "?dataType=realTime&selector=" + selector + "&measure=" + measure + "&sourceID=" + sourceID + "&interval=" + interval;
             return this.httpGetter(serverTargetAddress);
         },
         esContribution: (selector: string, interval: number): Promise<any> => {
-            let serverTargetAddress = this.global.serverTargetAddressBase + "?dataType=esContribution&selector=" + selector + "&interval=" + interval;
+            let serverTargetAddress = this.global.dummyServerTargetAddressBase + "?dataType=esContribution&selector=" + selector + "&interval=" + interval;
             return this.httpGetter(serverTargetAddress);
         }
     };
