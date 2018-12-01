@@ -121,24 +121,24 @@ export class WidgetComponent implements OnInit, OnDestroy {
             case 'topNWorst':
                 this.druidAPI.dataRetriever.topNWorst(this.item.dataGroup, this.item.dataType, this.item.count, this.item.timeSpan).then(data => {
 
-                    serializer(data, this.item.dataType);
+                    serializer(data);
                     this.interval = setInterval(() => {
                         this.druidAPI.dataRetriever.topNWorst(this.item.dataGroup, this.item.dataType, this.item.count, this.item.timeSpan).then(refreshedData => {
-                            serializer(refreshedData, this.item.dataType);
+                            serializer(refreshedData);
                         });
                     }, 5000);
                 });
                 break;
 
             case 'realTime':
-                if(this.item.prediction == 'true') {
+                if (this.item.prediction == 'true') {
                     this.additionalClasses.push('dashed-chart');
                     this.state.results = [serializer([]), serializer([])];
 
                     this.druidAPI.realTimePrediction(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(data => {
 
                         let cpy = this.state.results.slice();
-                        cpy[1] =  serializer(data)
+                        cpy[1] = serializer(data);
                         this.state.results = cpy;
 
                     });
@@ -146,23 +146,23 @@ export class WidgetComponent implements OnInit, OnDestroy {
                 } else {
                     this.state.results = [serializer([])];
                 }
-                this.state.route = ['monitoring/' + this.item.dataGroup + "s", this.item.dataSourceID];
+                this.state.route = ['monitoring/' + this.item.dataGroup + 's', this.item.dataSourceID];
                 this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(data => {
 
                     let cpy = this.state.results.slice();
-                    cpy[0] =  serializer(data)
+                    cpy[0] = serializer(data);
                     this.state.results = cpy;
 
-                    if(this.item.prediction == 'true') {
+                    if (this.item.prediction == 'true') {
                         this.interval = setInterval(() => {
                             this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(refreshedData => {
                                 let cpy = this.state.results.slice();
-                                cpy[0] = serializer(refreshedData)
+                                cpy[0] = serializer(refreshedData);
                                 this.state.results = cpy;
                             });
                             this.druidAPI.realTimePrediction(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(refreshedData => {
                                 let cpy = this.state.results.slice();
-                                cpy[1] = serializer(refreshedData)
+                                cpy[1] = serializer(refreshedData);
                                 this.state.results = cpy;
                             });
 
@@ -171,7 +171,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                         this.interval = setInterval(() => {
                             this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(refreshedData => {
                                 let cpy = this.state.results.slice();
-                                cpy[0] = serializer(refreshedData)
+                                cpy[0] = serializer(refreshedData);
                                 this.state.results = cpy;
                             });
                         }, 5000);
@@ -183,10 +183,10 @@ export class WidgetComponent implements OnInit, OnDestroy {
             case 'esContribution':
                 this.druidAPI.dataRetriever.esContribution(this.item.dataGroup, this.item.timeSpan).then(data => {
 
-                    serializer(data, "es");
+                    serializer(data, 'es');
                     this.interval = setInterval(() => {
                         this.druidAPI.dataRetriever.esContribution(this.item.dataGroup, this.item.timeSpan).then(refreshedData => {
-                            serializer(refreshedData, "es");
+                            serializer(refreshedData, 'es');
                         });
 
                     }, 5000);
@@ -207,7 +207,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                 break;
 
             default:
-                console.log("Invalid widget type", this.item);
+                console.log('Invalid widget type', this.item);
         }
     };
 
@@ -223,10 +223,13 @@ export class WidgetComponent implements OnInit, OnDestroy {
     /**
      * Serializes data for a Bar Chart
      * @param data
+     * @param measure (optional)
+     * @param prefix (optional) - prefix before x-axis label
      */
-    barChartSerializer = (data: any, measure: string) => {
-        const graphData = data.map((row) => ({'name': '#' + row.ID, 'value': row.Data[measure]}));
-        this.state.results = graphData;
+    barChartSerializer = (data: any, measure?: string, prefix?: string) => {
+        measure = (measure == undefined ? "value" : measure);
+        prefix = (prefix == undefined ? "#" : prefix);
+        this.state.results = data.map((row) => ({'name': prefix + row.selector_id, 'value': row[measure]}));
     };
 
     /**
@@ -262,19 +265,23 @@ export class WidgetComponent implements OnInit, OnDestroy {
      */
     lineChartSerializer = (data: any): object => {
         const Data = data.map((row) => ({'value': row.Data, 'name': row.ID}));
-        return  {
-                name: 'Value',
-                series: Data
-            };
+        return {
+            name: 'Value',
+            series: Data
+        };
     };
 
     /**
      * Serializes data for a List Widget
      * @param data
+     * @param measure (optional)
+     * @param prefix (optional) - prefix before x-axis label
      */
-    listSerializer = (data: any, measure: string) => {
+    listSerializer = (data: any, measure?: string, prefix?: string) => {
+        measure = (measure == undefined ? "value" : measure);
+        prefix = (prefix == undefined ? "#" : prefix);
         this.state.listOptions.headers = [this.state.xAxisLabel, this.state.yAxisLabel];
-        this.state.data = data.map((row) => ['#' + row.ID, row.Data[measure]]);
+        this.state.data = data.map((row) => [prefix + row.selector_id, row[measure]]);
     };
 
     /**
@@ -290,5 +297,5 @@ export class WidgetComponent implements OnInit, OnDestroy {
         if (this.state.route) {
             this.router.navigate(this.state.route).then();
         }
-    }
+    };
 }

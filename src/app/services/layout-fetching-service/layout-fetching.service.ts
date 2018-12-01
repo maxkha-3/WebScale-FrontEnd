@@ -30,15 +30,15 @@ export class LayoutFetchingService {
                     type: 'dataGroup',
                     choices: [
                         {
-                            type: 'monitor',
+                            type: 'monitors',
                             name: 'Monitors'
                         },
                         {
-                            type: 'task',
+                            type: 'tasks',
                             name: 'Tasks'
                         },
                         {
-                            type: 'stream',
+                            type: 'streams',
                             name: 'Streams'
                         }
                     ]
@@ -53,14 +53,9 @@ export class LayoutFetchingService {
                             unit: '%'
                         },
                         {
-                            type: 'delay',
+                            type: 'avg_response_time',
                             name: 'Delay',
                             unit: 'ms'
-                        },
-                        {
-                            type: 'es',
-                            name: 'Error seconds',
-                            unit: 's'
                         }
                     ]
                 },
@@ -312,7 +307,7 @@ export class LayoutFetchingService {
                 widgets: [
                     {
                         widgetType: 'topNWorst',
-                        dataGroup: 'monitor',
+                        dataGroup: 'monitors',
                         dataType: 'sla',
                         count: 10,
                         chartType: 'bar',
@@ -344,8 +339,8 @@ export class LayoutFetchingService {
                     },
                     {
                         widgetType: 'topNWorst',
-                        dataGroup: 'task',
-                        dataType: 'delay',
+                        dataGroup: 'tasks',
+                        dataType: 'avg_response_time',
                         count: 10,
                         chartType: 'list',
                         timeSpan: 60,
@@ -373,7 +368,7 @@ export class LayoutFetchingService {
                 widgets: [
                     {
                         widgetType: 'topNWorst',
-                        dataGroup: 'monitor',
+                        dataGroup: 'monitors',
                         dataType: 'sla',
                         count: 10,
                         chartType: 'bar',
@@ -394,7 +389,8 @@ export class LayoutFetchingService {
                     {
                         widgetType: 'realTime',
                         dataGroup: 'monitor',
-                        dataType: 'delay',
+                        dataType: 'avg_response_time',
+                        prediction: 'true',
                         count: 10,
                         chartType: 'line',
                         dataSourceID: '1023',
