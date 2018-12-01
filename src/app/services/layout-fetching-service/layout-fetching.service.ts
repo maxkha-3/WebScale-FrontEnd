@@ -121,61 +121,6 @@ export class LayoutFetchingService {
             ]
         },
         {
-            widgetType: 'esContribution',
-            widgetName: 'ES Contribution',
-            headerFunc: function(w) {
-                return w.dataGroup == 'all' ? `ES Contribution (${w.timeSpan} min)` : `ESC ${this.options[0].choices.find(x => x.type == w.dataGroup).name} (${w.timeSpan} min)`;
-            },
-            xAxisFunc: function(w) {
-                return  'Not created';
-            },
-            yAxisFunc: function(w) {
-                return 'Not created';
-            },
-            options: [
-                {
-                    heading: 'Selector',
-                    type: 'dataGroup',
-                    choices: [
-                        {
-                            type: 'all',
-                            name: 'All'
-                        },
-                        {
-                            type: 'monitor',
-                            name: 'Monitors'
-                        },
-                        {
-                            type: 'task',
-                            name: 'Tasks'
-                        },
-                        {
-                            type: 'stream',
-                            name: 'Streams'
-                        }
-                    ]
-                },
-                {
-                    heading: 'Chart Type',
-                    type: 'chartType',
-                    choices: [
-                        {
-                            type: 'doughnut',
-                            name: 'Doughnut chart'
-                        },
-                        {
-                            type: 'tree',
-                            name: 'Tree map'
-                        },
-                        {
-                            type: 'number_cards',
-                            name: 'Number Cards'
-                        }
-                    ]
-                }
-            ]
-        },
-        {
             widgetType: 'realTime',
             widgetName: 'Real-Time',
             headerFunc: function(w) {
@@ -317,15 +262,6 @@ export class LayoutFetchingService {
                         order: 5
                     },
                     {
-                        widgetType: 'esContribution',
-                        dataGroup: 'all',
-                        chartType: 'doughnut',
-                        timeSpan: 60,
-                        size: this.getSize('Small'),
-                        ID: '6afccb76-ed47-9bf2-239f-731f714d5ae9',
-                        order: 2
-                    },
-                    {
                         widgetType: 'realTime',
                         dataGroup: 'monitor',
                         dataType: 'avg_response_time',
@@ -376,15 +312,6 @@ export class LayoutFetchingService {
                         size: this.getSize('Medium'),
                         ID: 'd19f3606-6b67-7055-3668-a594b098f053',
                         order: 1
-                    },
-                    {
-                        widgetType: 'esContribution',
-                        dataGroup: 'all',
-                        chartType: 'doughnut',
-                        timeSpan: 60,
-                        size: this.getSize('Medium'),
-                        ID: '43ca3b0b-c63a-19cd-d845-961581735d5d',
-                        order: 2
                     },
                     {
                         widgetType: 'realTime',
