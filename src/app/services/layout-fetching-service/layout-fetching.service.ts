@@ -30,15 +30,15 @@ export class LayoutFetchingService {
                     type: 'dataGroup',
                     choices: [
                         {
-                            type: 'monitor',
+                            type: 'monitors',
                             name: 'Monitors'
                         },
                         {
-                            type: 'task',
+                            type: 'tasks',
                             name: 'Tasks'
                         },
                         {
-                            type: 'stream',
+                            type: 'streams',
                             name: 'Streams'
                         }
                     ]
@@ -53,14 +53,9 @@ export class LayoutFetchingService {
                             unit: '%'
                         },
                         {
-                            type: 'delay',
+                            type: 'avg_response_time',
                             name: 'Delay',
                             unit: 'ms'
-                        },
-                        {
-                            type: 'es',
-                            name: 'Error seconds',
-                            unit: 's'
                         }
                     ]
                 },
@@ -127,7 +122,7 @@ export class LayoutFetchingService {
         },
         {
             widgetType: 'esContribution',
-            widgetName: 'ES Contribution',
+            widgetName: 'ES Contribution (*)',
             headerFunc: function(w) {
                 return w.dataGroup == 'all' ? `ES Contribution (${w.timeSpan} min)` : `ESC ${this.options[0].choices.find(x => x.type == w.dataGroup).name} (${w.timeSpan} min)`;
             },
@@ -199,14 +194,6 @@ export class LayoutFetchingService {
                     type: 'dataGroup',
                     choices: [
                         {
-                            type: 'monitor',
-                            name: 'Monitor'
-                        },
-                        {
-                            type: 'task',
-                            name: 'Task'
-                        },
-                        {
                             type: 'stream',
                             name: 'Stream'
                         }
@@ -229,11 +216,6 @@ export class LayoutFetchingService {
                             type: 'avg_response_time',
                             name: 'Avg. response time',
                             unit: 'ms'
-                        },
-                        {
-                            type: 'es',
-                            name: 'Error seconds',
-                            unit: 's'
                         }
                     ]
                 },
@@ -262,7 +244,7 @@ export class LayoutFetchingService {
                     ]
                 }
             ]
-        },
+        }
     ];
 
     /**
@@ -271,11 +253,31 @@ export class LayoutFetchingService {
     public availableTimespans = [
         {
             key: '15',
-            value: 'Last 15 minutes',
+            value: 'Last 15 minutes'
         },
         {
             key: '60',
-            value: 'Last 60 minutes',
+            value: 'Last 60 minutes'
+        },
+        {
+            key: '360',
+            value: 'Last 6 hours'
+        },
+        {
+            key: '720',
+            value: 'Last 12 hours'
+        },
+        {
+            key: '1440',
+            value: 'Last 24 hours'
+        },
+        {
+            key: '10080',
+            value: 'Last 7 days'
+        },
+        {
+            key: '43200',
+            value: 'Last 30 days'
         }
     ];
 
@@ -312,7 +314,7 @@ export class LayoutFetchingService {
                 widgets: [
                     {
                         widgetType: 'topNWorst',
-                        dataGroup: 'monitor',
+                        dataGroup: 'monitors',
                         dataType: 'sla',
                         count: 10,
                         chartType: 'bar',
@@ -332,11 +334,11 @@ export class LayoutFetchingService {
                     },
                     {
                         widgetType: 'realTime',
-                        dataGroup: 'monitor',
+                        dataGroup: 'stream',
                         dataType: 'avg_response_time',
                         chartType: 'line',
                         prediction: 'false',
-                        dataSourceID: '1023',
+                        dataSourceID: '2312',
                         timeSpan: 60,
                         size: this.getSize('Large'),
                         ID: 'd101f0a6-3dfb-1758-a6c6-3bf83f25000a',
@@ -344,8 +346,8 @@ export class LayoutFetchingService {
                     },
                     {
                         widgetType: 'topNWorst',
-                        dataGroup: 'task',
-                        dataType: 'delay',
+                        dataGroup: 'tasks',
+                        dataType: 'avg_response_time',
                         count: 10,
                         chartType: 'list',
                         timeSpan: 60,
@@ -373,7 +375,7 @@ export class LayoutFetchingService {
                 widgets: [
                     {
                         widgetType: 'topNWorst',
-                        dataGroup: 'monitor',
+                        dataGroup: 'monitors',
                         dataType: 'sla',
                         count: 10,
                         chartType: 'bar',
@@ -383,18 +385,10 @@ export class LayoutFetchingService {
                         order: 1
                     },
                     {
-                        widgetType: 'esContribution',
-                        dataGroup: 'all',
-                        chartType: 'doughnut',
-                        timeSpan: 60,
-                        size: this.getSize('Medium'),
-                        ID: '43ca3b0b-c63a-19cd-d845-961581735d5d',
-                        order: 2
-                    },
-                    {
                         widgetType: 'realTime',
-                        dataGroup: 'monitor',
-                        dataType: 'delay',
+                        dataGroup: 'stream',
+                        dataType: 'avg_response_time',
+                        prediction: 'true',
                         count: 10,
                         chartType: 'line',
                         dataSourceID: '1023',

@@ -28,7 +28,7 @@ export class MonitorOverviewComponent implements OnInit {
                 this.monitorID = params['id'];
 
                 this.monitorChartState = this.chartBase.getStackedTimelineBase();
-                let data = this.druidAPI.MonitorOverview(params['id']);
+                let data = this.druidAPI.dataRetriever.monitorOverview(params['id']);
 
                 this.tasks = data.tasks.map(x => ({
                     ID: x.ID,
