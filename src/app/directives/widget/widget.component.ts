@@ -147,7 +147,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                     let latestValue = cpy[0].series[cpy[0].series.length - 1].value;
 
                     if (this.item.prediction == 'true') {
-                        this.druidAPI.realTimePrediction(latestTimestamp, latestValue, this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(data => {
+                        this.druidAPI.predictionRetriever.realTimePrediction(latestTimestamp, latestValue, this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(data => {
                             let cpy = this.state.results.slice();
                             cpy[1] = serializer(data);
                             this.state.results = cpy;
@@ -163,7 +163,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                                 let latestTimestamp = new Date(cpy[0].series[cpy[0].series.length - 1].name);
                                 let latestValue = cpy[0].series[cpy[0].series.length - 1].value;
 
-                                this.druidAPI.realTimePrediction(latestTimestamp, latestValue, this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(refreshedData => {
+                                this.druidAPI.predictionRetriever.realTimePrediction(latestTimestamp, latestValue, this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(refreshedData => {
                                     let cpy = this.state.results.slice();
                                     cpy[1] = serializer(refreshedData);
                                     this.state.results = cpy;
@@ -198,11 +198,11 @@ export class WidgetComponent implements OnInit, OnDestroy {
                 break;
 
             case 'geo':
-                this.druidAPI.GeographicOverview(this.item.fromLat, this.item.fromLng, this.item.toLat, this.item.toLng).then(data => {
+                this.druidAPI.dataRetriever.geographicOverview(this.item.fromLat, this.item.fromLng, this.item.toLat, this.item.toLng).then(data => {
                     serializer(data);
 
                     this.interval = setInterval(() => {
-                        this.druidAPI.GeographicOverview(this.item.fromLat, this.item.fromLng, this.item.toLat, this.item.toLng).then(refreshedData => {
+                        this.druidAPI.dataRetriever.geographicOverview(this.item.fromLat, this.item.fromLng, this.item.toLat, this.item.toLng).then(refreshedData => {
                             serializer(refreshedData);
                         });
 
