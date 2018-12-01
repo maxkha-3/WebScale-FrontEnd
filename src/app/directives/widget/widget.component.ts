@@ -183,10 +183,10 @@ export class WidgetComponent implements OnInit, OnDestroy {
             case 'esContribution':
                 this.druidAPI.dataRetriever.esContribution(this.item.dataGroup, this.item.timeSpan).then(data => {
 
-                    serializer(data, 'es');
+                    serializer(data, 'es', '');
                     this.interval = setInterval(() => {
                         this.druidAPI.dataRetriever.esContribution(this.item.dataGroup, this.item.timeSpan).then(refreshedData => {
-                            serializer(refreshedData, 'es');
+                            serializer(refreshedData, 'es', '');
                         });
 
                     }, 5000);
@@ -235,28 +235,37 @@ export class WidgetComponent implements OnInit, OnDestroy {
     /**
      * Serializes data for Number Cards Chart
      * @param data
+     * @param measure (optional)
+     * @param prefix (optional) - prefix before x-axis label
      */
-    numberCardsChartSerializer = (data: any, measure: string) => {
-        const graphData = data.map((row) => ({'name': '#' + row.ID, 'value': row.Data[measure]}));
-        this.state.results = graphData;
+    numberCardsChartSerializer = (data: any, measure?: string, prefix?: string) => {
+        measure = (measure == undefined ? "value" : measure);
+        prefix = (prefix == undefined ? "#" : prefix);
+        this.state.results = data.map((row) => ({'name': prefix + row.ID, 'value': row.Data[measure]}));
     };
 
     /**
      * Serializes data for a Tree Chart
      * @param data
+     * @param measure (optional)
+     * @param prefix (optional) - prefix before x-axis label
      */
-    treeChartSerializer = (data: any, measure: string) => {
-        const graphData = data.map((row) => ({'name': '#' + row.ID, 'value': row.Data[measure]}));
-        this.state.results = graphData;
+    treeChartSerializer = (data: any, measure?: string, prefix?: string) => {
+        measure = (measure == undefined ? "value" : measure);
+        prefix = (prefix == undefined ? "#" : prefix);
+        this.state.results = data.map((row) => ({'name': prefix + row.ID, 'value': row.Data[measure]}));
     };
 
     /**
      * Serializes data for a Doughnut Chart
      * @param data
+     * @param measure (optional)
+     * @param prefix (optional) - prefix before label
      */
-    doughnutChartSerializer = (data: any, measure: string) => {
-        const graphData = data.map((row) => ({'name': '#' + row.ID, 'value': row.Data[measure]}));
-        this.state.results = graphData;
+    doughnutChartSerializer = (data: any, measure?: string, prefix?: string) => {
+        measure = (measure == undefined ? "value" : measure);
+        prefix = (prefix == undefined ? "#" : prefix);
+        this.state.results = data.map((row) => ({'name': prefix + row.ID, 'value': row.Data[measure]}));
     };
 
     /**
@@ -264,7 +273,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * @param data
      */
     lineChartSerializer = (data: any): object => {
-        const Data = data.map((row) => ({'value': row.Data, 'name': row.ID}));
+        const Data = data.map((row) => ({'name': row.ID, 'value': row.Data}));
         return {
             name: 'Value',
             series: Data
