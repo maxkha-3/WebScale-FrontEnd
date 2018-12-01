@@ -22,6 +22,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
     public layout = '';
     public state: any;
     public interval: number;
+    public additionalClasses: any[] = [];
 
 
     constructor(private druidAPI: DruidDataService, private chartBase: ChartBaseService, public ngxSmartModalService: NgxSmartModalService, private layoutService: LayoutFetchingService, private router: Router) {
@@ -130,16 +131,51 @@ export class WidgetComponent implements OnInit, OnDestroy {
                 break;
 
             case 'realTime':
+                if(this.item.prediction == 'true') {
+                    this.additionalClasses.push('dashed-chart');
+                    this.state.results = [serializer([]), serializer([])];
+
+                    this.druidAPI.realTimePrediction(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(data => {
+
+                        let cpy = this.state.results.slice();
+                        cpy[1] =  serializer(data)
+                        this.state.results = cpy;
+
+                    });
+
+                } else {
+                    this.state.results = [serializer([])];
+                }
                 this.state.route = ['monitoring/' + this.item.dataGroup + "s", this.item.dataSourceID];
                 this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(data => {
 
-                    serializer(data);
-                    this.interval = setInterval(() => {
-                        this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(refreshedData => {
-                            serializer(refreshedData);
-                        });
+                    let cpy = this.state.results.slice();
+                    cpy[0] =  serializer(data)
+                    this.state.results = cpy;
 
-                    }, 5000);
+                    if(this.item.prediction == 'true') {
+                        this.interval = setInterval(() => {
+                            this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(refreshedData => {
+                                let cpy = this.state.results.slice();
+                                cpy[0] = serializer(refreshedData)
+                                this.state.results = cpy;
+                            });
+                            this.druidAPI.realTimePrediction(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(refreshedData => {
+                                let cpy = this.state.results.slice();
+                                cpy[1] = serializer(refreshedData)
+                                this.state.results = cpy;
+                            });
+
+                        }, 5000);
+                    } else {
+                        this.interval = setInterval(() => {
+                            this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(refreshedData => {
+                                let cpy = this.state.results.slice();
+                                cpy[0] = serializer(refreshedData)
+                                this.state.results = cpy;
+                            });
+                        }, 5000);
+                    }
 
                 });
                 break;
@@ -224,19 +260,12 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * Serializes data for a Line Chart
      * @param data
      */
-    lineChartSerializer = (data: any) => {
-        const DataNear = data.map((row) => ({'value': row.Data.Near, 'name': row.ID}));
-        const DataFar = data.map((row) => ({'value': row.Data.Far, 'name': row.ID}));
-        this.state.results = [
-            {
-                name: 'Near',
-                series: DataNear
-            },
-            {
-                name: 'Far',
-                series: DataFar
-            }
-        ];
+    lineChartSerializer = (data: any): object => {
+        const Data = data.map((row) => ({'value': row.Data, 'name': row.ID}));
+        return  {
+                name: 'Value',
+                series: Data
+            };
     };
 
     /**

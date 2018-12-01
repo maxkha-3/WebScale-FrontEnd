@@ -16,6 +16,7 @@ export class MonitorOverviewComponent implements OnInit {
     public monitorID: string;
 
     public monitorChartState: any;
+    public lineChartState: any;
     public tasks: Array<any>;
 
     constructor(private druidAPI: DruidDataService, private route: ActivatedRoute, private router: Router, private chartBase: ChartBaseService) {
@@ -41,6 +42,30 @@ export class MonitorOverviewComponent implements OnInit {
                         name: new Date(y.Timestamp)
                     }))
                 }));
+
+                //line
+                this.lineChartState = this.chartBase.getLineBase();
+                this.lineChartState.showXAxisLabel = false;
+                this.lineChartState.showYAxisLabel = false;
+                this.lineChartState.xAxis = false;
+                this.lineChartState.yAxis = false;
+                this.lineChartState.tooltipDisabled = true;
+                this.lineChartState.scheme = {
+                    domain: ['#ff0000', '#7aa3e5', '#a8385d', '#00bfa5']
+                };
+                this.lineChartState.schemeType = 'linear';
+                this.lineChartState.gradient = false;
+                this.lineChartState.legend = true;
+                this.lineChartState.results = [
+                    {
+                        name: 'test',
+                        series: [
+                            {name: '10:00', value: 100},
+                            {name: '11:00', value: 80},
+                            {name: '12:00', value: 100}
+                        ]
+                    }
+                ]
             }
         })
     }

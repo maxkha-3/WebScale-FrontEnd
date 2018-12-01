@@ -25,6 +25,27 @@ export class DruidDataService {
         }
     };
 
+    private geoLocations: any[] = [];
+
+    realTimePrediction = (selector: string, measure: string, sourceID: string, interval: number): any => {
+
+        return new Promise(function(resolve, reject) {
+            let rnd = (from, to) => {
+                return (Math.min(from, to) + Math.abs(from - to) * Math.random());
+            };
+
+            let retval = [
+                {ID: '11:00', Data: rnd(0, 5)},
+                {ID: '11:05', Data: rnd(0, 5)},
+                {ID: '11:10', Data: rnd(0, 5)},
+                {ID: '11:15', Data: rnd(0, 5)},
+                {ID: '11:20', Data: rnd(0, 5)}
+            ];
+
+
+            resolve(retval);
+        });
+    };
 
     httpGetter = (requestAddress: any): Promise<any> => {
         return new Promise((resolve) => {
@@ -61,23 +82,36 @@ export class DruidDataService {
 
     GeographicOverview = (FromLat, FromLng, ToLat, ToLng): any => {
 
+        let that = this;
         return new Promise(function(resolve, reject) {
             let rnd = (from, to) => {
                 return (Math.min(from, to) + Math.abs(from - to) * Math.random());
             };
 
-            let retval = [];
-            for (let i = 1; i < 101; i++) {
-                retval.push({
-                    ID: i,
-                    name: 'reflector' + i,
-                    lat: rnd(FromLat, ToLat),
-                    lng: rnd(FromLng, ToLng),
-                    breachedSLA: i % 10 === 0 ? true : false
-                });
+
+            if(!that.geoLocations.length){
+                console.log('hej');
+                let retval = [];
+                for (let i = 1; i < 101; i++) {
+                    retval.push({
+                        ID: i,
+                        name: 'reflector' + i,
+                        lat: rnd(FromLat, ToLat),
+                        lng: rnd(FromLng, ToLng),
+                        breachedSLA: i % 10 === 0 ? true : false
+                    });
+                }
+                that.geoLocations = retval;
+            } else {
+                for (let i = 0; i < that.geoLocations.length; i++){
+                    that.geoLocations[i]['breachedSLA'] = rnd(0, 10) > 9 ? true : false;
+                }
             }
 
-            resolve(retval);
+
+
+
+            resolve(that.geoLocations.slice());
         });
     };
 }

@@ -69,7 +69,7 @@
         </div>
 
         <div class="chart-test" *ngSwitchCase="'line-chart'">
-            <div class="chart-test-inner">
+            <div class="chart-test-inner {{this.additionalClasses.join(' ')}}">
                 <ngx-charts-line-chart
                     [view]="state.view"
                     [results]="state.results"

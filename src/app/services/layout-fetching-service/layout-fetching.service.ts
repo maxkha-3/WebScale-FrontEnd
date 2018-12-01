@@ -226,8 +226,8 @@ export class LayoutFetchingService {
                             unit: '%'
                         },
                         {
-                            type: 'delay',
-                            name: 'Delay',
+                            type: 'avg_response_time',
+                            name: 'Avg. response time',
                             unit: 'ms'
                         },
                         {
@@ -244,6 +244,20 @@ export class LayoutFetchingService {
                         {
                             type: 'line',
                             name: 'Line chart'
+                        }
+                    ]
+                },
+                {
+                    heading: 'Show Prediction',
+                    type: 'prediction',
+                    choices: [
+                        {
+                            type: 'true',
+                            name: 'Yes'
+                        },
+                        {
+                            type: 'false',
+                            name: 'No'
                         }
                     ]
                 }
@@ -307,8 +321,9 @@ export class LayoutFetchingService {
                     {
                         widgetType: 'realTime',
                         dataGroup: 'monitor',
-                        dataType: 'delay',
+                        dataType: 'avg_response_time',
                         chartType: 'line',
+                        prediction: 'false',
                         dataSourceID: '1023',
                         timeSpan: 60,
                         size: {sm: 12, md: 12, lg: 12, xl: 8},

@@ -25,12 +25,29 @@
 
         <div class="accordion" id="taskAccordion">
             <div class="card" *ngFor="let task of tasks" attr.data-task-id="{{task.ID}}">
-                <div class="card-header p-0" id="tsk-header-{{task.Reference}}">
+                <div class="card-header p-0" id="tsk-header-{{task.Reference}}" style="display:flex;">
                     <h5 class="mb-0">
                         <button class="btn btn-link" type="button" data-toggle="collapse" attr.data-target="#tsk-collapse-{{task.Reference}}" aria-expanded="false" aria-controls="collapseOne">
                             Task: {{task.ID}}
                         </button>
                     </h5>
+                    <div style="flex:auto;">
+                        <ngx-charts-line-chart
+                            [view]="lineChartState.view"
+                            [results]="lineChartState.results"
+                            [scheme]="lineChartState.scheme"
+                            [xAxisLabel]="lineChartState.xAxisLabel"
+                            [yAxisLabel]="lineChartState.yAxisLabel"
+                            [showXAxisLabel]="lineChartState.showXAxisLabel"
+                            [showYAxisLabel]="lineChartState.showYAxisLabel"
+                            [xAxis]="lineChartState.xAxis"
+                            [yAxis]="lineChartState.yAxis"
+                            [gradient]="lineChartState.gradient"
+                            [curve]="lineChartState.curve"
+                            [tooltipDisabled]="lineChartState.tooltipDisabled"
+                            [legend]="lineChartState.legend"
+                        ></ngx-charts-line-chart>
+                    </div>
                 </div>
 
                 <div id="tsk-collapse-{{task.Reference}}" class="collapse" attr.aria-labelledby="tsk-header-{{task.Reference}}" data-parent="#taskAccordion">
