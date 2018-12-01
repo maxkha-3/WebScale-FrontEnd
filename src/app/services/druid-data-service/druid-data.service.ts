@@ -1,45 +1,49 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {GlobalService} from '../global-service/global.service';
+import {DummyDataService} from '../dummy-data.service';
 
 @Injectable()
 export class DruidDataService {
 
 
-
-    constructor(private http: HttpClient, private global: GlobalService) {
+    constructor(private http: HttpClient, private global: GlobalService, private dummyData: DummyDataService) {
     }
 
     public dataRetriever = {
         topNWorst: (selector: string, measure: string, count: number, interval: number): Promise<any> => {
-            let serverTargetAddress = this.global.serverTargetAddressBase + "topn/" + selector + "/" + measure + "?interval=" + "99999" + "&count=" + count;
+            let serverTargetAddress = this.global.serverTargetAddressBase + 'topn/' + selector + '/' + measure + '?interval=' + '99999' + '&count=' + count;
             return this.httpGetter(serverTargetAddress);
         },
         realTime: (selector: string, measure: string, sourceID: string, interval: number): Promise<any> => {
-            let serverTargetAddress = this.global.dummyServerTargetAddressBase + "?dataType=realTime&selector=" + selector + "&measure=" + measure + "&sourceID=" + sourceID + "&interval=" + interval;
+            let serverTargetAddress = this.global.serverTargetAddressBase + 'timeseries/' + sourceID + '/' + measure + '?interval=' + '99999';
             return this.httpGetter(serverTargetAddress);
         },
         esContribution: (selector: string, interval: number): Promise<any> => {
-            let serverTargetAddress = this.global.dummyServerTargetAddressBase + "?dataType=esContribution&selector=" + selector + "&interval=" + interval;
-            return this.httpGetter(serverTargetAddress);
+            return this.dummyData.esContributionData();
         }
     };
 
     private geoLocations: any[] = [];
 
-    realTimePrediction = (selector: string, measure: string, sourceID: string, interval: number): any => {
+    realTimePrediction = (latestTimestamp: Date, latestValue: string, selector: string, measure: string, sourceID: string, interval: number): any => {
+        console.log(latestTimestamp.toISOString());
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             let rnd = (from, to) => {
                 return (Math.min(from, to) + Math.abs(from - to) * Math.random());
             };
 
             let retval = [
-                {ID: '11:00', Data: rnd(0, 5)},
-                {ID: '11:05', Data: rnd(0, 5)},
-                {ID: '11:10', Data: rnd(0, 5)},
-                {ID: '11:15', Data: rnd(0, 5)},
-                {ID: '11:20', Data: rnd(0, 5)}
+                {timestamp: latestTimestamp.toISOString(), value: latestValue},
+                {timestamp: new Date(latestTimestamp.getTime() + (30 * 1000)).toISOString(), value: rnd(0, 600)},
+                {timestamp: new Date(latestTimestamp.getTime() + (60 * 1000)).toISOString(), value: rnd(0, 600)},
+                {timestamp: new Date(latestTimestamp.getTime() + (90 * 1000)).toISOString(), value: rnd(0, 600)},
+                {timestamp: new Date(latestTimestamp.getTime() + (120 * 1000)).toISOString(), value: rnd(0,600)},
+                {timestamp: new Date(latestTimestamp.getTime() + (150 * 1000)).toISOString(), value: rnd(0, 600)},
+                {timestamp: new Date(latestTimestamp.getTime() + (180 * 1000)).toISOString(), value: rnd(0, 600)},
+                {timestamp: new Date(latestTimestamp.getTime() + (210 * 1000)).toISOString(), value: rnd(0, 600)},
+                {timestamp: new Date(latestTimestamp.getTime() + (240 * 1000)).toISOString(), value: rnd(0, 600)}
             ];
 
 
@@ -50,7 +54,7 @@ export class DruidDataService {
     httpGetter = (requestAddress: any): Promise<any> => {
         return new Promise((resolve) => {
             this.http.get(requestAddress).subscribe(data => {
-                resolve(data)
+                resolve(data);
             });
         });
     };
@@ -83,13 +87,13 @@ export class DruidDataService {
     GeographicOverview = (FromLat, FromLng, ToLat, ToLng): any => {
 
         let that = this;
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             let rnd = (from, to) => {
                 return (Math.min(from, to) + Math.abs(from - to) * Math.random());
             };
 
 
-            if(!that.geoLocations.length){
+            if (!that.geoLocations.length) {
                 console.log('hej');
                 let retval = [];
                 for (let i = 1; i < 101; i++) {
@@ -103,12 +107,10 @@ export class DruidDataService {
                 }
                 that.geoLocations = retval;
             } else {
-                for (let i = 0; i < that.geoLocations.length; i++){
+                for (let i = 0; i < that.geoLocations.length; i++) {
                     that.geoLocations[i]['breachedSLA'] = rnd(0, 10) > 9 ? true : false;
                 }
             }
-
-
 
 
             resolve(that.geoLocations.slice());

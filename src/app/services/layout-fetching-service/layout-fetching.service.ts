@@ -121,6 +121,61 @@ export class LayoutFetchingService {
             ]
         },
         {
+            widgetType: 'esContribution',
+            widgetName: 'ES Contribution (*)',
+            headerFunc: function(w) {
+                return w.dataGroup == 'all' ? `ES Contribution (${w.timeSpan} min)` : `ESC ${this.options[0].choices.find(x => x.type == w.dataGroup).name} (${w.timeSpan} min)`;
+            },
+            xAxisFunc: function(w) {
+                return  'Not created';
+            },
+            yAxisFunc: function(w) {
+                return 'Not created';
+            },
+            options: [
+                {
+                    heading: 'Selector',
+                    type: 'dataGroup',
+                    choices: [
+                        {
+                            type: 'all',
+                            name: 'All'
+                        },
+                        {
+                            type: 'monitor',
+                            name: 'Monitors'
+                        },
+                        {
+                            type: 'task',
+                            name: 'Tasks'
+                        },
+                        {
+                            type: 'stream',
+                            name: 'Streams'
+                        }
+                    ]
+                },
+                {
+                    heading: 'Chart Type',
+                    type: 'chartType',
+                    choices: [
+                        {
+                            type: 'doughnut',
+                            name: 'Doughnut chart'
+                        },
+                        {
+                            type: 'tree',
+                            name: 'Tree map'
+                        },
+                        {
+                            type: 'number_cards',
+                            name: 'Number Cards'
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             widgetType: 'realTime',
             widgetName: 'Real-Time',
             headerFunc: function(w) {
@@ -138,14 +193,6 @@ export class LayoutFetchingService {
                     heading: 'Selector',
                     type: 'dataGroup',
                     choices: [
-                        {
-                            type: 'monitor',
-                            name: 'Monitor'
-                        },
-                        {
-                            type: 'task',
-                            name: 'Task'
-                        },
                         {
                             type: 'stream',
                             name: 'Stream'
@@ -169,11 +216,6 @@ export class LayoutFetchingService {
                             type: 'avg_response_time',
                             name: 'Avg. response time',
                             unit: 'ms'
-                        },
-                        {
-                            type: 'es',
-                            name: 'Error seconds',
-                            unit: 's'
                         }
                     ]
                 },
@@ -202,7 +244,7 @@ export class LayoutFetchingService {
                     ]
                 }
             ]
-        },
+        }
     ];
 
     /**
@@ -211,11 +253,31 @@ export class LayoutFetchingService {
     public availableTimespans = [
         {
             key: '15',
-            value: 'Last 15 minutes',
+            value: 'Last 15 minutes'
         },
         {
             key: '60',
-            value: 'Last 60 minutes',
+            value: 'Last 60 minutes'
+        },
+        {
+            key: '360',
+            value: 'Last 6 hours'
+        },
+        {
+            key: '720',
+            value: 'Last 12 hours'
+        },
+        {
+            key: '1440',
+            value: 'Last 24 hours'
+        },
+        {
+            key: '10080',
+            value: 'Last 7 days'
+        },
+        {
+            key: '43200',
+            value: 'Last 30 days'
         }
     ];
 
@@ -262,12 +324,21 @@ export class LayoutFetchingService {
                         order: 5
                     },
                     {
+                        widgetType: 'esContribution',
+                        dataGroup: 'all',
+                        chartType: 'doughnut',
+                        timeSpan: 60,
+                        size: this.getSize('Small'),
+                        ID: '6afccb76-ed47-9bf2-239f-731f714d5ae9',
+                        order: 2
+                    },
+                    {
                         widgetType: 'realTime',
-                        dataGroup: 'monitor',
+                        dataGroup: 'stream',
                         dataType: 'avg_response_time',
                         chartType: 'line',
                         prediction: 'false',
-                        dataSourceID: '1023',
+                        dataSourceID: '2312',
                         timeSpan: 60,
                         size: this.getSize('Large'),
                         ID: 'd101f0a6-3dfb-1758-a6c6-3bf83f25000a',
@@ -315,7 +386,7 @@ export class LayoutFetchingService {
                     },
                     {
                         widgetType: 'realTime',
-                        dataGroup: 'monitor',
+                        dataGroup: 'stream',
                         dataType: 'avg_response_time',
                         prediction: 'true',
                         count: 10,

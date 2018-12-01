@@ -134,15 +134,6 @@ export class WidgetComponent implements OnInit, OnDestroy {
                 if (this.item.prediction == 'true') {
                     this.additionalClasses.push('dashed-chart');
                     this.state.results = [serializer([]), serializer([])];
-
-                    this.druidAPI.realTimePrediction(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(data => {
-
-                        let cpy = this.state.results.slice();
-                        cpy[1] = serializer(data);
-                        this.state.results = cpy;
-
-                    });
-
                 } else {
                     this.state.results = [serializer([])];
                 }
@@ -150,20 +141,33 @@ export class WidgetComponent implements OnInit, OnDestroy {
                 this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(data => {
 
                     let cpy = this.state.results.slice();
-                    cpy[0] = serializer(data);
+                    cpy[0] = serializer(data.recent);
                     this.state.results = cpy;
+                    let latestTimestamp = new Date(cpy[0].series[cpy[0].series.length - 1].name);
+                    let latestValue = cpy[0].series[cpy[0].series.length - 1].value;
+
+                    if (this.item.prediction == 'true') {
+                        this.druidAPI.realTimePrediction(latestTimestamp, latestValue, this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(data => {
+                            let cpy = this.state.results.slice();
+                            cpy[1] = serializer(data);
+                            this.state.results = cpy;
+                        });
+                    }
 
                     if (this.item.prediction == 'true') {
                         this.interval = setInterval(() => {
                             this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(refreshedData => {
                                 let cpy = this.state.results.slice();
-                                cpy[0] = serializer(refreshedData);
+                                cpy[0] = serializer(refreshedData.recent);
                                 this.state.results = cpy;
-                            });
-                            this.druidAPI.realTimePrediction(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(refreshedData => {
-                                let cpy = this.state.results.slice();
-                                cpy[1] = serializer(refreshedData);
-                                this.state.results = cpy;
+                                let latestTimestamp = new Date(cpy[0].series[cpy[0].series.length - 1].name);
+                                let latestValue = cpy[0].series[cpy[0].series.length - 1].value;
+
+                                this.druidAPI.realTimePrediction(latestTimestamp, latestValue, this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(refreshedData => {
+                                    let cpy = this.state.results.slice();
+                                    cpy[1] = serializer(refreshedData);
+                                    this.state.results = cpy;
+                                });
                             });
 
                         }, 5000);
@@ -171,7 +175,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                         this.interval = setInterval(() => {
                             this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(refreshedData => {
                                 let cpy = this.state.results.slice();
-                                cpy[0] = serializer(refreshedData);
+                                cpy[0] = serializer(refreshedData.recent);
                                 this.state.results = cpy;
                             });
                         }, 5000);
@@ -271,9 +275,11 @@ export class WidgetComponent implements OnInit, OnDestroy {
     /**
      * Serializes data for a Line Chart
      * @param data
+     * @param measure (optional)
      */
-    lineChartSerializer = (data: any): object => {
-        const Data = data.map((row) => ({'name': row.ID, 'value': row.Data}));
+    lineChartSerializer = (data: any, measure?: string): object => {
+        measure = (measure == undefined ? "value" : measure);
+        const Data = data.map((row) => ({'name': row.timestamp, 'value': row[measure]}));
         return {
             name: 'Value',
             series: Data
