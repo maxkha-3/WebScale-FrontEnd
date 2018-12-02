@@ -13,7 +13,6 @@ import {ToastrModule} from 'ngx-toastr';
 import {NgxSmartModalModule} from 'ngx-smart-modal';
 import {UUID} from 'angular2-uuid';
 import {HttpClientModule} from '@angular/common/http';
-import {HttpModule} from '@angular/http';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import {LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster';
 
@@ -36,6 +35,8 @@ import {WidgetListComponent} from './directives/widget-list/widget-list.componen
 
 //Formly Wrappers
 import {FormlyHorizontalWrapper} from './formly/wrappers/horizontal-wrapper';
+
+import {APP_BASE_HREF} from '@angular/common';
 
 //Services
 import {GlobalService} from './services/global-service/global.service';
@@ -87,7 +88,6 @@ const appRoutes: Routes = [
         ReactiveFormsModule,
         FormlyBootstrapModule,
         HttpClientModule,
-        HttpModule,
         LeafletModule.forRoot(),
         LeafletMarkerClusterModule.forRoot(),
         NgxSmartModalModule.forRoot(),
@@ -109,7 +109,8 @@ const appRoutes: Routes = [
         ChartBaseService,
         FormlyFieldBaseService,
         EventServerService,
-        UUID
+        UUID,
+        {provide: APP_BASE_HREF, useValue: '/'}
     ],
     bootstrap: [AppComponent]
 })
