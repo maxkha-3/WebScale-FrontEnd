@@ -51,18 +51,22 @@ export class MonitorOverviewComponent implements OnInit {
                 this.lineChartState.yAxis = false;
                 this.lineChartState.tooltipDisabled = true;
                 this.lineChartState.scheme = {
-                    domain: ['#ff0000', '#7aa3e5', '#a8385d', '#00bfa5']
-                };
+                    domain: ['#00ff00', '#ffae0c', '#ff0000'],
+                    group: 'Continuous'
+                }
                 this.lineChartState.schemeType = 'linear';
-                this.lineChartState.gradient = false;
-                this.lineChartState.legend = true;
+                this.lineChartState.gradient = true;
+                this.lineChartState.legend = false;
                 this.lineChartState.results = [
                     {
                         name: 'test',
                         series: [
-                            {name: '10:00', value: 100},
-                            {name: '11:00', value: 80},
-                            {name: '12:00', value: 100}
+                            {name: new Date('2011-10-05T14:48:00.000Z'), value: 0},
+                            {name: new Date('2011-10-05T14:50:00.000Z'), value: 3},
+                            {name: new Date('2011-10-05T14:50:20.000Z'), value: 20},
+                            {name: new Date('2011-10-05T14:50:30.000Z'), value: 70},
+                            {name: new Date('2011-10-05T14:51:00.000Z'), value: 15},
+                            {name: new Date('2011-10-05T15:00:00.000Z'), value: 5},
                         ]
                     }
                 ]
