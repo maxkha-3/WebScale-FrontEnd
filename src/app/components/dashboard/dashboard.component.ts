@@ -73,6 +73,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.widgetGrid = new Muuri('.board', {
             layoutDuration: 400,
             layoutEasing: 'ease',
+            layout: {
+              rounding: false
+            },
             dragEnabled: true,
             dragStartPredicate: {
                 distance: 0,
