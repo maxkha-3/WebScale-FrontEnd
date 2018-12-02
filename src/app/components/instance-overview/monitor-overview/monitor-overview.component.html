@@ -31,7 +31,7 @@
                             Task: {{task.ID}}
                         </button>
                     </h5>
-                    <div style="flex:auto;">
+                    <div style="flex:auto; height:50px;">
                         <ngx-charts-line-chart
                             [view]="lineChartState.view"
                             [results]="lineChartState.results"
@@ -46,6 +46,9 @@
                             [curve]="lineChartState.curve"
                             [tooltipDisabled]="lineChartState.tooltipDisabled"
                             [legend]="lineChartState.legend"
+                            [schemeType]="lineChartState.schemeType"
+                            [yScaleMin]="0"
+                            [yScaleMax]="100"
                         ></ngx-charts-line-chart>
                     </div>
                 </div>
