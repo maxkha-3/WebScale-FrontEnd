@@ -43,28 +43,22 @@ export class DummyDataService {
 
     geographicOverviewData = (fromLat, fromLng, toLat, toLng): any => {
         let that = this;
-        return new Promise(function (resolve, reject) {
-            let rnd = (from, to) => {
-                return (Math.min(from, to) + Math.abs(from - to) * Math.random());
-            };
-
-
+        return new Promise((resolve, reject) => {
             if (!that.geoLocations.length) {
-                console.log('hej');
                 let retval = [];
                 for (let i = 1; i < 101; i++) {
                     retval.push({
                         ID: i,
                         name: 'reflector' + i,
-                        lat: rnd(fromLat, toLat),
-                        lng: rnd(fromLng, toLng),
+                        lat: this.miscService.randomInt(fromLat, toLat),
+                        lng: this.miscService.randomInt(fromLng, toLng),
                         breachedSLA: i % 10 === 0
                     });
                 }
                 that.geoLocations = retval;
             } else {
                 for (let i = 0; i < that.geoLocations.length; i++) {
-                    that.geoLocations[i]['breachedSLA'] = rnd(0, 10) > 9;
+                    that.geoLocations[i]['breachedSLA'] = this.miscService.randomInt(0, 10) > 9;
                 }
             }
             resolve(that.geoLocations.slice());
