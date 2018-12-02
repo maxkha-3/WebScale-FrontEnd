@@ -279,7 +279,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
      */
     lineChartSerializer = (data: any, measure?: string): object => {
         measure = (measure == undefined ? "value" : measure);
-        const Data = data.map((row) => ({'name': row.timestamp, 'value': row[measure]}));
+        const Data = data.map((row) => ({'name': new Date(row.timestamp), 'value': row[measure]}));
         return {
             name: 'Value',
             series: Data
