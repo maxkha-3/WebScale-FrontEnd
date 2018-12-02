@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
+import {MiscService} from './misc-service/misc.service';
 
 @Injectable()
 export class DummyDataService {
 
     private geoLocations: any[] = [];
 
-    constructor() {
+    constructor(private miscService: MiscService) {
     }
 
     esContributionData = (): Promise<any> => {
@@ -18,7 +19,6 @@ export class DummyDataService {
     };
 
     monitorOverviewData = (id: any): any => {
-
         let dt = new Date('1995-12-17T11:00:00');
         let tarr = new Array();
         for (let i = 0; i < 100; i++) {
@@ -42,7 +42,6 @@ export class DummyDataService {
     };
 
     geographicOverviewData = (fromLat, fromLng, toLat, toLng): any => {
-
         let that = this;
         return new Promise(function (resolve, reject) {
             let rnd = (from, to) => {
@@ -68,32 +67,20 @@ export class DummyDataService {
                     that.geoLocations[i]['breachedSLA'] = rnd(0, 10) > 9;
                 }
             }
-
-
             resolve(that.geoLocations.slice());
         });
     };
 
     realTimePredictionData = (latestTimestamp: Date, latestValue: string, selector: string, measure: string, sourceID: string, interval: number): Promise<any> => {
-        console.log(latestTimestamp.toISOString());
+        console.log(interval);
 
-        return new Promise(function (resolve, reject) {
-            let rnd = (from, to) => {
-                return (Math.min(from, to) + Math.abs(from - to) * Math.random());
-            };
+        return new Promise((resolve, reject) => {
+            let predictionData = [{timestamp: latestTimestamp.toISOString(), value: latestValue}];
 
-            let retval = [
-                {timestamp: latestTimestamp.toISOString(), value: latestValue},
-                {timestamp: new Date(latestTimestamp.getTime() + (30 * 1000)).toISOString(), value: rnd(0, 600)},
-                {timestamp: new Date(latestTimestamp.getTime() + (60 * 1000)).toISOString(), value: rnd(0, 600)},
-                {timestamp: new Date(latestTimestamp.getTime() + (90 * 1000)).toISOString(), value: rnd(0, 600)},
-                {timestamp: new Date(latestTimestamp.getTime() + (120 * 1000)).toISOString(), value: rnd(0, 600)},
-                {timestamp: new Date(latestTimestamp.getTime() + (150 * 1000)).toISOString(), value: rnd(0, 600)},
-                {timestamp: new Date(latestTimestamp.getTime() + (180 * 1000)).toISOString(), value: rnd(0, 600)},
-                {timestamp: new Date(latestTimestamp.getTime() + (210 * 1000)).toISOString(), value: rnd(0, 600)},
-                {timestamp: new Date(latestTimestamp.getTime() + (240 * 1000)).toISOString(), value: rnd(0, 600)}
-            ];
-            resolve(retval);
+            for (let i = 1; i < 10; i++) {
+                predictionData.push({timestamp: new Date(latestTimestamp.getTime() + (interval / 20 * i * 60 * 1000)).toISOString(), value: this.miscService.randomInt(0, 600).toString()});
+            }
+            resolve(predictionData);
         });
     };
 }
