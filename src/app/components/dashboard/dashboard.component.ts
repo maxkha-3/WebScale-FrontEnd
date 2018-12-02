@@ -313,7 +313,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
         this.layoutFetcher.setLayout(this.currentDashboardID, this.widgetLayout);
         this.ngxSmartModalService.get("widgetSettingsModal").close();
-        this.router.navigate(["dashboard", this.currentDashboardID]);
+        this.router.navigate(["dashboard", this.currentDashboardID]).then();
     };
 
     /**
@@ -332,6 +332,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     deleteDashboard = (dashboardID: string): void => {
         this.layoutFetcher.deleteLayout(dashboardID);
         this.toastr.success('Dashboard layout was removed', 'Success!');
-        this.router.navigate(['home']);
+        this.router.navigate(['home']).then();
     };
 }

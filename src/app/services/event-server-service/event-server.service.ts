@@ -13,5 +13,4 @@ export class EventServerService {
             {text: 'Agent #5432 appears to be down', severity: 'Major'}
         ];
     };
-
 }
