@@ -39,3 +39,14 @@ Changes:
  - Server error detection mechanism
  - Static monitoring page
  - Migration to ngx-charts from prime-ng charts
+
+ =============================
+  Version 0.1.0 [2018-12-02]
+  =============================
+  - Major bux fixes
+  - Added map widget
+  - Fixed Muuri grid issues
+  - Added full screen dashboard mode
+  - Added dummy predictions
+  - Updated widgets according to the API
+  - Connected to Druid API
