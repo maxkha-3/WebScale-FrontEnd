@@ -339,7 +339,7 @@ export class LayoutFetchingService {
                         chartType: 'line',
                         prediction: 'false',
                         dataSourceID: '2312',
-                        timeSpan: 60,
+                        timeSpan: 43200,
                         size: this.getSize('Large'),
                         ID: 'd101f0a6-3dfb-1758-a6c6-3bf83f25000a',
                         order: 3
@@ -392,7 +392,7 @@ export class LayoutFetchingService {
                         count: 10,
                         chartType: 'line',
                         dataSourceID: '1023',
-                        timeSpan: 60,
+                        timeSpan: 10080,
                         size: this.getSize('X-Large'),
                         ID: 'a04ae8f1-ae28-5f4a-8668-be4195a0b1ee',
                         order: 3

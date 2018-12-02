@@ -66,13 +66,22 @@ export class DummyDataService {
     };
 
     realTimePredictionData = (latestTimestamp: Date, latestValue: string, selector: string, measure: string, sourceID: string, interval: number): Promise<any> => {
-        console.log(interval);
-
         return new Promise((resolve, reject) => {
             let predictionData = [{timestamp: latestTimestamp.toISOString(), value: latestValue}];
 
+            let randFrom = 0;
+            let randTo = 1000;
+
+            if (measure === "sla") {
+                randFrom = 0;
+                randTo = 100;
+            } else if (measure === "avg_response_time") {
+                randFrom = 0;
+                randTo = 600;
+            }
+
             for (let i = 1; i < 10; i++) {
-                predictionData.push({timestamp: new Date(latestTimestamp.getTime() + (interval / 20 * i * 60 * 1000)).toISOString(), value: this.miscService.randomInt(0, 600).toString()});
+                predictionData.push({timestamp: new Date(latestTimestamp.getTime() + (interval / 20 * i * 60 * 1000)).toISOString(), value: this.miscService.randomInt(randFrom, randTo).toString()});
             }
             resolve(predictionData);
         });
