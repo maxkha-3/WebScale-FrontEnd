@@ -18,6 +18,13 @@ export class AppComponent {
     public newLayoutInitiated: boolean;
     public newLayoutName: string;
     public notifications: Array<any>;
+    public notLevelMapping: Array<any> = [
+        {color: 'secondary', icon: 'fa fa-bug'},
+        {color: 'info', icon: 'fa fa-info'},
+        {color: 'success', icon: 'fa fa-check'},
+        {color: 'warning', icon: 'fa fa-exclamation'},
+        {color: 'danger', icon: 'fa fa-exclamation-triangle'}
+        ];
 
     constructor(private layoutFetcher: LayoutFetchingService, private router: Router, private toastr: ToastrService, public global: GlobalService, private http: HttpClient, private eventFetcher: EventServerService) {
         //For testing purposes
@@ -33,6 +40,7 @@ export class AppComponent {
         this.layoutFetcher.layoutsUpdated.subscribe(() => {
             this.dashboardLayouts = this.layoutFetcher.getAvailableLayouts();
         })
+        this.initiateEventServer();
     }
 
     /**
@@ -42,6 +50,16 @@ export class AppComponent {
     initiateNewLayout = (status: boolean): void => {
         this.newLayoutName = '';
         this.newLayoutInitiated = status;
+    };
+
+    /**
+     * Initiates EventServer connection and sets up all callback handlers
+     *
+     */
+    initiateEventServer = (): void => {
+        this.eventFetcher.setOnMessage((event) => {
+           this.notifications.unshift(event);
+        });
     };
 
     /**

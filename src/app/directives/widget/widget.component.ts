@@ -140,6 +140,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                 this.state.route = ['monitoring/' + this.item.dataGroup + 's', this.item.dataSourceID];
                 this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(data => {
 
+                    console.log(data);
                     let cpy = this.state.results.slice();
                     cpy[0] = serializer(data.recent);
                     this.state.results = cpy;
@@ -296,7 +297,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
         measure = (measure == undefined ? "value" : measure);
         prefix = (prefix == undefined ? "#" : prefix);
         this.state.listOptions.headers = [this.state.xAxisLabel, this.state.yAxisLabel];
-        this.state.data = data.map((row) => [prefix + row.selector_id, row[measure]]);
+        this.state.data = data.map((row) => [prefix + row.selector_id, row[measure].toFixed(5)]);
     };
 
     /**

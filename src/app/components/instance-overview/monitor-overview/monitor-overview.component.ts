@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DruidDataService} from '../../../services/druid-data-service/druid-data.service';
 import {ChartBaseService} from '../../../services/chart-base-service/chart-base.service';
+import * as d3 from 'd3';
 
 declare var jquery: any;
 declare var $: any;
@@ -51,22 +52,41 @@ export class MonitorOverviewComponent implements OnInit {
                 this.lineChartState.yAxis = false;
                 this.lineChartState.tooltipDisabled = true;
                 this.lineChartState.scheme = {
-                    domain: ['#00ff00', '#ffae0c', '#ff0000'],
+                    domain: ['#00ff00', '#fe0000', '#fd0000', '#fc0000', '#000000'],
                     group: 'Continuous'
                 }
                 this.lineChartState.schemeType = 'linear';
                 this.lineChartState.gradient = true;
                 this.lineChartState.legend = false;
+                this.lineChartState.curve = d3.curveStep;
                 this.lineChartState.results = [
                     {
                         name: 'test',
                         series: [
-                            {name: new Date('2011-10-05T14:48:00.000Z'), value: 0},
-                            {name: new Date('2011-10-05T14:50:00.000Z'), value: 3},
-                            {name: new Date('2011-10-05T14:50:20.000Z'), value: 20},
-                            {name: new Date('2011-10-05T14:50:30.000Z'), value: 70},
-                            {name: new Date('2011-10-05T14:51:00.000Z'), value: 15},
-                            {name: new Date('2011-10-05T15:00:00.000Z'), value: 5},
+                            {name: new Date('2011-10-05T14:00:00.000Z'), value: 0},
+                            {name: new Date('2011-10-05T14:10:00.000Z'), value: 0},
+                            {name: new Date('2011-10-05T14:20:20.000Z'), value: 1},
+                            {name: new Date('2011-10-05T14:30:30.000Z'), value: 1},
+                            {name: new Date('2011-10-05T14:40:00.000Z'), value: 2},
+                            {name: new Date('2011-10-05T14:50:00.000Z'), value: 2},
+                            {name: new Date('2011-10-05T15:00:00.000Z'), value: 3},
+                            {name: new Date('2011-10-05T15:10:00.000Z'), value: 3},
+                            {name: new Date('2011-10-05T15:20:20.000Z'), value: 4},
+                            {name: new Date('2011-10-05T15:30:30.000Z'), value: 4},
+                            {name: new Date('2011-10-05T15:40:00.000Z'), value: 5},
+                            {name: new Date('2011-10-05T15:50:00.000Z'), value: 5},
+                            {name: new Date('2011-10-05T16:00:00.000Z'), value: 6},
+                            {name: new Date('2011-10-05T16:10:00.000Z'), value: 6},
+                            {name: new Date('2011-10-05T16:20:20.000Z'), value: 7},
+                            {name: new Date('2011-10-05T16:30:30.000Z'), value: 7},
+                            {name: new Date('2011-10-05T16:40:00.000Z'), value: 8},
+                            {name: new Date('2011-10-05T16:50:00.000Z'), value: 8},
+                            {name: new Date('2011-10-05T17:00:00.000Z'), value: 9},
+                            {name: new Date('2011-10-05T17:10:00.000Z'), value: 9},
+                            {name: new Date('2011-10-05T17:20:20.000Z'), value: 10},
+                            {name: new Date('2011-10-05T17:30:30.000Z'), value: 10},
+                            {name: new Date('2011-10-05T17:40:00.000Z'), value: 10},
+                            {name: new Date('2011-10-05T17:50:00.000Z'), value: 10},
                         ]
                     }
                 ]

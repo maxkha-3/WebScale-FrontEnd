@@ -12,11 +12,11 @@ export class DruidDataService {
 
     public dataRetriever = {
         topNWorst: (selector: string, measure: string, count: number, interval: number): Promise<any> => {
-            let serverTargetAddress = this.global.serverTargetAddressBase + 'topn/' + selector + '/' + measure + '?interval=' + '99999' + '&count=' + count;
+            let serverTargetAddress = this.global.serverTargetAddressBase + 'topn/' + selector + '/' + measure + '?interval=' + interval + '&count=' + count;
             return this.httpGetter(serverTargetAddress);
         },
         realTime: (selector: string, measure: string, sourceID: string, interval: number): Promise<any> => {
-            let serverTargetAddress = this.global.serverTargetAddressBase + 'timeseries/' + sourceID + '/' + measure + '?interval=' + '99999';
+            let serverTargetAddress = this.global.serverTargetAddressBase + 'timeseries/' + sourceID + '/' + measure + '?interval=' + interval;
             return this.httpGetter(serverTargetAddress);
         },
         esContribution: (selector: string, interval: number): Promise<any> => {
