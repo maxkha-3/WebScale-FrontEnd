@@ -4,7 +4,7 @@ import {Injectable} from '@angular/core';
 export class GlobalService {
 
     public dummyServerTargetAddressBase = 'http://localhost/kubescale-backend-dummy/api-main.php';
-    public serverTargetAddressBase = 'http://130.240.200.77:3000/metrics/';
+    public serverTargetAddressBase = 'http://metrics.api.kubescale.cloud/metrics/';
 
     constructor() {
     }
