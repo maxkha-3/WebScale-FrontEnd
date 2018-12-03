@@ -6,6 +6,7 @@ import {HttpClient} from '@angular/common/http';
 import {d3} from 'd3';
 import {LayoutFetchingService} from '../../services/layout-fetching-service/layout-fetching.service';
 import {Router} from '@angular/router';
+import Timer = NodeJS.Timer;
 
 declare var jquery: any;
 declare var $: any;
@@ -21,7 +22,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
 
     public layout = '';
     public state: any;
-    public interval: number;
+    public interval: Timer;
     public additionalClasses: any[] = [];
 
 
@@ -98,7 +99,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                         fromLat: this.item.fromLat,
                         toLat: this.item.toLat,
                         fromLng: this.item.fromLng,
-                        toLng: this.item.toLng,
+                        toLng: this.item.toLng
                     }
                 };
                 hasXAxis = false;
