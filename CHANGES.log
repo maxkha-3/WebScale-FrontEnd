@@ -25,7 +25,7 @@ Version 0.0.3 [2018-11-04]
 
 Changes:
  - Major bug fixes
- - Widges can now be reconfigured
+ - Widgets can now be reconfigured
  - Improved styling of modals
  - Widget forms are now validated before being saved
  - Widget and Dashboard manipulations now require confirmation
@@ -42,7 +42,7 @@ Changes:
 
  =============================
   Version 0.1.0 [2018-12-02]
-  =============================
+ =============================
   - Major bux fixes
   - Added map widget
   - Fixed Muuri grid issues
@@ -50,3 +50,10 @@ Changes:
   - Added dummy predictions
   - Updated widgets according to the API
   - Connected to Druid API
+
+=============================
+  Version 0.2.0 [2018-12-XX]
+=============================
+ - Migration to Angular 7
+ - Historical Comparison widget
+ - Connection to Event Server

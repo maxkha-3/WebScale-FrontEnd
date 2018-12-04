@@ -221,8 +221,8 @@ export class WidgetComponent implements OnInit, OnDestroy {
                     this.state.results = cpy;
 
                     //Modify X-Scale with time difference (delta) instead of Dates
-                    this.state.results[0].series = this.state.results[0].series.map((dataPoint) => ({name: (Date.now() - dataPoint.name - (this.item.timeSpan * 60 * 1000))/(1000 * 60), value: dataPoint.value}));
-                    this.state.results[1].series = this.state.results[1].series.map((dataPoint) => ({name: (Date.now() - dataPoint.name)/(1000 * 60), value: dataPoint.value}));
+                    this.state.results[0].series = this.state.results[0].series.map((dataPoint) => ({name: (dataPoint.name - Date.now()) / (1000 * 60), value: dataPoint.value}));
+                    this.state.results[1].series = this.state.results[1].series.map((dataPoint) => ({name: (dataPoint.name - Date.now() + (this.item.historicalParam * 60 * 1000))/(1000 * 60), value: dataPoint.value}));
 
                     this.interval = setInterval(() => {
                         this.druidAPI.dataRetriever.historical(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan, this.item.historicalParam).then(refreshedData => {
@@ -235,8 +235,8 @@ export class WidgetComponent implements OnInit, OnDestroy {
                             this.state.results = cpy;
 
                             //Modify X-Scale with time difference (delta) instead of Dates
-                            this.state.results[0].series = this.state.results[0].series.map((dataPoint) => ({name: (Date.now() - dataPoint.name - (this.item.timeSpan * 60 * 1000))/(1000 * 60), value: dataPoint.value}));
-                            this.state.results[1].series = this.state.results[1].series.map((dataPoint) => ({name: (Date.now() - dataPoint.name)/(1000 * 60), value: dataPoint.value}));
+                            this.state.results[0].series = this.state.results[0].series.map((dataPoint) => ({name: (dataPoint.name - Date.now()) / (1000 * 60), value: dataPoint.value}));
+                            this.state.results[1].series = this.state.results[1].series.map((dataPoint) => ({name: (dataPoint.name - Date.now() + (this.item.historicalParam * 60 * 1000))/(1000 * 60), value: dataPoint.value}));
                         })
                     }, 5000)
                 });

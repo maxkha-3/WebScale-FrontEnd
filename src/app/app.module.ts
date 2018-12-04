@@ -14,7 +14,7 @@ import {NgxSmartModalModule} from 'ngx-smart-modal';
 import {UUID} from 'angular2-uuid';
 import {HttpClientModule} from '@angular/common/http';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
-import {LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster';
+import {LeafletMarkerClusterModule} from '@asymmetrik/ngx-leaflet-markercluster';
 
 //Components
 import {AppComponent} from './app.component';
@@ -23,7 +23,7 @@ import {SettingsComponent} from './components/settings/settings.component';
 import {HomeComponent} from './components/home/home.component';
 import {InstanceOverviewComponent} from './components/instance-overview/instance-overview.component';
 import {ServerErrorComponent} from './components/server-error/server-error.component';
-import { WidgetGeoComponent } from './directives/widget-geo/widget-geo.component';
+import {WidgetGeoComponent} from './directives/widget-geo/widget-geo.component';
 import {NotificationsComponent} from './components/notifications/notifications.component';
 import {MonitorOverviewComponent} from './components/instance-overview/monitor-overview/monitor-overview.component';
 import {TaskOverviewComponent} from './components/instance-overview/task-overview/task-overview.component';

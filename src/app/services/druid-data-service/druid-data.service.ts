@@ -27,7 +27,7 @@ export class DruidDataService {
         realTime: (selector: string, measure: string, sourceID: string, interval: number): Promise<any> => {
             return this.httpGetter(this.global.apiServerTargetAddressBase + 'timeseries/' + sourceID + '/' + measure + '?interval=' + interval);
         },
-        historical: (selector: string, measure: string, sourceID: string, interval: number, historical: number) => {
+        historical: (selector: string, measure: string, sourceID: string, interval: number, historical: number): Promise<any> => {
             return this.httpGetter(this.global.apiServerTargetAddressBase + 'timeseries/' + sourceID + '/' + measure + '?interval=' + interval + '&historic=' + historical);
         },
         esContribution: (selector: string, interval: number): Promise<any> => {
