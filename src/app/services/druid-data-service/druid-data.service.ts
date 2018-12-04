@@ -6,18 +6,29 @@ import {DummyDataService} from '../dummy-data.service';
 @Injectable()
 export class DruidDataService {
 
-
     constructor(private http: HttpClient, private global: GlobalService, private dummyData: DummyDataService) {
     }
 
+    /**
+     * JSON object with functions, that are used to retrieve data for widget population.
+     *
+     * Following parameters are used in the functions:
+     * selector - Data source type for queries (streams, tasks, or monitors).
+     * measure - Measure for queries (SLA, delay, etc).
+     * sourceID - ID of the source stream in timeseries queries.
+     * interval - Time interval to fetch data from.
+     * historical - Number of minutes to go back in time to fetch historical data of a timeseries.
+     * count - Number of entries to display in top-n query.
+     */
     public dataRetriever = {
         topNWorst: (selector: string, measure: string, count: number, interval: number): Promise<any> => {
-            let serverTargetAddress = this.global.serverTargetAddressBase + 'topn/' + selector + '/' + measure + '?interval=' + interval + '&count=' + count;
-            return this.httpGetter(serverTargetAddress);
+            return this.httpGetter(this.global.apiServerTargetAddressBase + 'topn/' + selector + '/' + measure + '?interval=' + interval + '&count=' + count);
         },
         realTime: (selector: string, measure: string, sourceID: string, interval: number): Promise<any> => {
-            let serverTargetAddress = this.global.serverTargetAddressBase + 'timeseries/' + sourceID + '/' + measure + '?interval=' + interval;
-            return this.httpGetter(serverTargetAddress);
+            return this.httpGetter(this.global.apiServerTargetAddressBase + 'timeseries/' + sourceID + '/' + measure + '?interval=' + interval);
+        },
+        historical: (selector: string, measure: string, sourceID: string, interval: number, historical: number) => {
+            return this.httpGetter(this.global.apiServerTargetAddressBase + 'timeseries/' + sourceID + '/' + measure + '?interval=' + interval + '&historic=' + historical);
         },
         esContribution: (selector: string, interval: number): Promise<any> => {
             return this.dummyData.esContributionData();
@@ -35,8 +46,6 @@ export class DruidDataService {
             return this.dummyData.realTimePredictionData(latestTimestamp, latestValue, selector, measure, sourceID, interval);
         }
     };
-
-
 
     httpGetter = (requestAddress: any): Promise<any> => {
         return new Promise((resolve) => {

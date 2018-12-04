@@ -81,7 +81,7 @@ export class LayoutFetchingService {
         },
         {
             widgetType: 'geo',
-            widgetName: 'Geographic',
+            widgetName: 'Geographic (*)',
             headerFunc: function(w) {
                 return `none`;
             },
@@ -244,6 +244,80 @@ export class LayoutFetchingService {
                     ]
                 }
             ]
+        },
+        {
+            widgetType: 'historic',
+            widgetName: 'Historical',
+            headerFunc: function(w) {
+                return `Comparison of ${this.options[2].choices.find(x => x.type == w.dataType).name} in ${this.options[0].choices.find(x => x.type == w.dataGroup).name} ${w.dataSourceID} (${w.timeSpan} min) now vs ${this.options[4].choices.find(x => x.type == w.historicalParam).name} ago`;
+            },
+            xAxisFunc: function(w) {
+                return  'Time delta (min)';
+            },
+            yAxisFunc: function(w) {
+                let opt = this.options[2].choices.find(x => x.type == w.dataType);
+                return `${opt.name} (${opt.unit})`;
+            },
+            options: [
+                {
+                    heading: 'Selector',
+                    type: 'dataGroup',
+                    choices: [
+                        {
+                            type: 'stream',
+                            name: 'Stream'
+                        }
+                    ]
+                },
+                {
+                    heading: 'Selector ID',
+                    type: 'dataSourceID'
+                },
+                {
+                    heading: 'Measure',
+                    type: 'dataType',
+                    choices: [
+                        {
+                            type: 'sla',
+                            name: 'SLA',
+                            unit: '%'
+                        },
+                        {
+                            type: 'avg_response_time',
+                            name: 'Avg. response time',
+                            unit: 'ms'
+                        }
+                    ]
+                },
+                {
+                    heading: 'Chart Type',
+                    type: 'chartType',
+                    choices: [
+                        {
+                            type: 'line',
+                            name: 'Line chart'
+                        }
+                    ]
+                },
+                {
+                    heading: 'Historical',
+                    type: 'historicalParam',
+                    choices: [
+                        {
+                            type: '60',
+                            name: '60 minutes'
+                        },
+                        {
+                            type: '1440',
+                            name: '24 hours'
+                        },
+                        {
+                            type: '43200',
+                            name: '30 days'
+                        }
+                    ]
+                }
+            ]
         }
     ];
 
@@ -318,7 +392,7 @@ export class LayoutFetchingService {
                         dataType: 'sla',
                         count: 10,
                         chartType: 'bar',
-                        timeSpan: 60,
+                        timeSpan: 43200,
                         size: this.getSize('Medium'),
                         ID: '541cad2d-936f-eb62-8918-82928d3c9968',
                         order: 5
@@ -350,7 +424,7 @@ export class LayoutFetchingService {
                         dataType: 'avg_response_time',
                         count: 10,
                         chartType: 'list',
-                        timeSpan: 60,
+                        timeSpan: 43200,
                         size: this.getSize('Medium'),
                         ID: '30ca3b75-e004-5a27-0820-438452c6a912',
                         order: 4
@@ -379,7 +453,7 @@ export class LayoutFetchingService {
                         dataType: 'sla',
                         count: 10,
                         chartType: 'bar',
-                        timeSpan: 60,
+                        timeSpan: 43200,
                         size: this.getSize('Medium'),
                         ID: 'd19f3606-6b67-7055-3668-a594b098f053',
                         order: 1

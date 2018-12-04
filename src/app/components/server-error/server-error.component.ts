@@ -10,10 +10,9 @@ import {GlobalService} from '../../services/global-service/global.service';
 })
 export class ServerErrorComponent implements OnInit, OnDestroy {
 
-    public interval: number;
+    public interval: any;
 
     constructor(private router: Router, private http: HttpClient, private global: GlobalService) {
-
     }
 
     ngOnInit() {
@@ -28,7 +27,7 @@ export class ServerErrorComponent implements OnInit, OnDestroy {
     }
 
     reconnectToServer = () => {
-        this.http.get(this.global.serverTargetAddressBase + "ping").subscribe(data => {
+        this.http.get(this.global.apiServerTargetAddressBase + "ping").subscribe(data => {
             if (data["result"] == "pong") {
                 this.router.navigate(['home']).then();
             }

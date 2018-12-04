@@ -2,11 +2,9 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {DruidDataService} from '../../services/druid-data-service/druid-data.service';
 import {ChartBaseService} from '../../services/chart-base-service/chart-base.service';
 import {NgxSmartModalService} from 'ngx-smart-modal';
-import {HttpClient} from '@angular/common/http';
-import {d3} from 'd3';
 import {LayoutFetchingService} from '../../services/layout-fetching-service/layout-fetching.service';
 import {Router} from '@angular/router';
-import Timer = NodeJS.Timer;
+import {d3} from 'd3';
 
 declare var jquery: any;
 declare var $: any;
@@ -22,9 +20,8 @@ export class WidgetComponent implements OnInit, OnDestroy {
 
     public layout = '';
     public state: any;
-    public interval: Timer;
+    public interval: any;
     public additionalClasses: any[] = [];
-
 
     constructor(private druidAPI: DruidDataService, private chartBase: ChartBaseService, public ngxSmartModalService: NgxSmartModalService, private layoutService: LayoutFetchingService, private router: Router) {
     }
@@ -140,8 +137,6 @@ export class WidgetComponent implements OnInit, OnDestroy {
                 }
                 this.state.route = ['monitoring/' + this.item.dataGroup + 's', this.item.dataSourceID];
                 this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(data => {
-
-                    console.log(data);
                     let cpy = this.state.results.slice();
                     cpy[0] = serializer(data.recent);
                     this.state.results = cpy;
@@ -209,6 +204,41 @@ export class WidgetComponent implements OnInit, OnDestroy {
                         });
 
                     }, 5000);
+                });
+                break;
+
+            case 'historic':
+                this.state.results = [serializer([]), serializer([])];
+                this.druidAPI.dataRetriever.historical(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan, this.item.historicalParam).then(data => {
+
+                    this.additionalClasses.push('dashed-chart');
+                    let cpy = this.state.results.slice();
+                    cpy[0] = serializer(data.historical);
+                    this.state.results = cpy;
+
+                    cpy = this.state.results.slice();
+                    cpy[1] = serializer(data.recent);
+                    this.state.results = cpy;
+
+                    //Modify X-Scale with time difference (delta) instead of Dates
+                    this.state.results[0].series = this.state.results[0].series.map((dataPoint) => ({name: (Date.now() - dataPoint.name - (this.item.timeSpan * 60 * 1000))/(1000 * 60), value: dataPoint.value}));
+                    this.state.results[1].series = this.state.results[1].series.map((dataPoint) => ({name: (Date.now() - dataPoint.name)/(1000 * 60), value: dataPoint.value}));
+
+                    this.interval = setInterval(() => {
+                        this.druidAPI.dataRetriever.historical(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan, this.item.historicalParam).then(refreshedData => {
+                            let cpy = this.state.results.slice();
+                            cpy[0] = serializer(data.historical);
+                            this.state.results = cpy;
+
+                            cpy = this.state.results.slice();
+                            cpy[1] = serializer(data.recent);
+                            this.state.results = cpy;
+
+                            //Modify X-Scale with time difference (delta) instead of Dates
+                            this.state.results[0].series = this.state.results[0].series.map((dataPoint) => ({name: (Date.now() - dataPoint.name - (this.item.timeSpan * 60 * 1000))/(1000 * 60), value: dataPoint.value}));
+                            this.state.results[1].series = this.state.results[1].series.map((dataPoint) => ({name: (Date.now() - dataPoint.name)/(1000 * 60), value: dataPoint.value}));
+                        })
+                    }, 5000)
                 });
                 break;
 

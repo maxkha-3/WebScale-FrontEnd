@@ -103,7 +103,7 @@ export class AppComponent {
      */
     pingServer = () => {
         if (this.router.url !== "/serverError") {
-            this.http.get(this.global.serverTargetAddressBase + "ping").subscribe(data => {
+            this.http.get(this.global.apiServerTargetAddressBase + "ping").subscribe(data => {
             },err => {
                 console.error(err);
                 this.router.navigate(['serverError']).then();

@@ -1,10 +1,13 @@
 import {Injectable} from '@angular/core';
+import {GlobalService} from '../global-service/global.service';
+
+declare var es_connector: any;
 
 @Injectable()
 export class EventServerService {
 
-    constructor() {
-        let obj = es_connector("ws://130.240.200.46:5000/ws-dummy", {minlvl: 0, maxlvl: 4, cats: []}, this.onConnect, this.onDisconnect, this.onMessage);
+    constructor(private global: GlobalService) {
+        let obj = es_connector(this.global.eventServerTargetAddressBase, {minlvl: 0, maxlvl: 4, cats: []}, this.onConnect, this.onDisconnect, this.onMessage);
         obj.connect();
     }
 
