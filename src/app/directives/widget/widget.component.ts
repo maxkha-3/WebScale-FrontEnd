@@ -199,18 +199,24 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * @param serializer
      */
     populateRealTimeWidget = (data: any, serializer: Function): void => {
-        let cpy = this.state.results.slice();
-        cpy[0] = serializer(data.recent);
-        this.state.results = cpy;
-        let latestTimestamp = new Date(cpy[0].series[cpy[0].series.length - 1].name);
-        let latestValue = cpy[0].series[cpy[0].series.length - 1].value;
+        if (data.recent.length !== 0) {
+            this.state.dataPresent = true;
 
-        if (this.item.prediction == 'true') {
-            this.druidAPI.predictionRetriever.realTimePrediction(latestTimestamp, latestValue, this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(data => {
-                let cpy = this.state.results.slice();
-                cpy[1] = serializer(data);
-                this.state.results = cpy;
-            });
+            let cpy = this.state.results.slice();
+            cpy[0] = serializer(data.recent);
+            this.state.results = cpy;
+            let latestTimestamp = new Date(cpy[0].series[cpy[0].series.length - 1].name);
+            let latestValue = cpy[0].series[cpy[0].series.length - 1].value;
+
+            if (this.item.prediction == 'true') {
+                this.druidAPI.predictionRetriever.realTimePrediction(latestTimestamp, latestValue, this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(data => {
+                    let cpy = this.state.results.slice();
+                    cpy[1] = serializer(data);
+                    this.state.results = cpy;
+                });
+            }
+        } else {
+            this.state.dataPresent = false;
         }
     };
 
@@ -220,23 +226,29 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * @param serializer
      */
     populateHistoricalWidget = (data: any, serializer: Function) => {
-        let cpy = this.state.results.slice();
-        cpy[0] = serializer(data.historical);
-        this.state.results = cpy;
+        if (data.recent.length !== 0) {
+            this.state.dataPresent = true;
 
-        cpy = this.state.results.slice();
-        cpy[1] = serializer(data.recent);
-        this.state.results = cpy;
+            let cpy = this.state.results.slice();
+            cpy[0] = serializer(data.historical);
+            this.state.results = cpy;
 
-        //Modify X-Scale with time difference (delta) instead of Dates
-        this.state.results[0].series = this.state.results[0].series.map((dataPoint) => ({
-            name: (dataPoint.name - Date.now() + (this.item.timeSpan * 60 * 1000)) / (1000 * 60),
-            value: dataPoint.value
-        }));
-        this.state.results[1].series = this.state.results[1].series.map((dataPoint) => ({
-            name: (dataPoint.name - Date.now() + (this.item.historicalParam * 60 * 1000) + (this.item.timeSpan * 60 * 1000)) / (1000 * 60),
-            value: dataPoint.value
-        }));
+            cpy = this.state.results.slice();
+            cpy[1] = serializer(data.recent);
+            this.state.results = cpy;
+
+            //Modify X-Scale with time difference (delta) instead of Dates
+            this.state.results[0].series = this.state.results[0].series.map((dataPoint) => ({
+                name: (dataPoint.name - Date.now() + (this.item.timeSpan * 60 * 1000)) / (1000 * 60),
+                value: dataPoint.value
+            }));
+            this.state.results[1].series = this.state.results[1].series.map((dataPoint) => ({
+                name: (dataPoint.name - Date.now() + (this.item.historicalParam * 60 * 1000) + (this.item.timeSpan * 60 * 1000)) / (1000 * 60),
+                value: dataPoint.value
+            }));
+        } else {
+            this.state.dataPresent = false;
+        }
     };
 
     /**
@@ -327,7 +339,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * Routes to an instance, when clicking on widget header.
      */
     routeToInstance = (): void => {
-        if (this.state.route) {
+        if (this.state.route && this.state.dataPresent) {
             this.router.navigate(this.state.route).then();
         }
     };

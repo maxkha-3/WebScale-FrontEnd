@@ -1,10 +1,15 @@
 <div class="widget-frame">
-    <div class="widget-heading">
+    <div class="widget-heading" [ngClass]="{'widget-frame-warning': state.dataPresent === false}">
         <i class="widget-drag-handle fa fa-bars"></i>
-        <button class="btn btn-link header-link" [ngClass]="{'header-link-non-clickable': !state.route}" (click)="routeToInstance()">{{state.heading}}</button>
-        <i class="widget-settings-icon fa fa-cog float-right" (click)="showSettings()"></i>
+        <i *ngIf="state.dataPresent === false" class="fa fa-warning"></i>
+        <button class="btn btn-link header-link" [ngClass]="{'header-link-non-clickable': (!state.route && state.dataPresent !== false)}" (click)="routeToInstance()">{{state.heading}}</button>
+        <i *ngIf="state.dataPresent !== false" class="widget-settings-icon fa fa-cog float-right" (click)="showSettings()"></i>
     </div>
     <div class="widget-content" [ngSwitch]="layout">
+        <div *ngIf="state.dataPresent === false" align="center">
+            <button class="btn btn-warning" (click)="showSettings()">Change Settings</button>
+        </div>
+
         <p-chart [type]="state.type" [data]="state.data" [options]="state.options" *ngSwitchCase="'chart'"></p-chart>
 
         <app-widget-list [item]="state.data" [options]="state.listOptions" *ngSwitchCase="'list'"></app-widget-list>
@@ -71,6 +76,7 @@
         <div class="chart-test" *ngSwitchCase="'line-chart'">
             <div class="chart-test-inner {{this.additionalClasses.join(' ')}}">
                 <ngx-charts-line-chart
+                    *ngIf="state.dataPresent !== false"
                     [view]="state.view"
                     [results]="state.results"
                     [scheme]="state.scheme"
