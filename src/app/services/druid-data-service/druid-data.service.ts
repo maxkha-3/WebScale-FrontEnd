@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {GlobalService} from '../global-service/global.service';
-import {DummyDataService} from '../dummy-data.service';
+import {DummyDataService} from '../dummy-data-service/dummy-data.service';
 
 @Injectable()
 export class DruidDataService {
@@ -41,15 +41,29 @@ export class DruidDataService {
         }
     };
 
+    /**
+     * JSON object with functions, that are used to retrieve predictions for widget population.* selector - Data source type for queries (streams, tasks, or monitors).
+     *
+     * Following parameters are used in the functions:
+     * latestTimestamp - latest timestamp of the data series.
+     * latestValue - latest value of the data series.
+     * measure - Measure for queries (SLA, delay, etc).
+     * sourceID - ID of the source stream in timeseries queries.
+     * interval - Time interval to fetch data from.
+     */
     public predictionRetriever = {
         realTimePrediction: (latestTimestamp: Date, latestValue: string, selector: string, measure: string, sourceID: string, interval: number): Promise<any> => {
             return this.dummyData.realTimePredictionData(latestTimestamp, latestValue, selector, measure, sourceID, interval);
         }
     };
 
-    httpGetter = (requestAddress: any): Promise<any> => {
+    /**
+     * Makes HTTP GET calls to a target address.
+     * @param targetAddress
+     */
+    httpGetter = (targetAddress: any): Promise<any> => {
         return new Promise((resolve) => {
-            this.http.get(requestAddress).subscribe(data => {
+            this.http.get(targetAddress).subscribe(data => {
                 resolve(data);
             });
         });

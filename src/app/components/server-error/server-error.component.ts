@@ -26,6 +26,9 @@ export class ServerErrorComponent implements OnInit, OnDestroy {
         clearInterval(this.interval);
     }
 
+    /**
+     * Function, that attempts to reconnect to server. Navigates to 'home', if successful.
+     */
     reconnectToServer = () => {
         this.http.get(this.global.apiServerTargetAddressBase + "ping").subscribe(data => {
             if (data["result"] == "pong") {

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {MiscService} from './misc-service/misc.service';
+import {MiscService} from '../misc-service/misc.service';
 
 @Injectable()
 export class DummyDataService {

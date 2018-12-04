@@ -46,7 +46,7 @@ import {DruidDataService} from './services/druid-data-service/druid-data.service
 import {ChartBaseService} from './services/chart-base-service/chart-base.service';
 import {FormlyFieldBaseService} from './formly/field-bases/formly-field-base.service';
 import {EventServerService} from './services/event-server-service/event-server.service';
-import {DummyDataService} from './services/dummy-data.service';
+import {DummyDataService} from './services/dummy-data-service/dummy-data.service';
 
 //Router path template
 const appRoutes: Routes = [

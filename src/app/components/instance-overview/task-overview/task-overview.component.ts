@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-task-overview',
-  templateUrl: './task-overview.component.html',
-  styleUrls: ['./task-overview.component.scss']
+    selector: 'app-task-overview',
+    templateUrl: './task-overview.component.html',
+    styleUrls: ['./task-overview.component.scss']
 })
 export class TaskOverviewComponent implements OnInit {
 
-  constructor() { }
+    constructor() {
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 }

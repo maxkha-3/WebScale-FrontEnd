@@ -17,6 +17,9 @@ export class NotificationsComponent implements OnInit {
         this.getNotifications();
     }
 
+    /**
+     * Fetches notifications from EventServerService.
+     */
     getNotifications = () => {
         this.notifications = this.eventFetcher.getEventNotifications();
     }

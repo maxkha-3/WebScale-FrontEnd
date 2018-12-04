@@ -35,7 +35,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Initializes the widgets and refreshed its data
+     * Initializes the widgets and refreshes its data.
      */
     initializeWidget = () => {
         let serializer, hasXAxis, hasYAxis;
@@ -257,7 +257,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
     };
 
     /**
-     * Serializes data for a Bar Chart
+     * Serializes data for a Bar Chart.
      * @param data
      * @param measure (optional)
      * @param prefix (optional) - prefix before x-axis label
@@ -269,7 +269,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
     };
 
     /**
-     * Serializes data for Number Cards Chart
+     * Serializes data for Number Cards Chart.
      * @param data
      * @param measure (optional)
      * @param prefix (optional) - prefix before x-axis label
@@ -281,7 +281,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
     };
 
     /**
-     * Serializes data for a Tree Chart
+     * Serializes data for a Tree Chart.
      * @param data
      * @param measure (optional)
      * @param prefix (optional) - prefix before x-axis label
@@ -293,7 +293,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
     };
 
     /**
-     * Serializes data for a Doughnut Chart
+     * Serializes data for a Doughnut Chart.
      * @param data
      * @param measure (optional)
      * @param prefix (optional) - prefix before label
@@ -305,7 +305,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
     };
 
     /**
-     * Serializes data for a Line Chart
+     * Serializes data for a Line Chart.
      * @param data
      * @param measure (optional)
      */
@@ -319,7 +319,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
     };
 
     /**
-     * Serializes data for a List Widget
+     * Serializes data for a List Widget.
      * @param data
      * @param measure (optional)
      * @param prefix (optional) - prefix before x-axis label
@@ -332,7 +332,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
     };
 
     /**
-     * Serializes data for a Map Widget
+     * Serializes data for a Map Widget.
      * @param data
      */
     mapSerializer = (data: any) => {
@@ -340,6 +340,9 @@ export class WidgetComponent implements OnInit, OnDestroy {
     };
 
 
+    /**
+     * Routes to an instance, when clicking on widget header.
+     */
     routeToInstance = () => {
         if (this.state.route) {
             this.router.navigate(this.state.route).then();

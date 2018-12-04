@@ -23,6 +23,11 @@ export class InstanceOverviewComponent implements OnInit {
         });
     }
 
+    /**
+     * Routes to an instance for monitoring.
+     * @param sourceType
+     * @param sourceID
+     */
     routeToInstance = (sourceType: string, sourceID : string) => {
         this.router.navigate(['monitoring/' + sourceType, sourceID]).then();
     }

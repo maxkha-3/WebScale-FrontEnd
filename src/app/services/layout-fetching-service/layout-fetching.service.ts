@@ -7,6 +7,11 @@ export class LayoutFetchingService {
     private dashboardLayouts: any;
     public layoutsUpdated: Subject<any>;
 
+    constructor() {
+        this.dashboardLayouts = JSON.parse(localStorage.getItem('dashboardLayouts'));
+        this.layoutsUpdated = new Subject<any>();
+    }
+
     /**
      * Lists available valid widget combinations.
      */
@@ -475,11 +480,6 @@ export class LayoutFetchingService {
             }
         ]
     };
-
-    constructor() {
-        this.dashboardLayouts = JSON.parse(localStorage.getItem('dashboardLayouts'));
-        this.layoutsUpdated = new Subject<any>();
-    }
 
     /**
      * Fetches a JSON schema for a particular dashboard.
