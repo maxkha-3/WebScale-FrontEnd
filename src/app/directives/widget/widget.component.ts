@@ -118,7 +118,6 @@ export class WidgetComponent implements OnInit, OnDestroy {
 
             case 'topNWorst':
                 this.druidAPI.dataRetriever.topNWorst(this.item.dataGroup, this.item.dataType, this.item.count, this.item.timeSpan).then(data => {
-
                     serializer(data);
                     this.interval = setInterval(() => {
                         this.druidAPI.dataRetriever.topNWorst(this.item.dataGroup, this.item.dataType, this.item.count, this.item.timeSpan).then(refreshedData => {
@@ -129,67 +128,27 @@ export class WidgetComponent implements OnInit, OnDestroy {
                 break;
 
             case 'realTime':
-                if (this.item.prediction == 'true') {
-                    this.additionalClasses.push('dashed-chart');
-                    this.state.results = [serializer([]), serializer([])];
-                } else {
-                    this.state.results = [serializer([])];
-                }
+                this.state.results = (this.item.prediction === 'true' ? [serializer([]), serializer([])] : [serializer([])]);
+                this.item.prediction === 'true' ? this.additionalClasses.push('dashed-chart') : {};
                 this.state.route = ['monitoring/' + this.item.dataGroup + 's', this.item.dataSourceID];
+
                 this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(data => {
-                    let cpy = this.state.results.slice();
-                    cpy[0] = serializer(data.recent);
-                    this.state.results = cpy;
-                    let latestTimestamp = new Date(cpy[0].series[cpy[0].series.length - 1].name);
-                    let latestValue = cpy[0].series[cpy[0].series.length - 1].value;
-
-                    if (this.item.prediction == 'true') {
-                        this.druidAPI.predictionRetriever.realTimePrediction(latestTimestamp, latestValue, this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(data => {
-                            let cpy = this.state.results.slice();
-                            cpy[1] = serializer(data);
-                            this.state.results = cpy;
+                    this.populateRealTimeWidget(data, serializer);
+                    this.interval = setInterval(() => {
+                        this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(refreshedData => {
+                            this.populateRealTimeWidget(refreshedData, serializer);
                         });
-                    }
-
-                    if (this.item.prediction == 'true') {
-                        this.interval = setInterval(() => {
-                            this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(refreshedData => {
-                                let cpy = this.state.results.slice();
-                                cpy[0] = serializer(refreshedData.recent);
-                                this.state.results = cpy;
-                                let latestTimestamp = new Date(cpy[0].series[cpy[0].series.length - 1].name);
-                                let latestValue = cpy[0].series[cpy[0].series.length - 1].value;
-
-                                this.druidAPI.predictionRetriever.realTimePrediction(latestTimestamp, latestValue, this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(refreshedData => {
-                                    let cpy = this.state.results.slice();
-                                    cpy[1] = serializer(refreshedData);
-                                    this.state.results = cpy;
-                                });
-                            });
-
-                        }, 5000);
-                    } else {
-                        this.interval = setInterval(() => {
-                            this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(refreshedData => {
-                                let cpy = this.state.results.slice();
-                                cpy[0] = serializer(refreshedData.recent);
-                                this.state.results = cpy;
-                            });
-                        }, 5000);
-                    }
-
+                    }, 5000);
                 });
                 break;
 
             case 'esContribution':
                 this.druidAPI.dataRetriever.esContribution(this.item.dataGroup, this.item.timeSpan).then(data => {
-
                     serializer(data, 'es', '');
                     this.interval = setInterval(() => {
                         this.druidAPI.dataRetriever.esContribution(this.item.dataGroup, this.item.timeSpan).then(refreshedData => {
                             serializer(refreshedData, 'es', '');
                         });
-
                     }, 5000);
                 });
                 break;
@@ -197,7 +156,6 @@ export class WidgetComponent implements OnInit, OnDestroy {
             case 'geo':
                 this.druidAPI.dataRetriever.geographicOverview(this.item.fromLat, this.item.fromLng, this.item.toLat, this.item.toLng).then(data => {
                     serializer(data);
-
                     this.interval = setInterval(() => {
                         this.druidAPI.dataRetriever.geographicOverview(this.item.fromLat, this.item.fromLng, this.item.toLat, this.item.toLng).then(refreshedData => {
                             serializer(refreshedData);
@@ -208,37 +166,16 @@ export class WidgetComponent implements OnInit, OnDestroy {
                 break;
 
             case 'historic':
+                this.additionalClasses.push('dashed-chart');
                 this.state.results = [serializer([]), serializer([])];
                 this.druidAPI.dataRetriever.historical(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan, this.item.historicalParam).then(data => {
-
-                    this.additionalClasses.push('dashed-chart');
-                    let cpy = this.state.results.slice();
-                    cpy[0] = serializer(data.historical);
-                    this.state.results = cpy;
-
-                    cpy = this.state.results.slice();
-                    cpy[1] = serializer(data.recent);
-                    this.state.results = cpy;
-
-                    //Modify X-Scale with time difference (delta) instead of Dates
-                    this.state.results[0].series = this.state.results[0].series.map((dataPoint) => ({name: (dataPoint.name - Date.now()) / (1000 * 60), value: dataPoint.value}));
-                    this.state.results[1].series = this.state.results[1].series.map((dataPoint) => ({name: (dataPoint.name - Date.now() + (this.item.historicalParam * 60 * 1000))/(1000 * 60), value: dataPoint.value}));
+                    this.populateHistoricalWidget(data, serializer);
 
                     this.interval = setInterval(() => {
                         this.druidAPI.dataRetriever.historical(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan, this.item.historicalParam).then(refreshedData => {
-                            let cpy = this.state.results.slice();
-                            cpy[0] = serializer(data.historical);
-                            this.state.results = cpy;
-
-                            cpy = this.state.results.slice();
-                            cpy[1] = serializer(data.recent);
-                            this.state.results = cpy;
-
-                            //Modify X-Scale with time difference (delta) instead of Dates
-                            this.state.results[0].series = this.state.results[0].series.map((dataPoint) => ({name: (dataPoint.name - Date.now() + (this.item.timeSpan * 60 * 1000)) / (1000 * 60), value: dataPoint.value}));
-                            this.state.results[1].series = this.state.results[1].series.map((dataPoint) => ({name: (dataPoint.name - Date.now() + (this.item.historicalParam * 60 * 1000) + (this.item.timeSpan * 60 * 1000))/(1000 * 60), value: dataPoint.value}));
-                        })
-                    }, 5000)
+                           this.populateHistoricalWidget(refreshedData, serializer);
+                        });
+                    }, 5000);
                 });
                 break;
 
@@ -257,14 +194,60 @@ export class WidgetComponent implements OnInit, OnDestroy {
     };
 
     /**
+     * Generates datasets from fetched API data for Real Time widgets.
+     * @param data
+     * @param serializer
+     */
+    populateRealTimeWidget = (data: any, serializer: Function): void => {
+        let cpy = this.state.results.slice();
+        cpy[0] = serializer(data.recent);
+        this.state.results = cpy;
+        let latestTimestamp = new Date(cpy[0].series[cpy[0].series.length - 1].name);
+        let latestValue = cpy[0].series[cpy[0].series.length - 1].value;
+
+        if (this.item.prediction == 'true') {
+            this.druidAPI.predictionRetriever.realTimePrediction(latestTimestamp, latestValue, this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(data => {
+                let cpy = this.state.results.slice();
+                cpy[1] = serializer(data);
+                this.state.results = cpy;
+            });
+        }
+    };
+
+    /**
+     * Generates datasets from fetched API data for Historical widgets.
+     * @param data
+     * @param serializer
+     */
+    populateHistoricalWidget = (data: any, serializer: Function) => {
+        let cpy = this.state.results.slice();
+        cpy[0] = serializer(data.historical);
+        this.state.results = cpy;
+
+        cpy = this.state.results.slice();
+        cpy[1] = serializer(data.recent);
+        this.state.results = cpy;
+
+        //Modify X-Scale with time difference (delta) instead of Dates
+        this.state.results[0].series = this.state.results[0].series.map((dataPoint) => ({
+            name: (dataPoint.name - Date.now() + (this.item.timeSpan * 60 * 1000)) / (1000 * 60),
+            value: dataPoint.value
+        }));
+        this.state.results[1].series = this.state.results[1].series.map((dataPoint) => ({
+            name: (dataPoint.name - Date.now() + (this.item.historicalParam * 60 * 1000) + (this.item.timeSpan * 60 * 1000)) / (1000 * 60),
+            value: dataPoint.value
+        }));
+    };
+
+    /**
      * Serializes data for a Bar Chart.
      * @param data
      * @param measure (optional)
      * @param prefix (optional) - prefix before x-axis label
      */
-    barChartSerializer = (data: any, measure?: string, prefix?: string) => {
-        measure = (measure == undefined ? "value" : measure);
-        prefix = (prefix == undefined ? "#" : prefix);
+    barChartSerializer = (data: any, measure?: string, prefix?: string): void => {
+        measure = (measure == undefined ? 'value' : measure);
+        prefix = (prefix == undefined ? '#' : prefix);
         this.state.results = data.map((row) => ({'name': prefix + row.selector_id, 'value': row[measure]}));
     };
 
@@ -274,9 +257,9 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * @param measure (optional)
      * @param prefix (optional) - prefix before x-axis label
      */
-    numberCardsChartSerializer = (data: any, measure?: string, prefix?: string) => {
-        measure = (measure == undefined ? "value" : measure);
-        prefix = (prefix == undefined ? "#" : prefix);
+    numberCardsChartSerializer = (data: any, measure?: string, prefix?: string): void => {
+        measure = (measure == undefined ? 'value' : measure);
+        prefix = (prefix == undefined ? '#' : prefix);
         this.state.results = data.map((row) => ({'name': prefix + row.ID, 'value': row.Data[measure]}));
     };
 
@@ -286,9 +269,9 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * @param measure (optional)
      * @param prefix (optional) - prefix before x-axis label
      */
-    treeChartSerializer = (data: any, measure?: string, prefix?: string) => {
-        measure = (measure == undefined ? "value" : measure);
-        prefix = (prefix == undefined ? "#" : prefix);
+    treeChartSerializer = (data: any, measure?: string, prefix?: string): void => {
+        measure = (measure == undefined ? 'value' : measure);
+        prefix = (prefix == undefined ? '#' : prefix);
         this.state.results = data.map((row) => ({'name': prefix + row.ID, 'value': row.Data[measure]}));
     };
 
@@ -298,9 +281,9 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * @param measure (optional)
      * @param prefix (optional) - prefix before label
      */
-    doughnutChartSerializer = (data: any, measure?: string, prefix?: string) => {
-        measure = (measure == undefined ? "value" : measure);
-        prefix = (prefix == undefined ? "#" : prefix);
+    doughnutChartSerializer = (data: any, measure?: string, prefix?: string): void => {
+        measure = (measure == undefined ? 'value' : measure);
+        prefix = (prefix == undefined ? '#' : prefix);
         this.state.results = data.map((row) => ({'name': prefix + row.ID, 'value': row.Data[measure]}));
     };
 
@@ -310,7 +293,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * @param measure (optional)
      */
     lineChartSerializer = (data: any, measure?: string): object => {
-        measure = (measure == undefined ? "value" : measure);
+        measure = (measure == undefined ? 'value' : measure);
         const Data = data.map((row) => ({'name': new Date(row.timestamp), 'value': row[measure]}));
         return {
             name: 'Value',
@@ -324,9 +307,9 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * @param measure (optional)
      * @param prefix (optional) - prefix before x-axis label
      */
-    listSerializer = (data: any, measure?: string, prefix?: string) => {
-        measure = (measure == undefined ? "value" : measure);
-        prefix = (prefix == undefined ? "#" : prefix);
+    listSerializer = (data: any, measure?: string, prefix?: string): void => {
+        measure = (measure == undefined ? 'value' : measure);
+        prefix = (prefix == undefined ? '#' : prefix);
         this.state.listOptions.headers = [this.state.xAxisLabel, this.state.yAxisLabel];
         this.state.data = data.map((row) => [prefix + row.selector_id, row[measure].toFixed(5)]);
     };
@@ -335,7 +318,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * Serializes data for a Map Widget.
      * @param data
      */
-    mapSerializer = (data: any) => {
+    mapSerializer = (data: any): void => {
         this.state.data = data;
     };
 
@@ -343,7 +326,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
     /**
      * Routes to an instance, when clicking on widget header.
      */
-    routeToInstance = () => {
+    routeToInstance = (): void => {
         if (this.state.route) {
             this.router.navigate(this.state.route).then();
         }
