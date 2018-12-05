@@ -67,7 +67,7 @@ export class DummyDataService {
 
     realTimePredictionData = (latestTimestamp: Date, latestValue: string, selector: string, measure: string, sourceID: string, interval: number): Promise<any> => {
         return new Promise((resolve, reject) => {
-            let predictionData = [{timestamp: latestTimestamp.toISOString(), value: latestValue}];
+            let predictionData = {prediction: [{timestamp: latestTimestamp.toISOString(), value: latestValue}]};
 
             let randFrom = 0;
             let randTo = 1000;
@@ -81,7 +81,7 @@ export class DummyDataService {
             }
 
             for (let i = 1; i < 10; i++) {
-                predictionData.push({timestamp: new Date(latestTimestamp.getTime() + (interval / 20 * i * 60 * 1000)).toISOString(), value: this.miscService.randomInt(randFrom, randTo).toString()});
+                predictionData.prediction.push({timestamp: new Date(latestTimestamp.getTime() + (interval / 20 * i * 60 * 1000)).toISOString(), value: this.miscService.randomInt(randFrom, randTo).toString()});
             }
             resolve(predictionData);
         });

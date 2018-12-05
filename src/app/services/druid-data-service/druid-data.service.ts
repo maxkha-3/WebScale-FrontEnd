@@ -53,6 +53,9 @@ export class DruidDataService {
      */
     public predictionRetriever = {
         realTimePrediction: (latestTimestamp: Date, latestValue: string, selector: string, measure: string, sourceID: string, interval: number): Promise<any> => {
+            if (measure === 'avg_response_time') {
+                return this.httpGetter(this.global.predictionServerTargetAddressBase + sourceID + '/' + measure + '?interval=' + interval);
+            }
             return this.dummyData.realTimePredictionData(latestTimestamp, latestValue, selector, measure, sourceID, interval);
         }
     };

@@ -211,7 +211,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
             if (this.item.prediction == 'true') {
                 this.druidAPI.predictionRetriever.realTimePrediction(latestTimestamp, latestValue, this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(data => {
                     let cpy = this.state.results.slice();
-                    cpy[1] = serializer(data);
+                    cpy[1] = serializer(data.prediction);
                     this.state.results = cpy;
                 });
             }
