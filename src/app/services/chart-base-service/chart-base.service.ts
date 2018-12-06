@@ -63,6 +63,30 @@ export class ChartBaseService {
     };
 
     /**
+     * Returns base for ES Line Chart
+     */
+    getESLineBase = () => {
+        return {
+            results: [],
+            scheme: {
+                domain: ['#00ff00', '#fe0000', '#fd0000', '#fc0000', '#000000'],
+                group: 'Continuous'
+            },
+            schemeType: 'linear',
+            xAxisLabel: '',
+            yAxisLabel: '',
+            showXAxisLabel: false,
+            showYAxisLabel: false,
+            xAxis: false,
+            yAxis: false,
+            gradient: true,
+            legend: false,
+            tooltipDisabled: true,
+            curve: d3.curveStep
+        };
+    };
+
+    /**
      * Returns base for a Tree Chart
      */
     getTreeBase = () => {

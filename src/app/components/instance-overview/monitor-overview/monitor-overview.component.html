@@ -24,17 +24,17 @@
         </div>
 
         <div class="accordion" id="taskAccordion">
-            <div class="card" *ngFor="let task of tasks" attr.data-task-id="{{task.ID}}">
-                <a class="card-header p-0 position-relative" id="tsk-header-{{task.Reference}}" style="display:flex;">
+            <div class="card" *ngFor="let task of tasks" attr.data-task-id="{{task.name}}">
+                <a class="card-header p-0 position-relative" (click)="routeToInstance('tasks', task.id)" id="tsk-header-{{task.id}}" style="display:flex;">
                     <h5 class="mb-0 position-absolute">
                         <div class="btn">
-                            Task: {{task.ID}}
+                            {{task.name}}
                         </div>
                     </h5>
                     <div style="flex:auto; height:50px;">
                         <ngx-charts-line-chart
                             [view]="lineChartState.view"
-                            [results]="lineChartState.results"
+                            [results]="[task]"
                             [scheme]="lineChartState.scheme"
                             [xAxisLabel]="lineChartState.xAxisLabel"
                             [yAxisLabel]="lineChartState.yAxisLabel"
