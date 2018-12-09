@@ -7,6 +7,7 @@ import {GlobalService} from './services/global-service/global.service';
 import {EventServerService} from './services/event-server-service/event-server.service';
 
 import * as _ from 'lodash';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
     selector: 'app-root',
@@ -40,6 +41,10 @@ export class AppComponent {
         this.layoutFetcher.layoutsUpdated.subscribe(() => {
             this.dashboardLayouts = this.layoutFetcher.getAvailableLayouts();
         });
+
+        this.eventFetcher.eventIncoming.subscribe(() => {
+           this.notifications = this.eventFetcher.getEventNotifications();
+        });
         this.initiateEventServer();
     }
 
@@ -57,9 +62,7 @@ export class AppComponent {
      *
      */
     initiateEventServer = (): void => {
-        this.eventFetcher.setOnMessage((event) => {
-            this.notifications.unshift(event);
-        });
+        this.eventFetcher.setOnMessage(() => {});
     };
 
     /**
