@@ -30,12 +30,13 @@ export class InstanceOverviewComponent implements OnInit {
             switch(this.sourceType){
                 case 'monitors':
                     this.dataAPI.getAllMonitors().then((data) => {
+                        console.log(data);
                        this.list = data.map(x => ({
                            id: x.monitor_id,
                            name: 'Monitor ' + x.monitor_id,
-                           series: x.timeline.map(y => ({
+                           series: x.error_seconds.map(y => ({
                                name: new Date(y.timestamp),
-                               value: y.es
+                               value: y.value
                            }))}));
                     });
                     break;
@@ -44,9 +45,9 @@ export class InstanceOverviewComponent implements OnInit {
                         this.list = data.map(x => ({
                             id: x.task_id,
                             name: 'Task ' + x.task_id,
-                            series: x.timeline.map(y => ({
+                            series: x.error_seconds.map(y => ({
                                 name: new Date(y.timestamp),
-                                value: y.es
+                                value: y.value
                             }))}));
                     });
                     break;
@@ -55,9 +56,9 @@ export class InstanceOverviewComponent implements OnInit {
                         this.list = data.map(x => ({
                             id: x.stream_id,
                             name: 'Stream ' + x.stream_id,
-                            series: x.timeline.map(y => ({
+                            series: x.error_seconds.map(y => ({
                                 name: new Date(y.timestamp),
-                                value: y.es
+                                value: y.value
                             }))}));
                     });
                     break;

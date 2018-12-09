@@ -34,12 +34,12 @@ export class MonitorOverviewComponent implements OnInit {
                     this.tasks = data.map(x => ({
                         id: x.task_id,
                         name: 'Task ' + x.task_id,
-                        series: x.timeline.map(y => ({
+                        series: x.error_seconds.map(y => ({
                             name: new Date(y.timestamp),
-                            value: y.es
+                            value: y.value
                         }))}));
 
-                    this.monitorChartState.results = this.tasks;
+                    this.monitorChartState.results = this.tasks.reverse();
                 });
 
                 //line
