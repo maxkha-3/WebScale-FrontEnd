@@ -8,7 +8,7 @@
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><i class="fa fa-cube"></i></span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><i class="fa fa-cube"></i> <b>Kube</b>SCALE</span>
+            <span class="logo-lg"><i class="fa fa-cube"></i>&nbsp;<b>Kube</b>SCALE</span>
         </a>
 
         <!-- Header Navbar: style can be found in header.less -->
@@ -69,13 +69,15 @@
                     <ul class="treeview-menu">
                         <li *ngFor="let layout of dashboardLayouts"><a (click)="routeToDashboard(layout.id)"><i class="fa fa-circle-o"></i> {{layout.name}}</a></li>
                         <li *ngIf="!newLayoutInitiated"><a (click)="initiateNewLayout(true)"><i class="fa fa-plus"></i> New Layout</a></li>
-                        <li *ngIf="newLayoutInitiated"><div class="input-group">
-                            <input type="text" class="form-control" [(ngModel)]="newLayoutName" placeholder="Layout name" aria-label="Layout name" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button" (click)="createNewDashboard(newLayoutName)"><i class="fa fa-check"></i></button>
-                                <button class="btn btn-outline-secondary" type="button" (click)="initiateNewLayout(false)"><i class="fa fa-remove"></i></button>
+                        <li *ngIf="newLayoutInitiated">
+                            <div class="input-group">
+                                <input style="border-radius: 5px;" type="text" class="form-control" [(ngModel)]="newLayoutName" placeholder="Layout name" aria-label="Layout name" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" [disabled]="newLayoutName.length === 0" (click)="createNewDashboard(newLayoutName)"><i class="fa fa-check"></i></button>
+                                    <button class="btn btn-outline-secondary" type="button" (click)="initiateNewLayout(false)"><i class="fa fa-remove"></i></button>
+                                </div>
                             </div>
-                        </div></li>
+                        </li>
                     </ul>
                 </li>
                 <li class="active treeview menu-open">
@@ -86,7 +88,6 @@
                         <li><a (click)="routeToMonitoring('tasks')"><i class="fa fa-circle-o"></i> Tasks</a></li>
                     </ul>
                 </li>
-                <li class="active"><a (click)="routeToComponent('analytics')"><i class="fa fa-bar-chart"></i> <span>&nbsp;Analytics</span></a></li>
                 <li class="active"><a (click)="routeToComponent('notifications')"><i class="fa fa-bell"></i> <span>&nbsp;Notifications</span></a></li>
                 <li class="active"><a (click)="routeToComponent('settings')"><i class="fa fa-cogs"></i> <span>&nbsp;Settings</span></a></li>
             </ul>

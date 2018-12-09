@@ -227,7 +227,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             }
         }
         this.widgetSettingsFormModel.widgetName = widgetTypeBase.widgetName;
-        this.widgetSettingsModalText = "Widget Settings (" + widgetTypeBase.widgetName + ")";
+        this.widgetSettingsModalText = "Widget Settings - " + widgetTypeBase.widgetName;
 
 
         this.widgetSettingsFormFields = [...this.widgetSettingsFormFields, this.formlyFieldBase.getInputBase('widgetName', 'Widget Type', true, true)];

@@ -17,28 +17,28 @@
 </div>
 
 <ngx-smart-modal #widgetSettingsModal identifier="widgetSettingsModal" customClass="wide-modal" (onOpen)="setWidgetSettingsModal(widgetSettingsModal.getData())" (onClose)="resetWidgetSettingsModal()" (onDismiss)="resetWidgetSettingsModal()">
-    <h2>{{widgetSettingsModalText}}</h2>
-    <hr>
+    <div class="container">
+        <h2 class="dashboard-heading"><span class="badge badge-dark">{{widgetSettingsModalText}}</span></h2>
+        <div class="dashboard-widget-form-container">
+            <form [formGroup]="widgetSettingsForm">
+                <formly-form [model]="widgetSettingsFormModel" [fields]="widgetSettingsFormFields" [form]="widgetSettingsForm">
+                </formly-form>
+            </form>
+        </div>
 
-    <form [formGroup]="widgetSettingsForm">
-        <formly-form [model]="widgetSettingsFormModel" [fields]="widgetSettingsFormFields" [form]="widgetSettingsForm">
-        </formly-form>
-    </form>
-
-    <pre>{{widgetSettingsFormModel | json}}</pre>
-    <hr>
-
-    <button class="btn btn-danger pull-right" (click)="openAcceptWidgetActionModal(removeWidget, widgetSettingsModal.getData())"><i class="fa fa-trash"></i> Remove</button>
-    <button style="margin-right: 5px;" class="btn btn-success pull-right" (click)="openAcceptWidgetActionModal(saveWidgetSettings, widgetSettingsFormModel)" [disabled]="widgetSettingsForm.invalid"><i class="fa fa-save"></i> Save</button>
+        <button style="margin-right: 5px;" class="btn btn-danger pull-right" (click)="openAcceptWidgetActionModal(removeWidget, widgetSettingsModal.getData())"><i class="fa fa-trash"></i> Remove</button>
+        <button style="margin-right: 5px;" class="btn btn-success pull-right" (click)="openAcceptWidgetActionModal(saveWidgetSettings, widgetSettingsFormModel)" [disabled]="widgetSettingsForm.invalid"><i class="fa fa-save"></i> Save</button>
+    </div>
 </ngx-smart-modal>
 
 <ngx-smart-modal #acceptWidgetActionModal identifier="acceptWidgetActionModal" (onClose)="resetAcceptWidgetActionModal()">
-    <h2 align="center">Are you sure?</h2>
-    <hr>
+    <div class="container">
+        <h3 align="center">Are you sure?</h3>
 
-    <div align="center">
-        <button class="btn btn-success" (click)="executeAcceptWidgetActionModalFunction(acceptWidgetActionModal.getData())">Yes</button>
-        <button class="btn btn-danger" (click)="acceptWidgetActionModal.close()">No</button>
+        <div align="center">
+            <button style="margin-right: 5px;" class="btn btn-success" (click)="executeAcceptWidgetActionModalFunction(acceptWidgetActionModal.getData())">Yes</button>
+            <button style="margin-right: 5px;" class="btn btn-danger" (click)="acceptWidgetActionModal.close()">No</button>
+        </div>
     </div>
 </ngx-smart-modal>
 
@@ -53,7 +53,7 @@
                 <button *ngFor="let widget of validWidgets" class="btn btn-secondary" [ngClass]="{'active': selectedNewWidget && selectedNewWidget.widgetType == widget.widgetType}" (click)="selectNewWidget(widget)">{{widget.widgetName}}</button>
             </div>
         </div>
-        <div class="dashboard-new-widget-form-container">
+        <div class="dashboard-widget-form-container">
             <form [formGroup]="newWidgetForm">
                 <formly-form [model]="newWidgetFormModel" [fields]="newWidgetFormFields" [form]="newWidgetForm">
                 </formly-form>
