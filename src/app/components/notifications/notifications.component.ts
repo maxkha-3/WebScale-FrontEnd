@@ -17,7 +17,7 @@ export class NotificationsComponent implements OnInit {
         this.getNotifications();
         this.eventFetcher.eventIncoming.subscribe(() => {
             this.getNotifications();
-        })
+        });
     }
 
     /**
@@ -26,4 +26,20 @@ export class NotificationsComponent implements OnInit {
     getNotifications = () => {
         this.notifications = this.eventFetcher.getEventNotifications();
     };
+
+    removeNotification = (notification: any): void => {
+        let savedNotifications = JSON.parse(localStorage.getItem('notifications'));
+        let updatedNotifications = [];
+        savedNotifications = savedNotifications === null ? [] : savedNotifications;
+        savedNotifications.forEach((row) => {
+            if (JSON.stringify(row) !== JSON.stringify(notification)) {
+               updatedNotifications.push(row);
+            }
+        });
+        localStorage.setItem('notifications', JSON.stringify(updatedNotifications));
+    };
+
+    clearNotifications = (): void => {
+        localStorage.removeItem('notifications');
+    }
 }

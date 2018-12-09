@@ -11,14 +11,19 @@ export class EventServerService {
 
     constructor(private global: GlobalService) {
         this.eventIncoming = new Subject<any>();
-        let obj = es_connector(this.global.eventServerTargetAddressBase, {minlvl: 0, maxlvl: 4, cats: []}, this.onConnect, this.onDisconnect, this.onMessage);
+        let obj = es_connector(this.global.eventServerTargetAddressBase, {
+            minlvl: 0,
+            maxlvl: 4,
+            cats: []
+        }, this.onConnect, this.onDisconnect, this.onMessage);
         obj.connect();
     }
 
-    private clientOnMessage: any = (event: any) => {};
+    private clientOnMessage: any = (event: any) => {
+    };
 
     getEventNotifications = (): Array<any> => {
-        return JSON.parse(localStorage.getItem('notifications'));
+        return JSON.parse(localStorage.getItem('notifications')).reverse();
     };
 
     setOnMessage = (func: any) => {
@@ -32,17 +37,17 @@ export class EventServerService {
     };
 
     private onConnect = (event: any) => {
-        console.log("Successfully connected to the EventServer");
+        console.log('Successfully connected to the EventServer');
     };
 
     private onDisconnect = (event: any) => {
-        console.log("EventServer connection ended");
+        console.log('EventServer connection ended');
     };
 
     private saveNotification = (event: any) => {
         let savedNotifications = JSON.parse(localStorage.getItem('notifications'));
-        savedNotifications = savedNotifications === null ? []: savedNotifications;
+        savedNotifications = savedNotifications === null ? [] : savedNotifications;
         savedNotifications.push(event);
         localStorage.setItem('notifications', JSON.stringify(savedNotifications));
-    }
+    };
 }

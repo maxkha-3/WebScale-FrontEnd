@@ -41,6 +41,10 @@ export class AppComponent {
         this.layoutFetcher.layoutsUpdated.subscribe(() => {
             this.dashboardLayouts = this.layoutFetcher.getAvailableLayouts();
         });
+
+        this.eventFetcher.eventIncoming.subscribe(() => {
+           this.notifications = this.eventFetcher.getEventNotifications();
+        });
         this.initiateEventServer();
     }
 
@@ -58,9 +62,7 @@ export class AppComponent {
      *
      */
     initiateEventServer = (): void => {
-        this.eventFetcher.setOnMessage((event) => {
-            this.notifications.unshift(event);
-        });
+        this.eventFetcher.setOnMessage(() => {});
     };
 
     /**
