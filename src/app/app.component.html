@@ -65,7 +65,7 @@
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">MAIN NAVIGATION</li>
                 <li class="active treeview menu-open">
-                    <a href="#"><i class="fa fa-dashboard"></i> <span>Dashboard</span><span class="pull-right-container"><i class="fa fa-angle-down pull-right"></i></span></a>
+                    <a href="#"><i class="fa fa-dashboard"></i>&nbsp;<span>Dashboard</span><span class="pull-right-container"><i class="fa fa-angle-down pull-right"></i></span></a>
                     <ul class="treeview-menu">
                         <li *ngFor="let layout of dashboardLayouts"><a (click)="routeToDashboard(layout.id)"><i class="fa fa-circle-o"></i> {{layout.name}}</a></li>
                         <li *ngIf="!newLayoutInitiated"><a (click)="initiateNewLayout(true)"><i class="fa fa-plus"></i> New Layout</a></li>
@@ -79,16 +79,16 @@
                     </ul>
                 </li>
                 <li class="active treeview menu-open">
-                    <a href="#"><i class="fa fa-desktop"></i> <span>Monitoring</span><span class="pull-right-container"><i class="fa fa-angle-down pull-right"></i></span></a>
+                    <a href="#"><i class="fa fa-desktop"></i>&nbsp;<span>Monitoring</span><span class="pull-right-container"><i class="fa fa-angle-down pull-right"></i></span></a>
                     <ul class="treeview-menu">
                         <li><a (click)="routeToMonitoring('monitors')"><i class="fa fa-circle-o"></i> Monitors</a></li>
                         <li><a (click)="routeToMonitoring('streams')"><i class="fa fa-circle-o"></i> Streams</a></li>
                         <li><a (click)="routeToMonitoring('tasks')"><i class="fa fa-circle-o"></i> Tasks</a></li>
                     </ul>
                 </li>
-                <li class="active"><a (click)="routeToComponent('analytics')"><i class="fa fa-bar-chart"></i> <span>Analytics</span></a></li>
-                <li class="active"><a (click)="routeToComponent('notifications')"><i class="fa fa-bell"></i> <span>Notifications</span></a></li>
-                <li class="active"><a (click)="routeToComponent('settings')"><i class="fa fa-cogs"></i> <span>Settings</span></a></li>
+                <li class="active"><a (click)="routeToComponent('analytics')"><i class="fa fa-bar-chart"></i> <span>&nbsp;Analytics</span></a></li>
+                <li class="active"><a (click)="routeToComponent('notifications')"><i class="fa fa-bell"></i> <span>&nbsp;Notifications</span></a></li>
+                <li class="active"><a (click)="routeToComponent('settings')"><i class="fa fa-cogs"></i> <span>&nbsp;Settings</span></a></li>
             </ul>
         </section>
     </aside>

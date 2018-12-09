@@ -43,28 +43,26 @@
 </ngx-smart-modal>
 
 <ngx-smart-modal #newWidgetModal identifier="newWidgetModal" customClass="wide-modal" (onClose)="resetNewWidgetModal()">
-    <h2>{{newWidgetModalText}}</h2>
-    <hr>
     <div class="container">
-        <div class="row">
-            <div class="col-4">
-                <div *ngFor="let widget of validWidgets">
-                    <button class="btn btn-dark widget-menu-btn" [ngClass]="{'active': selectedNewWidget && selectedNewWidget.widgetType == widget.widgetType}" (click)="selectNewWidget(widget)">{{widget.widgetName}}</button>
-                </div>
+        <h2 class="dashboard-heading"><span class="badge badge-dark">{{newWidgetModalText}}</span></h2>
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group mr-2" role="group" aria-label="Widget Type">
+                <button type="button" disabled class="btn btn-dark">Widget Type</button>
             </div>
-            <div class="col-8">
-                <form [formGroup]="newWidgetForm">
-                    <formly-form [model]="newWidgetFormModel" [fields]="newWidgetFormFields" [form]="newWidgetForm">
-                    </formly-form>
-                </form>
-                <button *ngIf="selectedNewWidget" class="btn btn-success pull-right" [disabled]="newWidgetForm.invalid" (click)="addNewWidget(newWidgetFormModel, selectedNewWidget.widgetType)"><i class="fa fa-plus"></i> Add</button>
+            <div class="btn-group mr-2" role="group" aria-label="Types">
+                <button *ngFor="let widget of validWidgets" class="btn btn-secondary" [ngClass]="{'active': selectedNewWidget && selectedNewWidget.widgetType == widget.widgetType}" (click)="selectNewWidget(widget)">{{widget.widgetName}}</button>
             </div>
+        </div>
+        <div class="dashboard-new-widget-form-container">
+            <form [formGroup]="newWidgetForm">
+                <formly-form [model]="newWidgetFormModel" [fields]="newWidgetFormFields" [form]="newWidgetForm">
+                </formly-form>
+            </form>
+            <button *ngIf="selectedNewWidget" class="btn btn-success pull-right" [disabled]="newWidgetForm.invalid" (click)="addNewWidget(newWidgetFormModel, selectedNewWidget.widgetType)"><i class="fa fa-plus"></i> Add</button>
         </div>
     </div>
 
-    <pre>{{newWidgetFormModel | json}}</pre>
+    <!--pre>{{newWidgetFormModel | json}}</pre-->
 </ngx-smart-modal>
 
-<pre>
-    {{widgetLayout | json}}
-</pre>
+<!--pre>{{widgetLayout | json}}</pre-->

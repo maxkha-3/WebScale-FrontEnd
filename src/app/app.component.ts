@@ -24,7 +24,7 @@ export class AppComponent {
         {color: 'success', icon: 'fa fa-check'},
         {color: 'warning', icon: 'fa fa-exclamation'},
         {color: 'danger', icon: 'fa fa-exclamation-triangle'}
-        ];
+    ];
 
     constructor(private layoutFetcher: LayoutFetchingService, private router: Router, private toastr: ToastrService, public global: GlobalService, private http: HttpClient, private eventFetcher: EventServerService) {
         //For testing purposes
@@ -39,7 +39,7 @@ export class AppComponent {
 
         this.layoutFetcher.layoutsUpdated.subscribe(() => {
             this.dashboardLayouts = this.layoutFetcher.getAvailableLayouts();
-        })
+        });
         this.initiateEventServer();
     }
 
@@ -58,7 +58,7 @@ export class AppComponent {
      */
     initiateEventServer = (): void => {
         this.eventFetcher.setOnMessage((event) => {
-           this.notifications.unshift(event);
+            this.notifications.unshift(event);
         });
     };
 
@@ -102,12 +102,12 @@ export class AppComponent {
      * Pings the server to see if it is alive
      */
     pingServer = () => {
-        if (this.router.url !== "/serverError") {
-            this.http.get(this.global.apiServerTargetAddressBase + "ping").subscribe(data => {
-            },err => {
+        if (this.router.url !== '/serverError') {
+            this.http.get(this.global.apiServerTargetAddressBase + 'ping').subscribe(data => {
+            }, err => {
                 console.error(err);
                 this.router.navigate(['serverError']).then();
             });
         }
-    }
+    };
 }

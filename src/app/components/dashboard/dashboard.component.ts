@@ -159,6 +159,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     openNewWidgetModal = (): void => {
         this.ngxSmartModalService.get('newWidgetModal').open();
         this.newWidgetModalText = "Add new widget";
+        this.selectNewWidget(this.validWidgets[0]);
     };
 
     /**
@@ -168,6 +169,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.newWidgetForm = new FormGroup({});
         this.selectedNewWidget = undefined;
         this.newWidgetFormFields = [];
+        this.newWidgetFormModel = {};
     };
 
     /**
@@ -176,7 +178,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
      */
     selectNewWidget = (widgetTypeBase: any): void => {
         this.resetNewWidgetModal();
-        this.newWidgetModalText = "Add new widget (" + widgetTypeBase.widgetName + ")";
+        this.newWidgetModalText = "Add new widget - " + widgetTypeBase.widgetName;
         this.selectedNewWidget = widgetTypeBase;
 
         for (let option of widgetTypeBase.options) {
