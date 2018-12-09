@@ -1,3 +1,92 @@
-<p>
-  stream-overview works!
-</p>
+<div class="col-12 overview-container">
+    <div class="widget-frame">
+        <div class="widget-heading">
+            <a (click)="routeToOverview('streams')">Streams</a> / {{streamID}}
+        </div>
+        <div class="metrics-cards col-12 p-0">
+            <ngx-charts-number-card
+                [view]="numberCardsChartState.view"
+                [results]="numberCardsChartState.results"
+                [scheme]="numberCardsChartState.scheme">
+
+            </ngx-charts-number-card>
+        </div>
+
+        <div class="overview-chart col-12 p-0">
+            <ngx-charts-line-chart
+                [view]="lineChartState.view"
+                [results]="lineChartState.results"
+                [scheme]="lineChartState.scheme"
+                [xAxisLabel]="lineChartState.xAxisLabel"
+                [yAxisLabel]="lineChartState.yAxisLabel"
+                [showXAxisLabel]="lineChartState.showXAxisLabel"
+                [showYAxisLabel]="lineChartState.showYAxisLabel"
+                [xAxis]="lineChartState.xAxis"
+                [yAxis]="lineChartState.yAxis"
+                [gradient]="lineChartState.gradient"
+                [curve]="lineChartState.curve">
+
+            </ngx-charts-line-chart>
+        </div>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Filter
+            </button>
+            <div class="dropdown-menu text-nowrap">
+                <form class="px-4 py-3" (click)="preventDropdownClose($event)">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="cb-es" checked (click)="filterLineChartData($event)">
+                        <label class="form-check-label" for="cb-es">
+                            Error seconds
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="cb-rate" checked (click)="filterLineChartData($event)">
+                        <label class="form-check-label" for="cb-rate">
+                            Rate
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="cb-avg-delay" checked (click)="filterLineChartData($event)">
+                        <label class="form-check-label" for="cb-avg-delay">
+                            Average Delay
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="accordion" id="taskAccordion">
+            <div class="card" *ngFor="let task of tasks" attr.data-task-id="{{task.name}}">
+                <a class="card-header p-0 position-relative" (click)="routeToInstance('tasks', task.id)" id="tsk-header-{{task.id}}" style="display:flex;">
+                    <h5 class="mb-0 position-absolute">
+                        <div class="btn">
+                            {{task.name}}
+                        </div>
+                    </h5>
+                    <div style="flex:auto; height:50px;">
+                        <ngx-charts-line-chart
+                            [view]="lineChartState.view"
+                            [results]="[task]"
+                            [scheme]="lineChartState.scheme"
+                            [xAxisLabel]="lineChartState.xAxisLabel"
+                            [yAxisLabel]="lineChartState.yAxisLabel"
+                            [showXAxisLabel]="lineChartState.showXAxisLabel"
+                            [showYAxisLabel]="lineChartState.showYAxisLabel"
+                            [xAxis]="lineChartState.xAxis"
+                            [yAxis]="lineChartState.yAxis"
+                            [gradient]="lineChartState.gradient"
+                            [curve]="lineChartState.curve"
+                            [tooltipDisabled]="lineChartState.tooltipDisabled"
+                            [legend]="lineChartState.legend"
+                            [schemeType]="lineChartState.schemeType"
+                            [yScaleMin]="0"
+                            [yScaleMax]="10"
+                        ></ngx-charts-line-chart>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

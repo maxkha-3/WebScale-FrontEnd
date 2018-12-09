@@ -30,12 +30,12 @@ export class TaskOverviewComponent implements OnInit {
                     this.streams = data.map(x => ({
                         id: x.stream_id,
                         name: 'Stream ' + x.stream_id,
-                        series: x.timeline.map(y => ({
+                        series: x.error_seconds.map(y => ({
                             name: new Date(y.timestamp),
-                            value: y.es
+                            value: y.value
                         }))}));
 
-                    this.monitorChartState.results = this.streams;
+                    this.monitorChartState.results = this.streams.reverse();
                 });
 
                 //line
