@@ -37,9 +37,11 @@ export class NotificationsComponent implements OnInit {
             }
         });
         localStorage.setItem('notifications', JSON.stringify(updatedNotifications));
+        this.eventFetcher.eventIncoming.next();
     };
 
     clearNotifications = (): void => {
         localStorage.removeItem('notifications');
+        this.eventFetcher.eventIncoming.next();
     }
 }

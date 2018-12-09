@@ -23,7 +23,8 @@ export class EventServerService {
     };
 
     getEventNotifications = (): Array<any> => {
-        return JSON.parse(localStorage.getItem('notifications')).reverse();
+        let fetchedNotifications = JSON.parse(localStorage.getItem('notifications'));
+        return fetchedNotifications === null ? [] : fetchedNotifications.reverse();
     };
 
     setOnMessage = (func: any) => {
