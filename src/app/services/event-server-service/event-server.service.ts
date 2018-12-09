@@ -1,12 +1,16 @@
 import {Injectable} from '@angular/core';
 import {GlobalService} from '../global-service/global.service';
+import {Subject} from 'rxjs/Subject';
 
 declare var es_connector: any;
 
 @Injectable()
 export class EventServerService {
 
+    public eventIncoming: Subject<any>;
+
     constructor(private global: GlobalService) {
+        this.eventIncoming = new Subject<any>();
         let obj = es_connector(this.global.eventServerTargetAddressBase, {minlvl: 0, maxlvl: 4, cats: []}, this.onConnect, this.onDisconnect, this.onMessage);
         obj.connect();
     }
@@ -14,26 +18,7 @@ export class EventServerService {
     private clientOnMessage: any = (event: any) => {};
 
     getEventNotifications = (): Array<any> => {
-        return [
-            {
-                ts: '2018-12-02 14:00:11',
-                level: 1,
-                cat: 'something',
-                msg: 'Monitor #2432 close to SLA boundary'
-            },
-            {
-                ts: '2018-12-02 14:00:11',
-                level: 2,
-                cat: 'something',
-                msg: 'Monitor #263 exceeded SLA boundary'
-            },
-            {
-                ts: '2018-12-02 14:00:11',
-                level: 3,
-                cat: 'something',
-                msg: 'Agent #5432 appears to be down'
-            }
-        ];
+        return JSON.parse(localStorage.getItem('notifications'));
     };
 
     setOnMessage = (func: any) => {
@@ -41,8 +26,8 @@ export class EventServerService {
     };
 
     private onMessage = (event: any) => {
-        //TODO add storing in localstorage or whatever
-
+        this.eventIncoming.next();
+        this.saveNotification(event);
         this.clientOnMessage(event);
     };
 
@@ -53,4 +38,11 @@ export class EventServerService {
     private onDisconnect = (event: any) => {
         console.log("EventServer connection ended");
     };
+
+    private saveNotification = (event: any) => {
+        let savedNotifications = JSON.parse(localStorage.getItem('notifications'));
+        savedNotifications = savedNotifications === null ? []: savedNotifications;
+        savedNotifications.push(event);
+        localStorage.setItem('notifications', JSON.stringify(savedNotifications));
+    }
 }

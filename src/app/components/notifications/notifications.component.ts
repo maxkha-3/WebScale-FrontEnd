@@ -15,6 +15,9 @@ export class NotificationsComponent implements OnInit {
 
     ngOnInit() {
         this.getNotifications();
+        this.eventFetcher.eventIncoming.subscribe(() => {
+            this.getNotifications();
+        })
     }
 
     /**
@@ -22,6 +25,5 @@ export class NotificationsComponent implements OnInit {
      */
     getNotifications = () => {
         this.notifications = this.eventFetcher.getEventNotifications();
-    }
-
+    };
 }

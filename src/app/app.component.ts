@@ -7,6 +7,7 @@ import {GlobalService} from './services/global-service/global.service';
 import {EventServerService} from './services/event-server-service/event-server.service';
 
 import * as _ from 'lodash';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
     selector: 'app-root',

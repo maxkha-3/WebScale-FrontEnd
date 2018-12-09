@@ -1,7 +1,9 @@
 <table class="table">
     <thead>
     <tr>
-        <th scope="col">Notification</th>
+        <th scope="col">Timestamp</th>
+        <th scope="col">Message</th>
+        <th scope="col">Category</th>
         <th scope="col">Severity</th>
         <th scope="col">Acknowledge</th>
         <th scope="col">Clear</th>
@@ -9,8 +11,10 @@
     </thead>
     <tbody>
     <tr *ngFor="let notification of notifications">
-        <th scope="row">{{notification.text}}</th>
-        <td>{{notification.severity}}</td>
+        <th scope="row">{{notification.ts}}</th>
+        <td>{{notification.msg}}</td>
+        <td>{{notification.cat}}</td>
+        <td>{{notification.level}}</td>
         <td><i class="fa fa-thumbs-up"></i></td>
         <td><i class="fa fa-remove"></i></td>
     </tr>
