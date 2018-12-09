@@ -2,6 +2,7 @@ import {Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core'
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import {MarkerOptions} from 'leaflet';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-widget-geo',
@@ -20,11 +21,17 @@ export class WidgetGeoComponent implements OnInit, OnChanges {
     public clusteroptions: L.MarkerClusterGroupOptions = {};
     public markerstatus: any = {};
 
-    constructor() {
+    constructor(private router: Router) {
     }
 
     ngOnInit() {
         this.initializeMap();
+        let that = this;
+        document.querySelector('.widget-map').addEventListener('click', function(e){
+           if(e.target && e.target.className == "map-stream-link"){
+               that.routeToInstance(e.target.getAttribute("data-id"));
+           }
+        });
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -33,16 +40,16 @@ export class WidgetGeoComponent implements OnInit, OnChanges {
 
         this.cluster = [];
         for (let reflector of changes.data.currentValue) {
-            let a = L.marker(L.latLng(reflector.lat, reflector.lng), {
+            let a = L.marker(L.latLng(reflector.latitude, reflector.longitude), {
                 icon: L.divIcon({
                     html: '',
-                    className: reflector.breachedSLA ? 'my-marker-red' : 'my-marker-green',
+                    className: 'my-marker-green', //reflector.breachedSLA ? 'my-marker-red' : 'my-marker-green',
                     iconSize: new L.Point(20, 20)
                 })
             });
-            a.bindPopup('<b>' + reflector.name + '</b><br>Some more info perhaps.');
-            a.bindTooltip(reflector.name);
-            a.options['violate'] = !!reflector.breachedSLA;
+            a.bindPopup(`<b>Reflector ${reflector.reflector_id}</b><br><br>Involved in following streams:<br>${reflector.streams.map(x => (`<a class="map-stream-link" data-id="${x}">Stream ${x}</a><br>`))}`);
+            a.bindTooltip('Reflector ' + reflector.reflector_id);
+            a.options['violate'] = false; //reflector.breachedSLA;
             this.cluster.push(a);
         }
 
@@ -76,5 +83,10 @@ export class WidgetGeoComponent implements OnInit, OnChanges {
 
         this.bounds = L.latLngBounds(L.latLng(this.context.bounds.fromLat, this.context.bounds.fromLng), L.latLng(this.context.bounds.toLat, this.context.bounds.toLng));
     };
+
+    routeToInstance = (sourceID : string) => {
+        console.log(sourceID);
+        this.router.navigate(['monitoring/streams/' + sourceID]).then();
+    }
 
 }
