@@ -26,10 +26,10 @@
             </td>
             <th scope="row">{{notification.ts | date:'medium'}}</th>
             <td>{{notification.msg}}</td>
-            <td align="center"><button class="btn btn-sm btn-dark" style="width:50%;" (click)="routeToInstance('streams', notification.data.stream_id)">{{notification.data.stream_id}}</button></td>
+            <td align="center"><button class="btn btn-sm btn-dark" style="width:100px;" (click)="routeToInstance('streams', notification.data.stream_id)">{{notification.data.stream_id}}</button></td>
             <td>{{notification.cat}}</td>
             <td>{{notification.level}}</td>
-            <td><i style="cursor: pointer" class="fa fa-remove" (click)="removeNotification(notification)"></i></td>
+            <td align="center"><button class="btn btn-sm btn-dark" (click)="removeNotification(notification)"><i class="fa fa-remove"></i></button></td>
         </tr>
         </tbody>
     </table>

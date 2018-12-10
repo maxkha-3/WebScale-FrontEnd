@@ -33,7 +33,7 @@
                         <ul class="dropdown-menu dropdown-menu-right" style="white-space: normal;">
                             <li class="dropdown-header">You currently have {{notifications.length}} new notifications</li>
                             <li class="dropdown-divider"></li>
-                            <li class="dropdown-item">
+                            <li *ngIf="notifications.length > 0" class="dropdown-item">
                                 <table class="table table-sm table-bordered table-hover">
                                     <thead class="thead-dark">
                                         <tr>
