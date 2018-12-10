@@ -11,7 +11,7 @@ export class EventServerService {
 
     constructor(private global: GlobalService) {
         this.eventIncoming = new Subject<any>();
-        let obj = es_connector(this.global.eventServerTargetAddressBase, {
+        let obj = es_connector(this.global.dummyEventServerTargetAddressBase, {
             minlvl: 0,
             maxlvl: 4,
             cats: []
