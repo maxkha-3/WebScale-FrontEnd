@@ -28,8 +28,9 @@ export class WidgetGeoComponent implements OnInit, OnChanges {
         this.initializeMap();
         let that = this;
         document.querySelector('.widget-map').addEventListener('click', function(e){
-           if(e.target && e.target.className == "map-stream-link"){
-               that.routeToInstance(e.target.getAttribute("data-id"));
+            let elem = e.target as HTMLElement;
+           if(e.target && elem.className == "map-stream-link"){
+               that.routeToInstance(elem.getAttribute("data-id"));
            }
         });
     }

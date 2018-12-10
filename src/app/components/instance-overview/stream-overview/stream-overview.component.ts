@@ -12,10 +12,26 @@ import {DummyDataService} from '../../../services/dummy-data-service/dummy-data.
 export class StreamOverviewComponent implements OnInit {
 
     public streamID: string;
-
-    public ESData: any;
-    public RateData: any;
-    public AvgDelayData: any;
+    public metricData: any = {
+        es: {name: 'Error Seconds', series: []},
+        rate: {name: 'Rate', series: []},
+        davg: {name: 'Average Delay', series: []},
+        dmin: {name: 'Minimum Delay', series: []},
+        dmax: {name: 'Maximum Delay', series: []},
+        dv: {name: 'Delay Variation', series: []},
+        loss_far: {name: 'Loss Far', series: []},
+        miso_far: {name: 'Misordered Packets Far', series: []},
+        dmin_far: {name: 'Minimum Delay Far', series: []},
+        davg_far: {name: 'Average Delay Far', series: []},
+        dv_far: {name: 'Delay Variation Far', series: []},
+        loss_near: {name: 'Loss Near', series: []},
+        miso_near: {name: 'Misordered Packets Near', series: []},
+        dmin_near: {name: 'Minimum Delay Near', series: []},
+        davg_near: {name: 'Average Delay Near', series: []},
+        dv_near: {name: 'Delay Variation Near', series: []},
+        dmax_near: {name: 'Maximum Delay Near', series: []},
+    };
+    public metricDataKeys: any = Object.keys(this.metricData);
 
     public numberCardsChartState: any;
     public lineChartState: any;
@@ -23,7 +39,7 @@ export class StreamOverviewComponent implements OnInit {
     constructor(private druidAPI: DruidDataService, private route: ActivatedRoute, private router: Router, private chartBase: ChartBaseService, private dummyAPI: DummyDataService) {
     }
 
-    ngOnInit() {
+    ngOnInit() {console.log(this.metricDataKeys);
         this.route.params.subscribe(params => {
             if (params['id'] != undefined) {
                 this.streamID = params['id'];
@@ -35,30 +51,22 @@ export class StreamOverviewComponent implements OnInit {
                     this.numberCardsChartState.results = [
                         {
                             name: 'Rate (Mbit/s)',
-                            value: data.rate[data.rate.length - 1].value
+                            value: data.metrics[data.metrics.length - 1].rate
                         },
                         {
                             name: 'Average delay (ms)',
-                            value: data.avg_delay[data.avg_delay.length - 1].value
+                            value: data.metrics[data.metrics.length - 1].davg
                         }
                     ]
 
-                    this.ESData = {
-                        name: 'Error Seconds',
-                        series: data.error_seconds.map(x => ({name: new Date(x.timestamp), value: x.value}))
-                    };
-                    this.RateData = {
-                        name: 'Rate',
-                        series: data.rate.map(x => ({name: new Date(x.timestamp), value: x.value}))
-                    };
-                    this.AvgDelayData = {
-                        name: 'Average Delay',
-                        series: data.avg_delay.map(x => ({name: new Date(x.timestamp), value: x.value}))
-                    };
+                    for (var k in this.metricData){
+                        this.metricData[k].series = data.metrics.map(x => ({name: new Date(x.timestamp), value: x[k]}));
+                    }
+
                     this.lineChartState.results = [
-                        this.ESData,
-                        this.RateData,
-                        this.AvgDelayData
+                        this.metricData.es,
+                        this.metricData.rate,
+                        this.metricData.davg
                     ]
                     console.log(data);
                 });
@@ -69,18 +77,12 @@ export class StreamOverviewComponent implements OnInit {
 
     filterLineChartData = (event: any) => {
 
-        let obj = null, newRes;
-        switch (event.target.id) {
-            case 'cb-es':
-                obj = this.ESData;
-                break;
-            case 'cb-avg-delay':
-                obj = this.AvgDelayData;
-                break;
-            case 'cb-rate':
-                obj = this.RateData;
-                break;
-        }
+        if(!event.target.id.startsWith('cb-'))
+            return;
+
+        let newRes;
+        let selector = event.target.id.slice(3);
+        let obj = this.metricData[selector];
 
         newRes = this.lineChartState.results.filter(x => x.name != obj.name);
         if(event.target.checked){
