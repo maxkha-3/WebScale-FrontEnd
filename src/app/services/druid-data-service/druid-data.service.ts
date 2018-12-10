@@ -33,8 +33,8 @@ export class DruidDataService {
         esContribution: (selector: string, interval: number): Promise<any> => {
             return this.dummyData.esContributionData();
         },
-        geographicOverview: (fromLat, fromLng, toLat, toLng): Promise<any> => {
-            return this.dummyData.geographicOverviewData(fromLat, fromLng, toLat, toLng);
+        getReflectors: (fromLat, fromLng, toLat, toLng): Promise<any> => {
+            return this.dummyData.getReflectors(fromLat, fromLng, toLat, toLng);
         },
         monitorOverview: (id: any): any => {
             return this.dummyData.monitorOverviewData(id);

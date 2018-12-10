@@ -154,14 +154,21 @@ export class WidgetComponent implements OnInit, OnDestroy {
                 break;
 
             case 'geo':
-                this.druidAPI.dataRetriever.geographicOverview(this.item.fromLat, this.item.fromLng, this.item.toLat, this.item.toLng).then(data => {
-                    serializer(data);
-                    this.interval = setInterval(() => {
-                        this.druidAPI.dataRetriever.geographicOverview(this.item.fromLat, this.item.fromLng, this.item.toLat, this.item.toLng).then(refreshedData => {
-                            serializer(refreshedData);
-                        });
-
-                    }, 5000);
+                this.druidAPI.dataRetriever.getReflectors(this.item.fromLat, this.item.fromLng, this.item.toLat, this.item.toLng).then(data => {
+                    this.state.reflectors = data;
+                    let that = this;
+                    setTimeout(() => {
+                        that.state.data = [
+                            {
+                                id: 113,
+                                red: true
+                            },
+                            {
+                                id: 213,
+                                red: true
+                            }
+                        ]
+                    }, 4000);
                 });
                 break;
 
@@ -319,11 +326,10 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * @param measure (optional)
      * @param prefix (optional) - prefix before x-axis label
      */
-    listSerializer = (data: any, measure?: string, prefix?: string): void => {
+    listSerializer = (data: any, measure?: string): void => {
         measure = (measure == undefined ? 'value' : measure);
-        prefix = (prefix == undefined ? '#' : prefix);
-        this.state.listOptions.headers = [this.state.xAxisLabel, this.state.yAxisLabel];
-        this.state.data = data.map((row) => [prefix + row.selector_id, row[measure].toFixed(5)]);
+        this.state.listOptions.headers = {id: this.state.xAxisLabel, value: this.state.yAxisLabel};
+        this.state.data = data.map((row) => [row.selector_id, row[measure].toFixed(5)]);
     };
 
     /**

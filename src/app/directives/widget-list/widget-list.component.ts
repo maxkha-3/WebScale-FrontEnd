@@ -1,4 +1,5 @@
 import {Component, Input, OnInit, SimpleChanges, OnChanges} from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-widget-list',
@@ -13,12 +14,15 @@ export class WidgetListComponent implements OnInit, OnChanges {
     public isLoading = true;
     public loadingArray: any[] = [];
 
-    constructor() {
+    private selector;
+
+    constructor(private router: Router) {
     }
 
     ngOnInit() {
         if (this.item && this.item.length == this.options.count) {
             this.isLoading = false;
+            this.selector = this.options.headers.id.toLowerCase()+'s';
         } else {
             this.isLoading = true;
             this.loadingArray = Array(this.options.count).fill(4);
@@ -28,7 +32,14 @@ export class WidgetListComponent implements OnInit, OnChanges {
     ngOnChanges(changes: SimpleChanges) {
         if (!changes.item.firstChange && changes.item.currentValue.length == this.options.count) {
             this.isLoading = false;
+            this.selector = this.options.headers.id.toLowerCase()+'s';
+            console.log(this.selector);
         }
+    }
+
+    routeToInstance = (sourceID : string) => {
+        console.log(`monitoring/${this.selector}/${sourceID}`);
+        this.router.navigate([`monitoring/${this.selector}/${sourceID}`]).then();
     }
 
 }

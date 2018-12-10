@@ -95,7 +95,7 @@
 
         <div class="chart-test" *ngSwitchCase="'map'">
             <div class="chart-test-inner">
-                <app-widget-geo [data]="state.data" [context]="state.mapOptions"></app-widget-geo>
+                <app-widget-geo [data]="state.data" [context]="state.mapOptions" [reflectors]="state.reflectors"></app-widget-geo>
             </div>
         </div>
     </div>

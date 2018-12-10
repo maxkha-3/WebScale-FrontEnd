@@ -29878,7 +29878,7 @@ export class DummyDataService {
         return retval;
     };
 
-    geographicOverviewData = (fromLat, fromLng, toLat, toLng): any => {
+    getReflectors = (fromLat, fromLng, toLat, toLng): any => {
         return this.getAllReflectors();
     };
 

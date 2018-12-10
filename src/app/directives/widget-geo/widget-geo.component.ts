@@ -13,6 +13,7 @@ import {Router} from '@angular/router';
 export class WidgetGeoComponent implements OnInit, OnChanges {
 
     @Input() data;
+    @Input() reflectors;
     @Input() context;
 
     public options;
@@ -21,7 +22,11 @@ export class WidgetGeoComponent implements OnInit, OnChanges {
     public clusteroptions: L.MarkerClusterGroupOptions = {};
     public markerstatus: any = {};
 
+    private mapInstance: L.Map;
+    private streamMarkers: any = {};
+
     constructor(private router: Router) {
+
     }
 
     ngOnInit() {
@@ -36,24 +41,32 @@ export class WidgetGeoComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (changes.data.firstChange)
-            return;
 
-        this.cluster = [];
-        for (let reflector of changes.data.currentValue) {
-            let a = L.marker(L.latLng(reflector.latitude, reflector.longitude), {
-                icon: L.divIcon({
-                    html: '',
-                    className: 'my-marker-green', //reflector.breachedSLA ? 'my-marker-red' : 'my-marker-green',
-                    iconSize: new L.Point(20, 20)
-                })
-            });
-            a.bindPopup(`<b>Reflector ${reflector.reflector_id}</b><br><br>Involved in following streams:<br>${reflector.streams.map(x => (`<a class="map-stream-link" data-id="${x}">Stream ${x}</a><br>`))}`);
-            a.bindTooltip('Reflector ' + reflector.reflector_id);
-            a.options['violate'] = false; //reflector.breachedSLA;
-            this.cluster.push(a);
+        if(changes.reflectors && changes.reflectors.previousValue != changes.reflectors.currentValue) {
+            this.cluster = [];
+            for (let reflector of changes.reflectors.currentValue) {
+                let a = L.marker(L.latLng(reflector.latitude, reflector.longitude), {
+                    icon: L.divIcon({
+                        html: '',
+                        className: 'my-marker-green', //reflector.breachedSLA ? 'my-marker-red' : 'my-marker-green',
+                        iconSize: new L.Point(20, 20)
+                    })
+                });
+                a.bindPopup(`<b>Reflector ${reflector.reflector_id}</b><br><br>Involved in following streams:<br>${reflector.streams.map(x => (`<a class="map-stream-link" data-id="${x}">Stream ${x}</a><br>`))}`);
+                a.bindTooltip('Reflector ' + reflector.reflector_id);
+                a.options['violate'] = false; //reflector.breachedSLA;
+                this.streamMarkers['s'+reflector.streams[0]] = a;
+                this.cluster.push(a);
+        }
         }
 
+        if(changes.data && changes.data.previousValue != changes.data.currentValue && !changes.data.firstChange){
+            for (let update of changes.data.currentValue){
+                this.streamMarkers['s'+update.id].options.icon.options.className = 'my-marker-red';
+                this.streamMarkers['s'+update.id].options['violate'] = true;
+                this.streamMarkers['s'+update.id].refreshIconOptions(null, true);
+            }
+        }
     }
 
     /**
@@ -88,6 +101,21 @@ export class WidgetGeoComponent implements OnInit, OnChanges {
     routeToInstance = (sourceID : string) => {
         console.log(sourceID);
         this.router.navigate(['monitoring/streams/' + sourceID]).then();
+    }
+
+    saveMapReference = (event: L.Map) => {
+        this.mapInstance = event;
+
+        /*setTimeout(() => {
+            event.eachLayer(layer => {
+               if(layer['_childCount']){
+                   layer['_iconNeedsUpdate'] = true;
+                   //(layer['_icon'] as HTMLElement).classList.remove('my-cluster-green')
+                   console.log(layer);
+               }
+            });
+        }, 7000);*/
+
     }
 
 }

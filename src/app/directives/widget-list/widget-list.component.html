@@ -2,12 +2,15 @@
     <ng-container *ngIf="!isLoading">
     <thead>
     <tr>
-        <th *ngFor="let value of options.headers">{{value}}</th>
+        <th>{{options.headers.id}}</th><th>{{options.headers.value}}</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let row of item">
-        <td *ngFor="let value of row">{{value}}</td>
+        <td *ngFor="let value of row; let i = index">
+            <a *ngIf="i == 0" (click)="routeToInstance(value)">{{value}}</a>
+            <span *ngIf="i != 0">{{value}}</span>
+        </td>
     </tr>
     </tbody>
     </ng-container>
