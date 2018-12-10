@@ -35,22 +35,10 @@
             </button>
             <div class="dropdown-menu text-nowrap">
                 <form class="px-4 py-3" (click)="preventDropdownClose($event)">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="cb-es" checked (click)="filterLineChartData($event)">
-                        <label class="form-check-label" for="cb-es">
-                            Error seconds
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="cb-rate" checked (click)="filterLineChartData($event)">
-                        <label class="form-check-label" for="cb-rate">
-                            Rate
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="cb-avg-delay" checked (click)="filterLineChartData($event)">
-                        <label class="form-check-label" for="cb-avg-delay">
-                            Average Delay
+                    <div class="form-check" *ngFor="let key of metricDataKeys">
+                        <input class="form-check-input" type="checkbox" id="cb-{{key}}" [checked]="['es', 'davg', 'rate'].includes(key)" (click)="filterLineChartData($event)">
+                        <label class="form-check-label" for="cb-{{key}}">
+                            {{metricData[key].name}}
                         </label>
                     </div>
                 </form>
