@@ -32,9 +32,10 @@ export class EventServerService {
     };
 
     private onMessage = (event: any) => {
-        this.eventIncoming.next();
+        console.log(event);
         this.saveNotification(event);
         this.clientOnMessage(event);
+        this.eventIncoming.next();
     };
 
     private onConnect = (event: any) => {
