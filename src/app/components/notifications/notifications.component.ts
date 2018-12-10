@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {EventServerService} from '../../services/event-server-service/event-server.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-notifications',
@@ -10,7 +11,7 @@ export class NotificationsComponent implements OnInit {
 
     public notifications: Array<any>;
 
-    constructor(private eventFetcher: EventServerService) {
+    constructor(private eventFetcher: EventServerService, private router: Router) {
     }
 
     ngOnInit() {
@@ -43,5 +44,14 @@ export class NotificationsComponent implements OnInit {
     clearNotifications = (): void => {
         localStorage.removeItem('notifications');
         this.eventFetcher.eventIncoming.next();
+    };
+
+    /**
+     * Routes to an instance for monitoring.
+     * @param sourceType
+     * @param sourceID
+     */
+    routeToInstance = (sourceType: string, sourceID : string) => {
+        this.router.navigate(['monitoring/' + sourceType, sourceID]).then();
     }
 }

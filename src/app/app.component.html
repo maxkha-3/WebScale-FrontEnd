@@ -28,23 +28,39 @@
                             <i class="fa fa-bell-o"></i>
                             <span class="badge ml-1 badge-warning">{{notifications.length}}</span>
                         </a>
+
                         <!--TODO: integrate different colors according to severity-->
                         <ul class="dropdown-menu dropdown-menu-right" style="white-space: normal;">
                             <li class="dropdown-header">You currently have {{notifications.length}} new notifications</li>
                             <li class="dropdown-divider"></li>
-                            <li *ngFor="let notification of notifications.slice(0, 5)" class="list-group-item list-group-item-{{notLevelMapping[notification.level].color}} list-group-item-action text-nowrap">
-                                <i class="{{notLevelMapping[notification.level].icon}}"></i> {{notification.msg}}
+                            <li *ngIf="notifications.length > 0" class="dropdown-item">
+                                <table class="table table-sm table-bordered table-hover">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">Message</th>
+                                            <th scope="col">Stream ID</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let notification of notifications.slice(0, 5)" [ngClass]="{'bg-warning': notification.level == 3, 'bg-success': notification.level == 2, 'bg-info': notification.level == 1, 'bg-primary': notification.level == 0}">
+                                            <td align="center">
+                                                <i *ngIf="notification.level == 3" class="fa fa-exclamation"></i>
+                                                <i *ngIf="notification.level == 2" class="fa fa-check"></i>
+                                                <i *ngIf="notification.level == 1" class="fa fa-info"></i>
+                                                <i *ngIf="notification.level == 0" class="fa fa-bug"></i>
+                                            </td>
+                                            <td>{{notification.msg}}</td>
+                                            <td align="center"><button class="btn btn-sm btn-dark" style="width:100px;" (click)="routeToInspectionComponent('streams', notification.data.stream_id)">{{notification.data.stream_id}}</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </li>
-                            <li class="dropdown-divider"></li>
-                            <li class="dropdown-item text-center">
-                                <a (click)="routeToComponent('notifications')"><i class="fa fa-bell"></i> <span>View all</span></a>
-                            </li>
+                            <li class="dropdown-item"><button style="width: 100%" class="btn btn-dark" (click)="routeToComponent('notifications')">View all notifications</button></li>
                         </ul>
                     </li>
-
                 </ul>
             </div>
-
         </nav>
     </header>
     <!-- Left side column. contains the logo and sidebar -->
