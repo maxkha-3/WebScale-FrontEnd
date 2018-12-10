@@ -102,6 +102,15 @@ export class AppComponent {
     };
 
     /**
+     * Routes to specific inspection component.
+     * @param sourceType
+     * @param sourceID
+     */
+    routeToInspectionComponent = (sourceType: string, sourceID : string) => {
+        this.router.navigate(['monitoring/' + sourceType, sourceID]).then();
+    };
+
+    /**
      * Pings the server to see if it is alive
      */
     pingServer = () => {
