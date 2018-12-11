@@ -52,8 +52,13 @@ Changes:
   - Connected to Druid API
 
 =============================
-  Version 0.2.0 [2018-12-XX]
+  Version 1.0.0 [2018-12-11]
 =============================
  - Migration to Angular 7
  - Historical Comparison widget
  - Connection to Event Server
+ - Inspection overview pages for streams, tasks and monitors
+ - Connection to Predictions API
+ - Notification page and popup integration
+ - Major bug fixes
+ - Modal design improvements
