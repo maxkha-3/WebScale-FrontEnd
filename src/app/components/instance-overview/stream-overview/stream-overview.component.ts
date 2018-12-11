@@ -61,7 +61,7 @@ export class StreamOverviewComponent implements OnInit {
                 console.log(this.lineChartState);
 
                 this.updateDataStructure();
-                setInterval(this.updateDataStructure, 10000);
+                setInterval(() => {this.updateDataStructure();}, 10000);
 
             }
         });
