@@ -6,7 +6,7 @@
         <div class="metrics-cards col-12 p-0">
             <ngx-charts-number-card
                 [view]="numberCardsChartState.view"
-                [results]="numberCardsChartState.results"
+                [results]="cardsData"
                 [scheme]="numberCardsChartState.scheme">
 
             </ngx-charts-number-card>
@@ -24,7 +24,8 @@
                 [xAxis]="lineChartState.xAxis"
                 [yAxis]="lineChartState.yAxis"
                 [gradient]="lineChartState.gradient"
-                [curve]="lineChartState.curve">
+                [curve]="lineChartState.curve"
+            [timeline]="true">
 
             </ngx-charts-line-chart>
         </div>
@@ -36,13 +37,20 @@
             <div class="dropdown-menu text-nowrap">
                 <form class="px-4 py-3" (click)="preventDropdownClose($event)">
                     <div class="form-check" *ngFor="let key of metricDataKeys">
-                        <input class="form-check-input" type="checkbox" id="cb-{{key}}" [checked]="['es', 'davg', 'rate'].includes(key)" (click)="filterLineChartData($event)">
+                        <input class="form-check-input" type="checkbox" id="cb-{{key}}" [checked]="['es_sum', 'davg_sum', 'rate_sum'].includes(key)" (click)="filterLineChartData($event)">
                         <label class="form-check-label" for="cb-{{key}}">
                             {{metricData[key].name}}
                         </label>
                     </div>
                 </form>
             </div>
+        </div>
+
+        <div *ngIf="noData" class="no-data-found">
+            <span>
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                No data found!
+            </span>
         </div>
     </div>
 </div>

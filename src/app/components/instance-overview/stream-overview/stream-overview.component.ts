@@ -12,65 +12,56 @@ import {DummyDataService} from '../../../services/dummy-data-service/dummy-data.
 export class StreamOverviewComponent implements OnInit {
 
     public streamID: string;
+    public noData = false;
     public metricData: any = {
-        es: {name: 'Error Seconds', series: []},
-        rate: {name: 'Rate', series: []},
-        davg: {name: 'Average Delay', series: []},
-        dmin: {name: 'Minimum Delay', series: []},
-        dmax: {name: 'Maximum Delay', series: []},
-        dv: {name: 'Delay Variation', series: []},
-        loss_far: {name: 'Loss Far', series: []},
-        miso_far: {name: 'Misordered Packets Far', series: []},
-        dmin_far: {name: 'Minimum Delay Far', series: []},
-        davg_far: {name: 'Average Delay Far', series: []},
-        dv_far: {name: 'Delay Variation Far', series: []},
-        loss_near: {name: 'Loss Near', series: []},
-        miso_near: {name: 'Misordered Packets Near', series: []},
-        dmin_near: {name: 'Minimum Delay Near', series: []},
-        davg_near: {name: 'Average Delay Near', series: []},
-        dv_near: {name: 'Delay Variation Near', series: []},
-        dmax_near: {name: 'Maximum Delay Near', series: []},
+        es_sum: {name: 'Error Seconds', series: []},
+        rate_sum: {name: 'Rate', series: []},
+        davg_sum: {name: 'Average Delay', series: []},
+        dmin_min: {name: 'Minimum Delay', series: []},
+        dmax_max: {name: 'Maximum Delay', series: []},
+        dv_sum: {name: 'Delay Variation', series: []},
+        loss_far_sum: {name: 'Loss Far', series: []},
+        miso_far_sum: {name: 'Misordered Packets Far', series: []},
+        dmin_far_min: {name: 'Minimum Delay Far', series: []},
+        davg_far_sum: {name: 'Average Delay Far', series: []},
+        dv_far_sum: {name: 'Delay Variation Far', series: []},
+        loss_near_sum: {name: 'Loss Near', series: []},
+        miso_near_sum: {name: 'Misordered Packets Near', series: []},
+        dmin_near_min: {name: 'Minimum Delay Near', series: []},
+        davg_near_sum: {name: 'Average Delay Near', series: []},
+        dv_near_sum: {name: 'Delay Variation Near', series: []},
+        dmax_near_max: {name: 'Maximum Delay Near', series: []},
     };
+    public cardsData: any = [
+        {
+            name: 'Rate (Mbit/s)',
+            value: 0
+        },
+        {
+            name: 'Average delay (ms)',
+            value: 0
+        }
+    ];
+
     public metricDataKeys: any = Object.keys(this.metricData);
 
     public numberCardsChartState: any;
     public lineChartState: any;
 
-    constructor(private druidAPI: DruidDataService, private route: ActivatedRoute, private router: Router, private chartBase: ChartBaseService, private dummyAPI: DummyDataService) {
+    constructor(private druidAPI: DruidDataService, private route: ActivatedRoute, private router: Router, private chartBase: ChartBaseService) {
     }
 
     ngOnInit() {
-        console.log(this.metricDataKeys);
         this.route.params.subscribe(params => {
             if (params['id'] != undefined) {
                 this.streamID = params['id'];
 
                 this.numberCardsChartState = this.chartBase.getNumberCardsBase();
                 this.lineChartState = this.chartBase.getLineBase();
+                console.log(this.lineChartState);
 
-                this.dummyAPI.getStream(this.streamID).then(data => {
-                    this.numberCardsChartState.results = [
-                        {
-                            name: 'Rate (Mbit/s)',
-                            value: data.metrics[data.metrics.length - 1].rate
-                        },
-                        {
-                            name: 'Average delay (ms)',
-                            value: data.metrics[data.metrics.length - 1].davg
-                        }
-                    ];
-
-                    for (let k in this.metricData) {
-                        this.metricData[k].series = data.metrics.map(x => ({name: new Date(x.timestamp), value: x[k]}));
-                    }
-
-                    this.lineChartState.results = [
-                        this.metricData.es,
-                        this.metricData.rate,
-                        this.metricData.davg
-                    ];
-                    console.log(data);
-                });
+                this.updateDataStructure();
+                setInterval(this.updateDataStructure, 10000);
 
             }
         });
@@ -90,6 +81,32 @@ export class StreamOverviewComponent implements OnInit {
             newRes.push(obj);
         }
         this.lineChartState.results = newRes;
+    };
+
+    updateDataStructure(){
+        this.druidAPI.dataRetriever.streamOverview(parseInt(this.streamID), 1440).then(data => {
+
+            if(!data.length){
+                this.noData = true;
+                return;
+            }
+
+            this.cardsData[0].value = data[data.length - 1].values.rate_sum;
+            this.cardsData[1].value = data[data.length - 1].values.davg_sum;
+            this.cardsData = this.cardsData.slice();
+
+            for (let k in this.metricData) {
+                this.metricData[k].series = data.map(x => ({name: new Date(x.timestamp), value: x.values[k]}));
+            }
+            console.log(this.cardsData);
+
+            this.lineChartState.results = [
+                this.metricData.es_sum,
+                this.metricData.rate_sum,
+                this.metricData.davg_sum
+            ];
+
+        });
     };
 
     routeToOverview = (instanceType: string) => {

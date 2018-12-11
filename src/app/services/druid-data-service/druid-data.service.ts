@@ -36,6 +36,9 @@ export class DruidDataService {
         getReflectors: (fromLat, fromLng, toLat, toLng): Promise<any> => {
             return this.dummyData.getReflectors(fromLat, fromLng, toLat, toLng);
         },
+        streamOverview: (streamID: number, interval: number): Promise<any> => {
+            return this.httpGetter(this.global.apiServerTargetAddressBase + 'scan/' + streamID +  '?interval=' + interval);
+        },
         monitorOverview: (id: any): any => {
             return this.dummyData.monitorOverviewData(id);
         }
