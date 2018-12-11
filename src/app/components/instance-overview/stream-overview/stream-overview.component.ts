@@ -39,7 +39,8 @@ export class StreamOverviewComponent implements OnInit {
     constructor(private druidAPI: DruidDataService, private route: ActivatedRoute, private router: Router, private chartBase: ChartBaseService, private dummyAPI: DummyDataService) {
     }
 
-    ngOnInit() {console.log(this.metricDataKeys);
+    ngOnInit() {
+        console.log(this.metricDataKeys);
         this.route.params.subscribe(params => {
             if (params['id'] != undefined) {
                 this.streamID = params['id'];
@@ -57,9 +58,9 @@ export class StreamOverviewComponent implements OnInit {
                             name: 'Average delay (ms)',
                             value: data.metrics[data.metrics.length - 1].davg
                         }
-                    ]
+                    ];
 
-                    for (var k in this.metricData){
+                    for (let k in this.metricData) {
                         this.metricData[k].series = data.metrics.map(x => ({name: new Date(x.timestamp), value: x[k]}));
                     }
 
@@ -67,17 +68,17 @@ export class StreamOverviewComponent implements OnInit {
                         this.metricData.es,
                         this.metricData.rate,
                         this.metricData.davg
-                    ]
+                    ];
                     console.log(data);
                 });
 
             }
-        })
+        });
     }
 
     filterLineChartData = (event: any) => {
 
-        if(!event.target.id.startsWith('cb-'))
+        if (!event.target.id.startsWith('cb-'))
             return;
 
         let newRes;
@@ -85,22 +86,22 @@ export class StreamOverviewComponent implements OnInit {
         let obj = this.metricData[selector];
 
         newRes = this.lineChartState.results.filter(x => x.name != obj.name);
-        if(event.target.checked){
+        if (event.target.checked) {
             newRes.push(obj);
         }
         this.lineChartState.results = newRes;
-    }
+    };
 
     routeToOverview = (instanceType: string) => {
         this.router.navigate(['monitoring', instanceType]).then();
-    }
+    };
 
-    routeToInstance = (sourceType: string, sourceID : string) => {
+    routeToInstance = (sourceType: string, sourceID: string) => {
         this.router.navigate(['monitoring/' + sourceType, sourceID]).then();
-    }
+    };
 
     preventDropdownClose = (event: any) => {
         event.stopPropagation();
-    }
+    };
 
 }

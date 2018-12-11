@@ -44,37 +44,5 @@
                 </form>
             </div>
         </div>
-
-        <div class="accordion" id="taskAccordion">
-            <div class="card" *ngFor="let task of tasks" attr.data-task-id="{{task.name}}">
-                <a class="card-header p-0 position-relative" (click)="routeToInstance('tasks', task.id)" id="tsk-header-{{task.id}}" style="display:flex;">
-                    <h5 class="mb-0 position-absolute">
-                        <div class="btn">
-                            {{task.name}}
-                        </div>
-                    </h5>
-                    <div style="flex:auto; height:50px;">
-                        <ngx-charts-line-chart
-                            [view]="lineChartState.view"
-                            [results]="[task]"
-                            [scheme]="lineChartState.scheme"
-                            [xAxisLabel]="lineChartState.xAxisLabel"
-                            [yAxisLabel]="lineChartState.yAxisLabel"
-                            [showXAxisLabel]="lineChartState.showXAxisLabel"
-                            [showYAxisLabel]="lineChartState.showYAxisLabel"
-                            [xAxis]="lineChartState.xAxis"
-                            [yAxis]="lineChartState.yAxis"
-                            [gradient]="lineChartState.gradient"
-                            [curve]="lineChartState.curve"
-                            [tooltipDisabled]="lineChartState.tooltipDisabled"
-                            [legend]="lineChartState.legend"
-                            [schemeType]="lineChartState.schemeType"
-                            [yScaleMin]="0"
-                            [yScaleMax]="10"
-                        ></ngx-charts-line-chart>
-                    </div>
-                </a>
-            </div>
-        </div>
     </div>
 </div>
