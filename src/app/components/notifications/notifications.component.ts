@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {EventServerService} from '../../services/event-server-service/event-server.service';
 import {Router} from '@angular/router';
+import {MiscService} from '../../services/misc-service/misc.service';
 
 @Component({
     selector: 'app-notifications',
@@ -11,7 +12,7 @@ export class NotificationsComponent implements OnInit {
 
     public notifications: Array<any>;
 
-    constructor(private eventFetcher: EventServerService, private router: Router) {
+    constructor(private eventFetcher: EventServerService, private router: Router, private miscService: MiscService) {
     }
 
     ngOnInit() {

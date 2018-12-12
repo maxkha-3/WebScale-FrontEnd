@@ -4,7 +4,7 @@
 
         <button type="button" class="btn btn-danger btn-sm" (click)="clearNotifications()"><i class="fa fa-remove"></i> Clear Notifications</button>
     </div>
-    <table class="table table-sm table-bordered table-hover">
+    <table class="table table-sm table-bordered table-hover table-striped">
         <thead class="thead-dark">
         <tr>
             <th scope="col"></th>
@@ -17,19 +17,19 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let notification of notifications" [ngClass]="{'bg-warning': notification.level == 3, 'bg-success': notification.level == 2, 'bg-info': notification.level == 1, 'bg-primary': notification.level == 0}">
+        <tr *ngFor="let notification of notifications" [ngStyle]="{'color': miscService.getNotificationColor(notification.level.toString())}">
             <td align="center">
                 <i *ngIf="notification.level == 3" class="fa fa-exclamation"></i>
                 <i *ngIf="notification.level == 2" class="fa fa-check"></i>
                 <i *ngIf="notification.level == 1" class="fa fa-info"></i>
                 <i *ngIf="notification.level == 0" class="fa fa-bug"></i>
             </td>
-            <th scope="row">{{notification.ts | date:'medium'}}</th>
+            <td>{{notification.ts | date:'medium'}}</td>
             <td>{{notification.msg}}</td>
-            <td align="center"><button class="btn btn-sm btn-dark" style="width:100px;" (click)="routeToInstance('streams', notification.data.stream_id)">{{notification.data.stream_id}}</button></td>
+            <td align="center"><button class="btn btn-sm btn-primary" [ngStyle]="{'background-color': miscService.getNotificationColor(notification.level.toString())}" (click)="routeToInstance('streams', notification.data.stream_id)">{{notification.data.stream_id}}</button></td>
             <td>{{notification.cat}}</td>
             <td>{{notification.level}}</td>
-            <td align="center"><button class="btn btn-sm btn-dark" (click)="removeNotification(notification)"><i class="fa fa-remove"></i></button></td>
+            <td align="center"><button class="btn btn-sm btn-link" [ngStyle]="{'color': miscService.getNotificationColor(notification.level.toString())}" (click)="removeNotification(notification)"><i class="fa fa-remove"></i></button></td>
         </tr>
         </tbody>
     </table>

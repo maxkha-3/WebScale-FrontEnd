@@ -43,7 +43,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let notification of notifications.slice(0, 5)" [ngClass]="{'bg-warning': notification.level == 3, 'bg-success': notification.level == 2, 'bg-info': notification.level == 1, 'bg-primary': notification.level == 0}">
+                                        <tr *ngFor="let notification of notifications.slice(0, 5)" [ngStyle]="{'color': miscService.getNotificationColor(notification.level.toString())}">
                                             <td align="center">
                                                 <i *ngIf="notification.level == 3" class="fa fa-exclamation"></i>
                                                 <i *ngIf="notification.level == 2" class="fa fa-check"></i>
@@ -51,7 +51,7 @@
                                                 <i *ngIf="notification.level == 0" class="fa fa-bug"></i>
                                             </td>
                                             <td>{{notification.msg}}</td>
-                                            <td align="center"><button class="btn btn-sm btn-dark" style="width:100px;" (click)="routeToInspectionComponent('streams', notification.data.stream_id)">{{notification.data.stream_id}}</button></td>
+                                            <td align="center"><button class="btn btn-sm btn-primary" [ngStyle]="{'background-color': miscService.getNotificationColor(notification.level.toString())}" (click)="routeToInspectionComponent('streams', notification.data.stream_id)">{{notification.data.stream_id}}</button></td>
                                         </tr>
                                     </tbody>
                                 </table>

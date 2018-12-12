@@ -13,15 +13,15 @@ export class MiscService {
     getNotificationColor = (level: string): string => {
         switch (level) {
             case '0':
-                return 'blue';
+                return '#523d3d'; //bug
             case '1':
-                return 'cyan';
+                return '#00d1c0'; //info
             case '2':
-                return 'green';
+                return '#1d6400'; //success
             case '3':
-                return 'yellow';
+                return '#c27500'; //warning
             case '4':
-                return 'red';
+                return '#8b1110'; //critical
         }
         return 'black';
     };

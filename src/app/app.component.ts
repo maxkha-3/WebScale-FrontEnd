@@ -8,6 +8,7 @@ import {EventServerService} from './services/event-server-service/event-server.s
 
 import * as _ from 'lodash';
 import {Subject} from 'rxjs/Subject';
+import {MiscService} from './services/misc-service/misc.service';
 
 @Component({
     selector: 'app-root',
@@ -27,7 +28,7 @@ export class AppComponent {
         {color: 'danger', icon: 'fa fa-exclamation-triangle'}
     ];
 
-    constructor(private layoutFetcher: LayoutFetchingService, private router: Router, private toastr: ToastrService, public global: GlobalService, private http: HttpClient, private eventFetcher: EventServerService) {
+    constructor(private layoutFetcher: LayoutFetchingService, private router: Router, private toastr: ToastrService, public global: GlobalService, private http: HttpClient, private eventFetcher: EventServerService, private miscService: MiscService) {
         //For testing purposes
         if (localStorage.getItem('dashboardLayouts') === null) {
             console.log('No layouts found, adding some test layouts');
