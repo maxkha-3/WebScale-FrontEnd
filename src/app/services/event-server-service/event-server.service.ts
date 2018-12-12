@@ -11,7 +11,7 @@ export class EventServerService {
 
     constructor(private global: GlobalService) {
         this.eventIncoming = new Subject<any>();
-        let obj = es_connector(this.global.eventServerTargetAddressBase, {
+        let obj = es_connector(this.global.dummyEventServerTargetAddressBase, {
             minlvl: 0,
             maxlvl: 4,
             cats: []
@@ -32,7 +32,6 @@ export class EventServerService {
     };
 
     private onMessage = (event: any) => {
-        console.log(event);
         this.saveNotification(event);
         this.clientOnMessage(event);
         this.eventIncoming.next();
@@ -47,9 +46,12 @@ export class EventServerService {
     };
 
     private saveNotification = (event: any) => {
-        let savedNotifications = JSON.parse(localStorage.getItem('notifications'));
-        savedNotifications = savedNotifications === null ? [] : savedNotifications;
-        savedNotifications.push(event);
-        localStorage.setItem('notifications', JSON.stringify(savedNotifications));
+        console.log(event);
+        if (event.hasOwnProperty("data")) {
+            let savedNotifications = JSON.parse(localStorage.getItem('notifications'));
+            savedNotifications = savedNotifications === null ? [] : savedNotifications;
+            savedNotifications.push(event);
+            localStorage.setItem('notifications', JSON.stringify(savedNotifications));
+        }
     };
 }
