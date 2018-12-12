@@ -155,7 +155,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
 
             case 'geo':
                 this.druidAPI.dataRetriever.getReflectors(this.item.fromLat, this.item.fromLng, this.item.toLat, this.item.toLng).then(data => {
-                    if(!data.length){
+                    if (!data.length) {
                         this.state.dataPresent = false;
                         return;
                     } else {
@@ -168,13 +168,13 @@ export class WidgetComponent implements OnInit, OnDestroy {
 
                     let datafunc = () => {
                         Promise.all(streams.map(x => this.druidAPI.dataRetriever.realTime('', 'sla', x, 10))).then(stream_sla => {
-                            let status = stream_sla.map((xa, i) => ({
+                            stream_sla.map((xa, i) => ({
                                 id: streams[i],
-                                sla: xa.recent.length ? xa.recent[xa.recent.length - 1].value : undefined
+                                sla: xa['recent'].length ? xa['recent'][xa['recent'].length - 1].value : undefined
                             }));
                             this.state.data = status;
                         });
-                    }
+                    };
 
                     datafunc();
                     this.interval = setInterval(datafunc, 5000);
@@ -189,7 +189,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
 
                     this.interval = setInterval(() => {
                         this.druidAPI.dataRetriever.historical(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan, this.item.historicalParam).then(refreshedData => {
-                           this.populateHistoricalWidget(refreshedData, serializer);
+                            this.populateHistoricalWidget(refreshedData, serializer);
                         });
                     }, 5000);
                 });
@@ -395,7 +395,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
         }
     };
 
-    handleChartClick = (event:any) => {
+    handleChartClick = (event: any) => {
         this.router.navigate([`monitoring/${this.item.dataGroup}/${event.name}`]).then();
-    }
+    };
 }
