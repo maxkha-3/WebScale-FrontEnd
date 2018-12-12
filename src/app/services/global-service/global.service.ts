@@ -7,7 +7,7 @@ export class GlobalService {
     public apiServerTargetAddressBase = 'http://metrics.api.kubescale.cloud/metrics/';
     public predictionServerTargetAddressBase = 'http://metrics.api.kubescale.cloud/predictions/';
     public dummyEventServerTargetAddressBase = 'ws://130.240.200.46:5000/ws-dummy';
-    public eventServerTargetAddressBase = 'ws://130.240.200.46:5000/ws';
+    public eventServerTargetAddressBase = 'ws:/events.api.kubescale.cloud:5000';
 
     constructor() {
     }
