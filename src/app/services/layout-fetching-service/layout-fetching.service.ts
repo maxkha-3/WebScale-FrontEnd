@@ -6,10 +6,12 @@ export class LayoutFetchingService {
 
     private dashboardLayouts: any;
     public layoutsUpdated: Subject<any>;
+    public layoutsCleared: Subject<any>;
 
     constructor() {
         this.dashboardLayouts = JSON.parse(localStorage.getItem('dashboardLayouts'));
         this.layoutsUpdated = new Subject<any>();
+        this.layoutsCleared = new Subject<any>();
     }
 
     /**

@@ -46,6 +46,13 @@ export class AppComponent {
         this.eventFetcher.eventIncoming.subscribe(() => {
            this.notifications = this.eventFetcher.getEventNotifications();
         });
+
+        this.layoutFetcher.layoutsCleared.subscribe(() => {
+            this.layoutFetcher.setLayouts(this.layoutFetcher.testLayout);
+            this.layoutFetcher.saveLayouts();
+            this.dashboardLayouts = this.layoutFetcher.getAvailableLayouts();
+        });
+
         this.initiateEventServer();
     }
 
