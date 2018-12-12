@@ -1,14 +1,10 @@
 <div class="widget-frame">
-    <div class="widget-heading" [ngClass]="{'widget-frame-warning': state.dataPresent === false}">
+    <div class="widget-heading">
         <i class="widget-drag-handle fa fa-bars"></i>
-        <i *ngIf="state.dataPresent === false" class="fa fa-warning"></i>
-        <button class="btn btn-link header-link" [ngClass]="{'header-link-non-clickable': (!state.route && state.dataPresent !== false)}" (click)="routeToInstance()">{{state.heading}}</button>
-        <i *ngIf="state.dataPresent !== false" class="widget-settings-icon fa fa-cog float-right" (click)="showSettings()"></i>
+        <button class="btn btn-link header-link" (click)="routeToInstance()">{{state.heading}}</button>
+        <i class="widget-settings-icon fa fa-cog float-right" (click)="showSettings()"></i>
     </div>
     <div class="widget-content" [ngSwitch]="layout">
-        <div *ngIf="state.dataPresent === false" align="center">
-            <button class="btn btn-warning" (click)="showSettings()">Change Settings</button>
-        </div>
 
         <p-chart [type]="state.type" [data]="state.data" [options]="state.options" *ngSwitchCase="'chart'"></p-chart>
 
@@ -96,6 +92,14 @@
         <div class="chart-test" *ngSwitchCase="'map'">
             <div class="chart-test-inner">
                 <app-widget-geo [data]="state.data" [context]="state.mapOptions" [reflectors]="state.reflectors"></app-widget-geo>
+            </div>
+        </div>
+
+        <div *ngIf="!state.dataPresent" class="no-data-found">
+            <div>
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                No data found!<br>
+                <button class="btn btn-warning" (click)="showSettings()">Change Settings</button>
             </div>
         </div>
     </div>

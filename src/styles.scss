@@ -27,14 +27,14 @@ hr {
     margin-top: 3px;
 }
 
-.my-cluster-green, .my-cluster-red {
+.my-cluster-green, .my-cluster-red, .my-cluster-yellow {
     width: 40px;
     height: 40px;
     text-align: center;
     border-radius: 40px;
 }
 
-.my-cluster-green div, .my-cluster-red div{
+.my-cluster-green div, .my-cluster-red div, .my-cluster-yellow div{
     width: 30px;
     height: 30px;
     margin-left: 5px;
@@ -45,7 +45,7 @@ hr {
     font-size: 18px;
 }
 
-.my-marker-green, .my-marker-red {
+.my-marker-green, .my-marker-red, .my-marker-yellow {
     width: 20px;
     height: 20px;
     text-align: center;
@@ -63,13 +63,20 @@ hr {
     background-color: rgba(253, 156, 115, 0.6);
 }
 
+.my-cluster-yellow{
+     background-color: rgba(253, 255, 96, 0.6);
+ }
+
 .my-marker-green, .my-cluster-green div{
     background-color: rgba(110, 204, 57, 0.6);
 }
 
 .my-marker-red, .my-cluster-red div{
     background-color: rgba(241, 128, 23, 0.6);
+}
 
+.my-marker-yellow, .my-cluster-yellow div{
+    background-color: rgba(255, 243, 10, 0.6);
 }
 
 :fullscreen .hide-in-fullscreen{
@@ -82,4 +89,26 @@ hr {
 
 .dashed-chart g:nth-child(2) > g > g > .line-series{
     stroke-dasharray: 5;
+}
+
+.no-data-found{
+    background: rgba(0,0,0,0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.no-data-found > div{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2em;
+    color: white;
+    text-shadow: 2px 2px black;
+    text-align: center;
+}
+.no-data-found > div > i {
+    color: gold;
 }

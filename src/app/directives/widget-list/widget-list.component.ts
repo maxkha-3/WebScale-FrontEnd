@@ -33,7 +33,6 @@ export class WidgetListComponent implements OnInit, OnChanges {
         if (!changes.item.firstChange && changes.item.currentValue.length == this.options.count) {
             this.isLoading = false;
             this.selector = this.options.headers.id.toLowerCase()+'s';
-            console.log(this.selector);
         }
     }
 

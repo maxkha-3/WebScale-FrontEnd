@@ -155,20 +155,29 @@ export class WidgetComponent implements OnInit, OnDestroy {
 
             case 'geo':
                 this.druidAPI.dataRetriever.getReflectors(this.item.fromLat, this.item.fromLng, this.item.toLat, this.item.toLng).then(data => {
+                    if(!data.length){
+                        this.state.dataPresent = false;
+                        return;
+                    } else {
+                        this.state.dataPresent = true;
+                    }
+
                     this.state.reflectors = data;
                     let that = this;
-                    setTimeout(() => {
-                        that.state.data = [
-                            {
-                                id: 113,
-                                red: true
-                            },
-                            {
-                                id: 213,
-                                red: true
-                            }
-                        ]
-                    }, 4000);
+                    let streams = data.map(x => x.streams[0]);
+
+                    let datafunc = () => {
+                        Promise.all(streams.map(x => this.druidAPI.dataRetriever.realTime('', 'sla', x, 10))).then(stream_sla => {
+                            let status = stream_sla.map((x, i) => ({
+                                id: streams[i],
+                                sla: x.recent.length ? x.recent[x.recent.length - 1].value : undefined
+                            }));
+                            this.state.data = status;
+                        });
+                    }
+
+                    datafunc();
+                    this.interval = setInterval(datafunc, 5000);
                 });
                 break;
 
@@ -265,9 +274,15 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * @param prefix (optional) - prefix before x-axis label
      */
     barChartSerializer = (data: any, measure?: string, prefix?: string): void => {
-        measure = (measure == undefined ? 'value' : measure);
-        prefix = (prefix == undefined ? '#' : prefix);
-        this.state.results = data.map((row) => ({'name': prefix + row.selector_id, 'value': row[measure]}));
+        if (data.length !== 0) {
+            this.state.dataPresent = true;
+
+            measure = (measure == undefined ? 'value' : measure);
+            prefix = (prefix == undefined ? '#' : prefix);
+            this.state.results = data.map((row) => ({'name': prefix + row.selector_id, 'value': row[measure]}));
+        } else {
+            this.state.dataPresent = false;
+        }
     };
 
     /**
@@ -277,9 +292,15 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * @param prefix (optional) - prefix before x-axis label
      */
     numberCardsChartSerializer = (data: any, measure?: string, prefix?: string): void => {
-        measure = (measure == undefined ? 'value' : measure);
-        prefix = (prefix == undefined ? '#' : prefix);
-        this.state.results = data.map((row) => ({'name': prefix + row.ID, 'value': row.Data[measure]}));
+        if (data.length !== 0) {
+            this.state.dataPresent = true;
+
+            measure = (measure == undefined ? 'value' : measure);
+            prefix = (prefix == undefined ? '#' : prefix);
+            this.state.results = data.map((row) => ({'name': prefix + row.ID, 'value': row.Data[measure]}));
+        } else {
+            this.state.dataPresent = false;
+        }
     };
 
     /**
@@ -289,9 +310,15 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * @param prefix (optional) - prefix before x-axis label
      */
     treeChartSerializer = (data: any, measure?: string, prefix?: string): void => {
-        measure = (measure == undefined ? 'value' : measure);
-        prefix = (prefix == undefined ? '#' : prefix);
-        this.state.results = data.map((row) => ({'name': prefix + row.ID, 'value': row.Data[measure]}));
+        if (data.length !== 0) {
+            this.state.dataPresent = true;
+
+            measure = (measure == undefined ? 'value' : measure);
+            prefix = (prefix == undefined ? '#' : prefix);
+            this.state.results = data.map((row) => ({'name': prefix + row.ID, 'value': row.Data[measure]}));
+        } else {
+            this.state.dataPresent = false;
+        }
     };
 
     /**
@@ -301,9 +328,15 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * @param prefix (optional) - prefix before label
      */
     doughnutChartSerializer = (data: any, measure?: string, prefix?: string): void => {
-        measure = (measure == undefined ? 'value' : measure);
-        prefix = (prefix == undefined ? '#' : prefix);
-        this.state.results = data.map((row) => ({'name': prefix + row.ID, 'value': row.Data[measure]}));
+        if (data.length !== 0) {
+            this.state.dataPresent = true;
+
+            measure = (measure == undefined ? 'value' : measure);
+            prefix = (prefix == undefined ? '#' : prefix);
+            this.state.results = data.map((row) => ({'name': prefix + row.ID, 'value': row.Data[measure]}));
+        } else {
+            this.state.dataPresent = false;
+        }
     };
 
     /**
@@ -312,12 +345,18 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * @param measure (optional)
      */
     lineChartSerializer = (data: any, measure?: string): object => {
-        measure = (measure == undefined ? 'value' : measure);
-        const Data = data.map((row) => ({'name': new Date(row.timestamp), 'value': row[measure]}));
-        return {
-            name: 'Value',
-            series: Data
-        };
+        if (data.length !== 0) {
+            this.state.dataPresent = true;
+
+            measure = (measure == undefined ? 'value' : measure);
+            const Data = data.map((row) => ({'name': new Date(row.timestamp), 'value': row[measure]}));
+            return {
+                name: 'Value',
+                series: Data
+            };
+        } else {
+            this.state.dataPresent = false;
+        }
     };
 
     /**
@@ -327,9 +366,15 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * @param prefix (optional) - prefix before x-axis label
      */
     listSerializer = (data: any, measure?: string): void => {
-        measure = (measure == undefined ? 'value' : measure);
-        this.state.listOptions.headers = {id: this.state.xAxisLabel, value: this.state.yAxisLabel};
-        this.state.data = data.map((row) => [row.selector_id, row[measure].toFixed(5)]);
+        if (data.length !== 0) {
+            this.state.dataPresent = true;
+
+            measure = (measure == undefined ? 'value' : measure);
+            this.state.listOptions.headers = {id: this.state.xAxisLabel, value: this.state.yAxisLabel};
+            this.state.data = data.map((row) => [row.selector_id, row[measure].toFixed(5)]);
+        } else {
+            this.state.dataPresent = false;
+        }
     };
 
     /**
