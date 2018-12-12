@@ -34,12 +34,12 @@
                             <li class="dropdown-header">You currently have {{notifications.length}} new notifications</li>
                             <li class="dropdown-divider"></li>
                             <li *ngIf="notifications.length > 0" class="dropdown-item">
-                                <table class="table table-sm table-bordered table-hover">
-                                    <thead class="thead-dark">
+                                <table class="table table-sm table-hover m-0">
+                                    <thead class="">
                                         <tr>
                                             <th scope="col"></th>
-                                            <th scope="col">Message</th>
-                                            <th scope="col">Stream ID</th>
+                                            <th scope="col"></th>
+                                            <th scope="col">Stream</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -56,7 +56,7 @@
                                     </tbody>
                                 </table>
                             </li>
-                            <li class="dropdown-item"><button style="width: 100%" class="btn btn-dark" (click)="routeToComponent('notifications')">View all notifications</button></li>
+                            <li class="dropdown-item"><button style="width: 100%" class="btn btn-link" (click)="routeToComponent('notifications')">View all notifications</button></li>
                         </ul>
                     </li>
                 </ul>

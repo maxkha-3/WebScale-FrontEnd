@@ -168,9 +168,9 @@ export class WidgetComponent implements OnInit, OnDestroy {
 
                     let datafunc = () => {
                         Promise.all(streams.map(x => this.druidAPI.dataRetriever.realTime('', 'sla', x, 10))).then(stream_sla => {
-                            let status = stream_sla.map((x, i) => ({
+                            let status = stream_sla.map((xa, i) => ({
                                 id: streams[i],
-                                sla: x.recent.length ? x.recent[x.recent.length - 1].value : undefined
+                                sla: xa.recent.length ? xa.recent[xa.recent.length - 1].value : undefined
                             }));
                             this.state.data = status;
                         });
@@ -279,7 +279,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
 
             measure = (measure == undefined ? 'value' : measure);
             prefix = (prefix == undefined ? '#' : prefix);
-            this.state.results = data.map((row) => ({'name': prefix + row.selector_id, 'value': row[measure]}));
+            this.state.results = data.map((row) => ({'name': row.selector_id, 'value': row[measure]}));
         } else {
             this.state.dataPresent = false;
         }
@@ -394,4 +394,8 @@ export class WidgetComponent implements OnInit, OnDestroy {
             this.router.navigate(this.state.route).then();
         }
     };
+
+    handleChartClick = (event:any) => {
+        this.router.navigate([`monitoring/${this.item.dataGroup}/${event.name}`]).then();
+    }
 }

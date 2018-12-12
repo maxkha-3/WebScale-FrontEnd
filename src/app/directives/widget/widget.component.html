@@ -22,7 +22,8 @@
                     [showYAxisLabel]="state.showYAxisLabel"
                     [xAxis]="state.xAxis"
                     [yAxis]="state.yAxis"
-                    [gradient]="state.gradient">
+                    [gradient]="state.gradient"
+                    (select)="handleChartClick($event)">
 
                 </ngx-charts-bar-vertical>
             </div>
@@ -95,7 +96,7 @@
             </div>
         </div>
 
-        <div *ngIf="!state.dataPresent" class="no-data-found">
+        <div *ngIf="state.dataPresent == false" class="no-data-found">
             <div>
                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                 No data found!<br>

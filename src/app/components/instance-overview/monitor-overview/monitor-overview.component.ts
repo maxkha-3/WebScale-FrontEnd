@@ -20,6 +20,7 @@ export class MonitorOverviewComponent implements OnInit {
     public monitorChartState: any;
     public lineChartState: any;
     public tasks: Array<any>;
+    public noData = false;
 
     constructor(private druidAPI: DruidDataService, private route: ActivatedRoute, private router: Router, private chartBase: ChartBaseService, private dummyAPI: DummyDataService) {
     }
@@ -31,6 +32,11 @@ export class MonitorOverviewComponent implements OnInit {
 
                 this.monitorChartState = this.chartBase.getStackedTimelineBase();
                 this.dummyAPI.getTasksInMonitor(this.monitorID).then(data => {
+                    if(!data.length){
+                        this.noData = true;
+                        return;
+                    }
+
                     this.tasks = data.map(x => ({
                         id: x.task_id,
                         name: 'Task ' + x.task_id,

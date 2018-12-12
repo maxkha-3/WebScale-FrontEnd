@@ -16,6 +16,7 @@ export class TaskOverviewComponent implements OnInit {
     public monitorChartState: any;
     public lineChartState: any;
     public streams: Array<any>;
+    public noData = false;
 
     constructor(private druidAPI: DruidDataService, private route: ActivatedRoute, private router: Router, private chartBase: ChartBaseService, private dummyAPI: DummyDataService) {
     }
@@ -27,6 +28,11 @@ export class TaskOverviewComponent implements OnInit {
 
                 this.monitorChartState = this.chartBase.getStackedTimelineBase();
                 this.dummyAPI.getStreamsInTask(this.taskID).then(data => {
+                    if(!data.length){
+                        this.noData = true;
+                        return;
+                    }
+
                     this.streams = data.map(x => ({
                         id: x.stream_id,
                         name: 'Stream ' + x.stream_id,

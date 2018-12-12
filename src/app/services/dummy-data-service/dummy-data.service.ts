@@ -29924,6 +29924,8 @@ export class DummyDataService {
         return new Promise((resolve, reject) => {
 
             let monitor = this.overviewData.find(x => x.monitor_id == id);
+            if(!monitor)
+                resolve([]);
             let data = monitor.tasks.map(x => ({task_id: x.task_id, error_seconds: x.error_seconds}));
             resolve(data);
         });
@@ -29953,6 +29955,8 @@ export class DummyDataService {
         return new Promise((resolve, reject) => {
 
             let task = [].concat.apply([], this.overviewData.map(x => x.tasks)).find(y => y.task_id == id);
+            if(!task)
+                resolve([]);
             let data = task.streams.map(z => ({stream_id: z.stream_id, error_seconds: z.metrics.map(v => ({timestamp: v.timestamp, value: v.es}))}));
             resolve(data);
         });

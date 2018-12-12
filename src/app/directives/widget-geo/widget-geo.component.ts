@@ -3,7 +3,6 @@ import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import {MarkerOptions} from 'leaflet';
 import {Router} from '@angular/router';
-import {stat} from 'fs';
 
 @Component({
     selector: 'app-widget-geo',
@@ -133,7 +132,6 @@ export class WidgetGeoComponent implements OnInit, OnChanges {
     };
 
     routeToInstance = (sourceID : string) => {
-        console.log(sourceID);
         this.router.navigate(['monitoring/streams/' + sourceID]).then();
     }
 
