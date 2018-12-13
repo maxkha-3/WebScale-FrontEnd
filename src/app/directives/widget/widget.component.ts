@@ -172,7 +172,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                                 id: streams[i],
                                 sla: xa['recent'].length ? xa['recent'][xa['recent'].length - 1].value : undefined
                             }));
-                            this.state.data = status;console.log(stream_sla);
+                            this.state.data = status;
                         });
                     };
 
@@ -216,21 +216,16 @@ export class WidgetComponent implements OnInit, OnDestroy {
      */
     populateRealTimeWidget = (data: any, serializer: Function): void => {
         if (data.recent.length !== 0) {
-            this.state.dataPresent = true;
-
-            let cpy = this.state.results.slice();
-            cpy[0] = serializer(data.recent);
-            this.state.results = cpy;
-            let latestTimestamp = new Date(cpy[0].series[cpy[0].series.length - 1].name);
-            let latestValue = cpy[0].series[cpy[0].series.length - 1].value;
-
-            if (this.item.prediction == 'true') {
-                this.druidAPI.predictionRetriever.realTimePrediction(latestTimestamp, latestValue, this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(data => {
-                    let cpy = this.state.results.slice();
-                    cpy[1] = serializer(data.prediction);
-                    this.state.results = cpy;
-                });
-            }
+            this.druidAPI.predictionRetriever.realTimePrediction(new Date(data.recent[data.recent.length - 1].timestamp), data.recent[data.recent.length - 1].value, this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(predictionData => {
+                let cpy = this.state.results.slice();
+                this.state.dataPresent = true;
+                cpy[0] = serializer(data.recent);
+                if (this.item.prediction == 'true') {
+                    cpy[1] = serializer(predictionData.prediction);
+                }
+                this.state.results = cpy;
+                console.log(this.state.results)
+            })
         } else {
             this.state.dataPresent = false;
         }
