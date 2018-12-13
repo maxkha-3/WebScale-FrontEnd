@@ -60,7 +60,7 @@ export class LayoutFetchingService {
                             unit: '%'
                         },
                         {
-                            type: 'avg_response_time',
+                            type: 'davg',
                             name: 'Delay',
                             unit: 'ms'
                         }
@@ -220,7 +220,7 @@ export class LayoutFetchingService {
                             unit: '%'
                         },
                         {
-                            type: 'avg_response_time',
+                            type: 'davg',
                             name: 'Avg. response time',
                             unit: 'ms'
                         }
@@ -290,7 +290,7 @@ export class LayoutFetchingService {
                             unit: '%'
                         },
                         {
-                            type: 'avg_response_time',
+                            type: 'davg',
                             name: 'Avg. response time',
                             unit: 'ms'
                         }
@@ -416,7 +416,7 @@ export class LayoutFetchingService {
                     {
                         widgetType: 'realTime',
                         dataGroup: 'stream',
-                        dataType: 'avg_response_time',
+                        dataType: 'davg',
                         chartType: 'line',
                         prediction: 'false',
                         dataSourceID: '2312',
@@ -428,7 +428,7 @@ export class LayoutFetchingService {
                     {
                         widgetType: 'topNWorst',
                         dataGroup: 'tasks',
-                        dataType: 'avg_response_time',
+                        dataType: 'davg',
                         count: 10,
                         chartType: 'list',
                         timeSpan: 43200,
@@ -468,7 +468,7 @@ export class LayoutFetchingService {
                     {
                         widgetType: 'realTime',
                         dataGroup: 'stream',
-                        dataType: 'avg_response_time',
+                        dataType: 'davg',
                         prediction: 'true',
                         count: 10,
                         chartType: 'line',

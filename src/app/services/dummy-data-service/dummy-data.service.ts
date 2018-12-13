@@ -29892,7 +29892,7 @@ export class DummyDataService {
             if (measure === "sla") {
                 randFrom = 0;
                 randTo = 100;
-            } else if (measure === "avg_response_time") {
+            } else if (measure === "davg") {
                 randFrom = 0;
                 randTo = 600;
             }
