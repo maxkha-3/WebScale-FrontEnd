@@ -46,7 +46,6 @@ export class EventServerService {
     };
 
     private saveNotification = (event: any) => {
-        console.log(event);
         if (event.hasOwnProperty("data")) {
             let savedNotifications = JSON.parse(localStorage.getItem('notifications'));
             savedNotifications = savedNotifications === null ? [] : savedNotifications;

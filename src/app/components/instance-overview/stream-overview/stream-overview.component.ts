@@ -3,6 +3,7 @@ import {DruidDataService} from '../../../services/druid-data-service/druid-data.
 import {ActivatedRoute, Router} from '@angular/router';
 import {ChartBaseService} from '../../../services/chart-base-service/chart-base.service';
 import {DummyDataService} from '../../../services/dummy-data-service/dummy-data.service';
+import {GlobalService} from "../../../services/global-service/global.service";
 
 @Component({
     selector: 'app-stream-overview',
@@ -58,7 +59,7 @@ export class StreamOverviewComponent implements OnInit {
     public numberCardsChartState: any;
     public lineChartState: any;
 
-    constructor(private druidAPI: DruidDataService, private route: ActivatedRoute, private router: Router, private chartBase: ChartBaseService) {
+    constructor(private druidAPI: DruidDataService, private route: ActivatedRoute, private router: Router, private chartBase: ChartBaseService, private global: GlobalService) {
     }
 
     ngOnInit() {
@@ -70,7 +71,7 @@ export class StreamOverviewComponent implements OnInit {
                 this.lineChartState = this.chartBase.getLineBase();
 
                 this.updateDataStructure();
-                setInterval(() => {this.updateDataStructure();}, 10000);
+                setInterval(() => {this.updateDataStructure();}, this.global.interval);
 
             }
         });

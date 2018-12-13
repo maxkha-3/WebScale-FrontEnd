@@ -3,8 +3,10 @@ import {DruidDataService} from '../../services/druid-data-service/druid-data.ser
 import {ChartBaseService} from '../../services/chart-base-service/chart-base.service';
 import {NgxSmartModalService} from 'ngx-smart-modal';
 import {LayoutFetchingService} from '../../services/layout-fetching-service/layout-fetching.service';
+import {GlobalService} from "../../services/global-service/global.service";
 import {Router} from '@angular/router';
 import {d3} from 'd3';
+
 
 declare var jquery: any;
 declare var $: any;
@@ -23,7 +25,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
     public interval: any;
     public additionalClasses: any[] = [];
 
-    constructor(private druidAPI: DruidDataService, private chartBase: ChartBaseService, public ngxSmartModalService: NgxSmartModalService, private layoutService: LayoutFetchingService, private router: Router) {
+    constructor(private druidAPI: DruidDataService, private chartBase: ChartBaseService, public ngxSmartModalService: NgxSmartModalService, private layoutService: LayoutFetchingService, private router: Router, private global: GlobalService) {
     }
 
     ngOnInit() {
@@ -123,7 +125,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                         this.druidAPI.dataRetriever.topNWorst(this.item.dataGroup, this.item.dataType, this.item.count, this.item.timeSpan).then(refreshedData => {
                             serializer(refreshedData);
                         });
-                    }, 5000);
+                    }, this.global.interval);
                 });
                 break;
 
@@ -138,7 +140,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                         this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(refreshedData => {
                             this.populateRealTimeWidget(refreshedData, serializer);
                         });
-                    }, 5000);
+                    }, this.global.interval);
                 });
                 break;
 
@@ -149,7 +151,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                         this.druidAPI.dataRetriever.esContribution(this.item.dataGroup, this.item.timeSpan).then(refreshedData => {
                             serializer(refreshedData, 'es', '');
                         });
-                    }, 5000);
+                    }, this.global.interval);
                 });
                 break;
 
@@ -177,7 +179,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                     };
 
                     datafunc();
-                    this.interval = setInterval(datafunc, 5000);
+                    this.interval = setInterval(datafunc, this.global.interval);
                 });
                 break;
 
@@ -191,7 +193,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                         this.druidAPI.dataRetriever.historical(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan, this.item.historicalParam).then(refreshedData => {
                             this.populateHistoricalWidget(refreshedData, serializer);
                         });
-                    }, 5000);
+                    }, this.global.interval);
                 });
                 break;
 
@@ -216,21 +218,16 @@ export class WidgetComponent implements OnInit, OnDestroy {
      */
     populateRealTimeWidget = (data: any, serializer: Function): void => {
         if (data.recent.length !== 0) {
-            this.state.dataPresent = true;
-
-            let cpy = this.state.results.slice();
-            cpy[0] = serializer(data.recent);
-            this.state.results = cpy;
-            let latestTimestamp = new Date(cpy[0].series[cpy[0].series.length - 1].name);
-            let latestValue = cpy[0].series[cpy[0].series.length - 1].value;
-
-            if (this.item.prediction == 'true') {
-                this.druidAPI.predictionRetriever.realTimePrediction(latestTimestamp, latestValue, this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(data => {
-                    let cpy = this.state.results.slice();
-                    cpy[1] = serializer(data.prediction);
-                    this.state.results = cpy;
-                });
-            }
+            this.druidAPI.predictionRetriever.realTimePrediction(new Date(data.recent[data.recent.length - 1].timestamp), data.recent[data.recent.length - 1].value, this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan * 0.3).then(predictionData => {
+                let cpy = this.state.results.slice();
+                this.state.dataPresent = true;
+                cpy[0] = serializer(data.recent);
+                if (this.item.prediction == 'true') {
+                    cpy[1] = serializer(predictionData.prediction);
+                }
+                this.state.results = cpy;
+                console.log(this.state.results)
+            })
         } else {
             this.state.dataPresent = false;
         }

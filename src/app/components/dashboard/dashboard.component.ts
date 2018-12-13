@@ -95,7 +95,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     setFullscreen = (): void => {
         let elem: any = document.getElementsByTagName('body')[0];
         if (elem.requestFullscreen) {
-            elem.requestFullscreen();
+            elem.requestFullscreen().then();
         } else if (elem.msRequestFullscreen) {
             elem.msRequestFullscreen();
         } else if (elem.mozRequestFullScreen) {
