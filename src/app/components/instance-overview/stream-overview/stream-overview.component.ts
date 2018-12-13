@@ -96,11 +96,11 @@ export class StreamOverviewComponent implements OnInit {
     updateDataStructure(){
         this.druidAPI.dataRetriever.streamOverview(parseInt(this.streamID), 1440).then(data => {
 
+            this.loadingData = false;
             if(!data.length){
                 this.noData = true;
                 return;
             }
-            this.loadingData = false;
 
             this.cardsData[0].value = data[data.length - 1].values.rate_sum;
             this.cardsData[1].value = data[data.length - 1].values.davg_sum;
