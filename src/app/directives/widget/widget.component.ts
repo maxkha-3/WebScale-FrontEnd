@@ -123,7 +123,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                         this.druidAPI.dataRetriever.topNWorst(this.item.dataGroup, this.item.dataType, this.item.count, this.item.timeSpan).then(refreshedData => {
                             serializer(refreshedData);
                         });
-                    }, 5000);
+                    }, 10000);
                 });
                 break;
 
@@ -138,7 +138,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                         this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(refreshedData => {
                             this.populateRealTimeWidget(refreshedData, serializer);
                         });
-                    }, 5000);
+                    }, 10000);
                 });
                 break;
 
@@ -149,7 +149,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                         this.druidAPI.dataRetriever.esContribution(this.item.dataGroup, this.item.timeSpan).then(refreshedData => {
                             serializer(refreshedData, 'es', '');
                         });
-                    }, 5000);
+                    }, 10000);
                 });
                 break;
 
@@ -177,7 +177,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                     };
 
                     datafunc();
-                    this.interval = setInterval(datafunc, 5000);
+                    this.interval = setInterval(datafunc, 10000);
                 });
                 break;
 
@@ -191,7 +191,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                         this.druidAPI.dataRetriever.historical(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan, this.item.historicalParam).then(refreshedData => {
                             this.populateHistoricalWidget(refreshedData, serializer);
                         });
-                    }, 5000);
+                    }, 10000);
                 });
                 break;
 
