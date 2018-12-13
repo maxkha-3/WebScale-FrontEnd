@@ -48,7 +48,7 @@ export class WidgetGeoComponent implements OnInit, OnChanges {
                 let a = L.marker(L.latLng(reflector.latitude, reflector.longitude), {
                     icon: L.divIcon({
                         html: '',
-                        className: 'my-marker-green', //reflector.breachedSLA ? 'my-marker-red' : 'my-marker-green',
+                        className: 'my-marker-green',
                         iconSize: new L.Point(20, 20)
                     })
                 });
