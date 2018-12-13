@@ -9,6 +9,8 @@ export class GlobalService {
     public dummyEventServerTargetAddressBase = 'wss:/events.api.kubescale.cloud:5000/ws-dummy';
     public eventServerTargetAddressBase = 'wss:/events.api.kubescale.cloud:5000/ws';
 
+    public interval = 10000;
+
     constructor() {
     }
 }
