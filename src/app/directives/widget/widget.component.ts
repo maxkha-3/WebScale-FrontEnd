@@ -172,7 +172,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                                 id: streams[i],
                                 sla: xa['recent'].length ? xa['recent'][xa['recent'].length - 1].value : undefined
                             }));
-                            this.state.data = status;
+                            this.state.data = status;console.log(stream_sla);
                         });
                     };
 

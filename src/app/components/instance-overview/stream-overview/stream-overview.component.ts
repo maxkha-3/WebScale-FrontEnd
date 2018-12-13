@@ -40,8 +40,17 @@ export class StreamOverviewComponent implements OnInit {
         {
             name: 'Average delay (ms)',
             value: 0
+        },
+        {
+            name: 'Delay Variation',
+            value: 0
+        },
+        {
+            name: 'Misordered Packets Near',
+            value: 0
         }
     ];
+    public checkedMetrics: any[] = ['es_sum', 'rate_sum', 'davg_sum'];
 
     public metricDataKeys: any = Object.keys(this.metricData);
 
@@ -74,13 +83,14 @@ export class StreamOverviewComponent implements OnInit {
 
         let newRes;
         let selector = event.target.id.slice(3);
-        let obj = this.metricData[selector];
 
-        newRes = this.lineChartState.results.filter(x => x.name != obj.name);
+        newRes = this.checkedMetrics.filter(x => x != selector);
         if (event.target.checked) {
-            newRes.push(obj);
+            newRes.push(selector);
         }
-        this.lineChartState.results = newRes;
+        this.checkedMetrics = newRes;
+
+        this.updateFilter();
     };
 
     updateDataStructure(){
@@ -93,20 +103,26 @@ export class StreamOverviewComponent implements OnInit {
 
             this.cardsData[0].value = data[data.length - 1].values.rate_sum;
             this.cardsData[1].value = data[data.length - 1].values.davg_sum;
+            this.cardsData[2].value = data[data.length - 1].values.dv_sum;
+            this.cardsData[3].value = data[data.length - 1].values.miso_near_sum;
             this.cardsData = this.cardsData.slice();
 
             for (let k in this.metricData) {
                 this.metricData[k].series = data.map(x => ({name: new Date(x.timestamp), value: x.values[k]}));
             }
-            console.log(this.cardsData);
 
-            this.lineChartState.results = [
-                this.metricData.es_sum,
-                this.metricData.rate_sum,
-                this.metricData.davg_sum
-            ];
+            this.updateFilter();
 
         });
+    };
+
+    updateFilter = () => {
+        let newArr = [];
+        for (let key in this.metricData){
+            if(this.checkedMetrics.includes(key))
+                newArr.push(this.metricData[key]);
+        }
+        this.lineChartState.results = newArr;
     };
 
     routeToOverview = (instanceType: string) => {
