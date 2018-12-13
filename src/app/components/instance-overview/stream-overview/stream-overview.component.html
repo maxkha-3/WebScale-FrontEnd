@@ -25,6 +25,7 @@
                 [yAxis]="lineChartState.yAxis"
                 [gradient]="lineChartState.gradient"
                 [curve]="lineChartState.curve"
+                [autoScale]="lineChartState.autoScale"
             [timeline]="true">
 
             </ngx-charts-line-chart>
@@ -50,6 +51,12 @@
             <div>
                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                 No data found!
+            </div>
+        </div>
+
+        <div *ngIf="loadingData" class="no-data-found">
+            <div>
+                <i class="fa fa-spinner kubescale-loader" aria-hidden="true"></i>
             </div>
         </div>
     </div>

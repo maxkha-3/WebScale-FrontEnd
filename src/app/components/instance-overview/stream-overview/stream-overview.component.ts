@@ -13,6 +13,7 @@ export class StreamOverviewComponent implements OnInit {
 
     public streamID: string;
     public noData = false;
+    public loadingData = true;
     public metricData: any = {
         es_sum: {name: 'Error Seconds', series: []},
         rate_sum: {name: 'Rate', series: []},
@@ -67,7 +68,6 @@ export class StreamOverviewComponent implements OnInit {
 
                 this.numberCardsChartState = this.chartBase.getNumberCardsBase();
                 this.lineChartState = this.chartBase.getLineBase();
-                console.log(this.lineChartState);
 
                 this.updateDataStructure();
                 setInterval(() => {this.updateDataStructure();}, 10000);
@@ -100,6 +100,7 @@ export class StreamOverviewComponent implements OnInit {
                 this.noData = true;
                 return;
             }
+            this.loadingData = false;
 
             this.cardsData[0].value = data[data.length - 1].values.rate_sum;
             this.cardsData[1].value = data[data.length - 1].values.davg_sum;

@@ -112,3 +112,17 @@ hr {
 .no-data-found > div > i {
     color: gold;
 }
+
+.no-data-found > div > .kubescale-loader{
+    text-shadow: none;
+    animation: loader-spin 1s linear infinite;
+}
+
+@keyframes loader-spin {
+    0%{
+        transform: rotate(0);
+    }
+    100%{
+        transform:rotate(360deg);
+    }
+}

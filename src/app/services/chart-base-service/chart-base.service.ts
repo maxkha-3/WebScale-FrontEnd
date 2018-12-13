@@ -58,6 +58,7 @@ export class ChartBaseService {
             xAxis: true,
             yAxis: true,
             gradient: false,
+            autoScale: true,
             curve: d3.curveMonotoneX
         };
     };
