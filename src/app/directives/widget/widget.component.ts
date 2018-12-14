@@ -22,6 +22,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
 
     public layout = '';
     public state: any;
+    public dataPresent = true;
     public interval: any;
     public additionalClasses: any[] = [];
 
@@ -29,12 +30,22 @@ export class WidgetComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        console.log(this.dataPresent);
         this.initializeWidget();
     }
 
     ngOnDestroy() {
         clearInterval(this.interval);
     }
+
+    dateTimeString = (date) => {
+        return date.getUTCFullYear() + "-" +
+            ("0" + (date.getUTCMonth()+1)).slice(-2) + "-" +
+            ("0" + date.getUTCDate()).slice(-2) + " " +
+            ("0" + date.getUTCHours()).slice(-2) + ":" +
+            ("0" + date.getUTCMinutes()).slice(-2) + ":" +
+            ("0" + date.getUTCSeconds()).slice(-2);
+    };
 
     /**
      * Initializes the widgets and refreshes its data.
@@ -75,6 +86,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                 hasXAxis = true;
                 hasYAxis = true;
                 this.state = this.chartBase.getLineBase();
+                this.state.tooltipTemplate="pointHover";
                 this.layout = 'line-chart';
                 break;
             case 'list':
@@ -158,10 +170,10 @@ export class WidgetComponent implements OnInit, OnDestroy {
             case 'geo':
                 this.druidAPI.dataRetriever.getReflectors(this.item.fromLat, this.item.fromLng, this.item.toLat, this.item.toLng).then(data => {
                     if (!data.length) {
-                        this.state.dataPresent = false;
+                        this.dataPresent = false;
                         return;
                     } else {
-                        this.state.dataPresent = true;
+                        this.dataPresent = true;
                     }
 
                     this.state.reflectors = data;
@@ -220,16 +232,16 @@ export class WidgetComponent implements OnInit, OnDestroy {
         if (data.recent.length !== 0) {
             this.druidAPI.predictionRetriever.realTimePrediction(new Date(data.recent[data.recent.length - 1].timestamp), data.recent[data.recent.length - 1].value, this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan * 0.3).then(predictionData => {
                 let cpy = this.state.results.slice();
-                this.state.dataPresent = true;
+                this.dataPresent = true;
                 cpy[0] = serializer(data.recent);
                 if (this.item.prediction == 'true') {
                     cpy[1] = serializer(predictionData.prediction);
                 }
                 this.state.results = cpy;
-                console.log(this.state.results)
+                console.log(this.dataPresent)
             })
         } else {
-            this.state.dataPresent = false;
+            this.dataPresent = false;
         }
     };
 
@@ -240,7 +252,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
      */
     populateHistoricalWidget = (data: any, serializer: Function) => {
         if (data.recent.length !== 0) {
-            this.state.dataPresent = true;
+            this.dataPresent = true;
 
             let cpy = this.state.results.slice();
             cpy[0] = serializer(data.historical);
@@ -260,7 +272,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                 value: dataPoint.value
             }));
         } else {
-            this.state.dataPresent = false;
+            this.dataPresent = false;
         }
     };
 
@@ -272,13 +284,13 @@ export class WidgetComponent implements OnInit, OnDestroy {
      */
     barChartSerializer = (data: any, measure?: string, prefix?: string): void => {
         if (data.length !== 0) {
-            this.state.dataPresent = true;
+            this.dataPresent = true;
 
             measure = (measure == undefined ? 'value' : measure);
             prefix = (prefix == undefined ? '#' : prefix);
             this.state.results = data.map((row) => ({'name': row.selector_id, 'value': row[measure]}));
         } else {
-            this.state.dataPresent = false;
+            this.dataPresent = false;
         }
     };
 
@@ -290,13 +302,13 @@ export class WidgetComponent implements OnInit, OnDestroy {
      */
     numberCardsChartSerializer = (data: any, measure?: string, prefix?: string): void => {
         if (data.length !== 0) {
-            this.state.dataPresent = true;
+            this.dataPresent = true;
 
             measure = (measure == undefined ? 'value' : measure);
             prefix = (prefix == undefined ? '#' : prefix);
             this.state.results = data.map((row) => ({'name': prefix + row.ID, 'value': row.Data[measure]}));
         } else {
-            this.state.dataPresent = false;
+            this.dataPresent = false;
         }
     };
 
@@ -308,13 +320,13 @@ export class WidgetComponent implements OnInit, OnDestroy {
      */
     treeChartSerializer = (data: any, measure?: string, prefix?: string): void => {
         if (data.length !== 0) {
-            this.state.dataPresent = true;
+            this.dataPresent = true;
 
             measure = (measure == undefined ? 'value' : measure);
             prefix = (prefix == undefined ? '#' : prefix);
             this.state.results = data.map((row) => ({'name': prefix + row.ID, 'value': row.Data[measure]}));
         } else {
-            this.state.dataPresent = false;
+            this.dataPresent = false;
         }
     };
 
@@ -326,13 +338,13 @@ export class WidgetComponent implements OnInit, OnDestroy {
      */
     doughnutChartSerializer = (data: any, measure?: string, prefix?: string): void => {
         if (data.length !== 0) {
-            this.state.dataPresent = true;
+            this.dataPresent = true;
 
             measure = (measure == undefined ? 'value' : measure);
             prefix = (prefix == undefined ? '#' : prefix);
             this.state.results = data.map((row) => ({'name': prefix + row.ID, 'value': row.Data[measure]}));
         } else {
-            this.state.dataPresent = false;
+            this.dataPresent = false;
         }
     };
 
@@ -343,7 +355,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
      */
     lineChartSerializer = (data: any, measure?: string): object => {
         if (data.length !== 0) {
-            this.state.dataPresent = true;
+            this.dataPresent = true;
 
             measure = (measure == undefined ? 'value' : measure);
             const Data = data.map((row) => ({'name': new Date(row.timestamp), 'value': row[measure]}));
@@ -352,7 +364,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                 series: Data
             };
         } else {
-            this.state.dataPresent = false;
+            this.dataPresent = false;
         }
     };
 
@@ -364,13 +376,13 @@ export class WidgetComponent implements OnInit, OnDestroy {
      */
     listSerializer = (data: any, measure?: string): void => {
         if (data.length !== 0) {
-            this.state.dataPresent = true;
+            this.dataPresent = true;
 
             measure = (measure == undefined ? 'value' : measure);
             this.state.listOptions.headers = {id: this.state.xAxisLabel, value: this.state.yAxisLabel};
             this.state.data = data.map((row) => [row.selector_id, row[measure].toFixed(5)]);
         } else {
-            this.state.dataPresent = false;
+            this.dataPresent = false;
         }
     };
 
@@ -387,7 +399,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * Routes to an instance, when clicking on widget header.
      */
     routeToInstance = (): void => {
-        if (this.state.route && this.state.dataPresent) {
+        if (this.state.route && this.dataPresent) {
             this.router.navigate(this.state.route).then();
         }
     };

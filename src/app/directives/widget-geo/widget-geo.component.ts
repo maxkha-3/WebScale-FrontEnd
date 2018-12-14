@@ -48,16 +48,16 @@ export class WidgetGeoComponent implements OnInit, OnChanges {
                 let a = L.marker(L.latLng(reflector.latitude, reflector.longitude), {
                     icon: L.divIcon({
                         html: '',
-                        className: 'my-marker-green',
+                        className: 'my-marker-yellow',
                         iconSize: new L.Point(20, 20)
                     })
                 });
-                a.bindPopup(this.generatePopUpContent(reflector.reflector_id, reflector.streams.map(x => ({id: x, status: 0}))));
+                a.bindPopup(this.generatePopUpContent(reflector.reflector_id, reflector.streams.map(x => ({id: x, status: 1}))));
                 a.bindTooltip('Reflector ' + reflector.reflector_id);
-                a.options['status'] = 0; //reflector.breachedSLA;
+                a.options['status'] = 1; //no data
                 this.streamMarkers['s'+reflector.streams[0]] = {marker: a, reflector: reflector.reflector_id};
                 this.cluster.push(a);
-        }
+            }
         }
 
         if(changes.data && changes.data.previousValue != changes.data.currentValue && !changes.data.firstChange){
@@ -143,8 +143,8 @@ export class WidgetGeoComponent implements OnInit, OnChanges {
     generatePopUpContent(reflector: number, streams: any[]){
         let iconText = [
             'style="color: lightgreen" title="Running"',
-            'style="color: yellow" title="No data found"',
-            'style="color: green" title="Has issues"'
+            'style="color: lightgrey" title="No data found"',
+            'style="color: red" title="Has issues"'
         ]
         return `<b>Reflector ${reflector}</b><br><br>Involved in following streams:<br>${streams.map(x => (`<a class="map-stream-link" data-id="${x.id}">Stream ${x.id} <i class="fa fa-circle" aria-hidden="true" ${iconText[x.status]}></i></a><br>`))}`
     }

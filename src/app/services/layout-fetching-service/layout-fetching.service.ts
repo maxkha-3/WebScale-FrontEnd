@@ -90,7 +90,7 @@ export class LayoutFetchingService {
             widgetType: 'geo',
             widgetName: 'Geographic (*)',
             headerFunc: function(w) {
-                return `none`;
+                return `Geographic overview`;
             },
             xAxisFunc: function(w) {
                 return  'none';
