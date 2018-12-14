@@ -84,9 +84,12 @@ export class StreamOverviewComponent implements OnInit, OnDestroy {
         clearInterval(this.interval);
     }
 
-    alerting = (eh) => {
-        console.log(eh);
-}
+    formatXAxis = (date, a) => {
+        return ("0" + date.getUTCDate()).slice(-2) + "/" +
+            ("0" + (date.getUTCMonth()+1)).slice(-2) + " " +
+            ("0" + date.getUTCHours()).slice(-2) + ":" +
+            ("0" + date.getUTCMinutes()).slice(-2);
+    }
 
     dateTimeString = (date) => {
         return date.getUTCFullYear() + "-" +
