@@ -84,6 +84,19 @@ export class StreamOverviewComponent implements OnInit, OnDestroy {
         clearInterval(this.interval);
     }
 
+    alerting = (eh) => {
+        console.log(eh);
+}
+
+    dateTimeString = (date) => {
+        return date.getUTCFullYear() + "-" +
+            ("0" + (date.getUTCMonth()+1)).slice(-2) + "-" +
+            ("0" + date.getUTCDate()).slice(-2) + " " +
+            ("0" + date.getUTCHours()).slice(-2) + ":" +
+            ("0" + date.getUTCMinutes()).slice(-2) + ":" +
+            ("0" + date.getUTCSeconds()).slice(-2);
+    };
+
     filterLineChartData = (event: any) => {
 
         if (!event.target.id.startsWith('cb-'))
@@ -102,7 +115,7 @@ export class StreamOverviewComponent implements OnInit, OnDestroy {
     };
 
     updateDataStructure() {
-        this.druidAPI.dataRetriever.streamOverview(parseInt(this.streamID), 1440).then(data => {
+        this.druidAPI.dataRetriever.streamOverview(parseInt(this.streamID), 720).then(data => {
 
             this.loadingData = false;
             if (!data.length) {

@@ -501,8 +501,8 @@ export class DummyDataService {
                             "stream_id": 111,
                             "reflector": {
                                 "reflector_id": 1110,
-                                "latitude": "65.577579",
-                                "longitude": "22.119561"
+                                "latitude": "65.579052",
+                                "longitude": "22.132877"
                             },
                             "metrics": [
                                 {
@@ -1511,8 +1511,8 @@ export class DummyDataService {
                             "stream_id": 112,
                             "reflector": {
                                 "reflector_id": 1120,
-                                "latitude": "65.577139",
-                                "longitude": "22.133977"
+                                "latitude": "65.578761",
+                                "longitude": "22.138480"
                             },
                             "metrics": [
                                 {
@@ -2521,8 +2521,8 @@ export class DummyDataService {
                             "stream_id": 113,
                             "reflector": {
                                 "reflector_id": 1130,
-                                "latitude": "65.57478",
-                                "longitude": "22.114393"
+                                "latitude": "65.579737",
+                                "longitude": "22.141668"
                             },
                             "metrics": [
                                 {
@@ -3738,8 +3738,8 @@ export class DummyDataService {
                             "stream_id": 121,
                             "reflector": {
                                 "reflector_id": 1210,
-                                "latitude": "65.579681",
-                                "longitude": "22.151155"
+                                "latitude": "65.581440",
+                                "longitude": "22.131304"
                             },
                             "metrics": [
                                 {
@@ -4748,8 +4748,8 @@ export class DummyDataService {
                             "stream_id": 122,
                             "reflector": {
                                 "reflector_id": 1220,
-                                "latitude": "65.583604",
-                                "longitude": "22.124527"
+                                "latitude": "65.581601",
+                                "longitude": "22.137929"
                             },
                             "metrics": [
                                 {
@@ -5758,8 +5758,8 @@ export class DummyDataService {
                             "stream_id": 123,
                             "reflector": {
                                 "reflector_id": 1230,
-                                "latitude": "65.588948",
-                                "longitude": "22.15739"
+                                "latitude": "65.582998",
+                                "longitude": "22.141648"
                             },
                             "metrics": [
                                 {
@@ -6975,8 +6975,8 @@ export class DummyDataService {
                             "stream_id": 131,
                             "reflector": {
                                 "reflector_id": 1310,
-                                "latitude": "65.580886",
-                                "longitude": "22.137349"
+                                "latitude": "65.584553",
+                                "longitude": "22.137190"
                             },
                             "metrics": [
                                 {
@@ -7985,8 +7985,8 @@ export class DummyDataService {
                             "stream_id": 132,
                             "reflector": {
                                 "reflector_id": 1320,
-                                "latitude": "65.585869",
-                                "longitude": "22.155062"
+                                "latitude": "65.584576",
+                                "longitude": "22.129898"
                             },
                             "metrics": [
                                 {
@@ -8995,8 +8995,8 @@ export class DummyDataService {
                             "stream_id": 133,
                             "reflector": {
                                 "reflector_id": 1330,
-                                "latitude": "65.582531",
-                                "longitude": "22.146069"
+                                "latitude": "65.586607",
+                                "longitude": "22.128765"
                             },
                             "metrics": [
                                 {
@@ -10419,8 +10419,8 @@ export class DummyDataService {
                             "stream_id": 211,
                             "reflector": {
                                 "reflector_id": 2110,
-                                "latitude": "65.587516",
-                                "longitude": "22.143901"
+                                "latitude": "65.581722",
+                                "longitude": "22.149935"
                             },
                             "metrics": [
                                 {
@@ -11429,8 +11429,8 @@ export class DummyDataService {
                             "stream_id": 212,
                             "reflector": {
                                 "reflector_id": 2120,
-                                "latitude": "65.582616",
-                                "longitude": "22.126642"
+                                "latitude": "65.582600",
+                                "longitude": "22.154707"
                             },
                             "metrics": [
                                 {
@@ -12439,8 +12439,8 @@ export class DummyDataService {
                             "stream_id": 213,
                             "reflector": {
                                 "reflector_id": 2130,
-                                "latitude": "65.579797",
-                                "longitude": "22.160731"
+                                "latitude": "65.582486",
+                                "longitude": "22.146839"
                             },
                             "metrics": [
                                 {
@@ -13656,8 +13656,8 @@ export class DummyDataService {
                             "stream_id": 221,
                             "reflector": {
                                 "reflector_id": 2210,
-                                "latitude": "65.593235",
-                                "longitude": "22.157679"
+                                "latitude": "65.584156",
+                                "longitude": "22.148291"
                             },
                             "metrics": [
                                 {
@@ -14666,8 +14666,8 @@ export class DummyDataService {
                             "stream_id": 222,
                             "reflector": {
                                 "reflector_id": 2220,
-                                "latitude": "65.579402",
-                                "longitude": "22.132116"
+                                "latitude": "65.583477",
+                                "longitude": "22.150964"
                             },
                             "metrics": [
                                 {
@@ -15676,8 +15676,8 @@ export class DummyDataService {
                             "stream_id": 223,
                             "reflector": {
                                 "reflector_id": 2230,
-                                "latitude": "65.594343",
-                                "longitude": "22.167437"
+                                "latitude": "65.583569",
+                                "longitude": "22.154302"
                             },
                             "metrics": [
                                 {
@@ -16893,8 +16893,8 @@ export class DummyDataService {
                             "stream_id": 231,
                             "reflector": {
                                 "reflector_id": 2310,
-                                "latitude": "65.585825",
-                                "longitude": "22.124783"
+                                "latitude": "65.584955",
+                                "longitude": "22.157655"
                             },
                             "metrics": [
                                 {
@@ -17903,8 +17903,8 @@ export class DummyDataService {
                             "stream_id": 232,
                             "reflector": {
                                 "reflector_id": 2320,
-                                "latitude": "65.587298",
-                                "longitude": "22.141133"
+                                "latitude": "65.584327",
+                                "longitude": "22.164762"
                             },
                             "metrics": [
                                 {
@@ -18913,8 +18913,8 @@ export class DummyDataService {
                             "stream_id": 233,
                             "reflector": {
                                 "reflector_id": 2330,
-                                "latitude": "65.580652",
-                                "longitude": "22.1154"
+                                "latitude": "22.164762",
+                                "longitude": "22.151909"
                             },
                             "metrics": [
                                 {
@@ -20337,8 +20337,8 @@ export class DummyDataService {
                             "stream_id": 311,
                             "reflector": {
                                 "reflector_id": 3110,
-                                "latitude": "65.578297",
-                                "longitude": "22.150025"
+                                "latitude": "65.588846",
+                                "longitude": "22.153486"
                             },
                             "metrics": [
                                 {
@@ -21347,8 +21347,8 @@ export class DummyDataService {
                             "stream_id": 312,
                             "reflector": {
                                 "reflector_id": 3120,
-                                "latitude": "65.589333",
-                                "longitude": "22.160861"
+                                "latitude": "65.590168",
+                                "longitude": "22.147930"
                             },
                             "metrics": [
                                 {
@@ -22357,8 +22357,8 @@ export class DummyDataService {
                             "stream_id": 313,
                             "reflector": {
                                 "reflector_id": 3130,
-                                "latitude": "65.585401",
-                                "longitude": "22.164592"
+                                "latitude": "65.586591",
+                                "longitude": "22.160658"
                             },
                             "metrics": [
                                 {
@@ -23574,8 +23574,8 @@ export class DummyDataService {
                             "stream_id": 321,
                             "reflector": {
                                 "reflector_id": 3210,
-                                "latitude": "65.590176",
-                                "longitude": "22.169506"
+                                "latitude": "65.588284",
+                                "longitude": "22.156897"
                             },
                             "metrics": [
                                 {
@@ -24584,8 +24584,8 @@ export class DummyDataService {
                             "stream_id": 322,
                             "reflector": {
                                 "reflector_id": 3220,
-                                "latitude": "65.590858",
-                                "longitude": "22.159614"
+                                "latitude": "65.590328",
+                                "longitude": "22.158885"
                             },
                             "metrics": [
                                 {
@@ -25594,8 +25594,8 @@ export class DummyDataService {
                             "stream_id": 323,
                             "reflector": {
                                 "reflector_id": 3230,
-                                "latitude": "65.594924",
-                                "longitude": "22.113956"
+                                "latitude": "65.588450",
+                                "longitude": "22.166803"
                             },
                             "metrics": [
                                 {
@@ -26811,8 +26811,8 @@ export class DummyDataService {
                             "stream_id": 331,
                             "reflector": {
                                 "reflector_id": 3310,
-                                "latitude": "65.585435",
-                                "longitude": "22.173396"
+                                "latitude": "65.590880",
+                                "longitude": "22.164397"
                             },
                             "metrics": [
                                 {
@@ -27821,8 +27821,8 @@ export class DummyDataService {
                             "stream_id": 332,
                             "reflector": {
                                 "reflector_id": 3320,
-                                "latitude": "65.575107",
-                                "longitude": "22.120733"
+                                "latitude": "65.593117",
+                                "longitude": "22.167454"
                             },
                             "metrics": [
                                 {
@@ -28831,8 +28831,8 @@ export class DummyDataService {
                             "stream_id": 333,
                             "reflector": {
                                 "reflector_id": 3330,
-                                "latitude": "65.583727",
-                                "longitude": "22.15631"
+                                "latitude": "65.580403",
+                                "longitude": "22.154985"
                             },
                             "metrics": [
                                 {
