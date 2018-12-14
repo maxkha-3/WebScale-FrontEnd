@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DruidDataService} from '../../../services/druid-data-service/druid-data.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ChartBaseService} from '../../../services/chart-base-service/chart-base.service';
@@ -10,8 +10,9 @@ import {GlobalService} from "../../../services/global-service/global.service";
     templateUrl: './stream-overview.component.html',
     styleUrls: ['./stream-overview.component.scss']
 })
-export class StreamOverviewComponent implements OnInit {
+export class StreamOverviewComponent implements OnInit, OnDestroy {
 
+    public interval: any;
     public streamID: string;
     public noData = false;
     public loadingData = true;
@@ -71,10 +72,16 @@ export class StreamOverviewComponent implements OnInit {
                 this.lineChartState = this.chartBase.getLineBase();
 
                 this.updateDataStructure();
-                setInterval(() => {this.updateDataStructure();}, this.global.interval);
+                this.interval = setInterval(() => {
+                    this.updateDataStructure();
+                }, this.global.interval);
 
             }
         });
+    }
+
+    ngOnDestroy() {
+        clearInterval(this.interval);
     }
 
     filterLineChartData = (event: any) => {
@@ -94,11 +101,11 @@ export class StreamOverviewComponent implements OnInit {
         this.updateFilter();
     };
 
-    updateDataStructure(){
+    updateDataStructure() {
         this.druidAPI.dataRetriever.streamOverview(parseInt(this.streamID), 1440).then(data => {
 
             this.loadingData = false;
-            if(!data.length){
+            if (!data.length) {
                 this.noData = true;
                 return;
             }
@@ -120,8 +127,8 @@ export class StreamOverviewComponent implements OnInit {
 
     updateFilter = () => {
         let newArr = [];
-        for (let key in this.metricData){
-            if(this.checkedMetrics.includes(key))
+        for (let key in this.metricData) {
+            if (this.checkedMetrics.includes(key))
                 newArr.push(this.metricData[key]);
         }
         this.lineChartState.results = newArr;
