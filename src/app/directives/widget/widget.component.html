@@ -2,7 +2,7 @@
     <div class="widget-heading">
         <i class="widget-drag-handle fa fa-bars"></i>
         <button class="btn btn-link header-link" (click)="routeToInstance()">{{state.heading}}</button>
-        <i class="widget-settings-icon fa fa-cog float-right" (click)="showSettings()"></i>
+        <i *ngIf="state.dataPresent !== false" class="widget-settings-icon fa fa-cog float-right" (click)="showSettings()"></i>
     </div>
     <div class="widget-content" [ngSwitch]="layout">
 
@@ -97,7 +97,7 @@
             </div>
         </div>
 
-        <div *ngIf="state.dataPresent == false" class="no-data-found">
+        <div *ngIf="state.dataPresent === false" class="no-data-found">
             <div>
                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                 No data found!<br>
