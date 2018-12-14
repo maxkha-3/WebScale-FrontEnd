@@ -62,6 +62,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
                 if (this.widgetLayout == null) {
                     this.router.navigate(['home']).then();
                 }
+            } else {
+                if (this.layoutFetcher.getAvailableLayouts().length !== 0) {
+                    this.router.navigate(['dashboard', this.layoutFetcher.getAvailableLayouts()[0].id]).then()
+                } else {
+                    this.currentDashboard = undefined;
+                }
             }
         });
 
