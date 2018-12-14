@@ -50,6 +50,22 @@ export class TaskOverviewComponent implements OnInit {
         })
     }
 
+    formatXAxis = (date, a) => {
+        return ("0" + date.getUTCDate()).slice(-2) + "/" +
+            ("0" + (date.getUTCMonth()+1)).slice(-2) + " " +
+            ("0" + date.getUTCHours()).slice(-2) + ":" +
+            ("0" + date.getUTCMinutes()).slice(-2);
+    }
+
+    dateTimeString = (date) => {
+        return date.getUTCFullYear() + "-" +
+            ("0" + (date.getUTCMonth()+1)).slice(-2) + "-" +
+            ("0" + date.getUTCDate()).slice(-2) + " " +
+            ("0" + date.getUTCHours()).slice(-2) + ":" +
+            ("0" + date.getUTCMinutes()).slice(-2) + ":" +
+            ("0" + date.getUTCSeconds()).slice(-2);
+    };
+
     public onHover = (event: any) => {
         let selstr = '#taskAccordion [data-stream-id="' + event.value.name + '"]';
         let prevsel = document.querySelector('#taskAccordion .accordion-selected');

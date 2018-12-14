@@ -62,6 +62,22 @@ export class MonitorOverviewComponent implements OnInit {
         document.querySelector(selstr).classList.add('accordion-selected');
     };
 
+    formatXAxis = (date, a) => {
+        return ("0" + date.getUTCDate()).slice(-2) + "/" +
+            ("0" + (date.getUTCMonth()+1)).slice(-2) + " " +
+            ("0" + date.getUTCHours()).slice(-2) + ":" +
+            ("0" + date.getUTCMinutes()).slice(-2);
+    }
+
+    dateTimeString = (date) => {
+        return date.getUTCFullYear() + "-" +
+            ("0" + (date.getUTCMonth()+1)).slice(-2) + "-" +
+            ("0" + date.getUTCDate()).slice(-2) + " " +
+            ("0" + date.getUTCHours()).slice(-2) + ":" +
+            ("0" + date.getUTCMinutes()).slice(-2) + ":" +
+            ("0" + date.getUTCSeconds()).slice(-2);
+    };
+
     public onSelect = (event: any) => {
         let selstr = '#taskAccordion [data-task-id="' + event.series + '"] a';
         let obj = (document.querySelector(selstr) as HTMLElement);
