@@ -20,10 +20,8 @@ import {LeafletMarkerClusterModule} from '@asymmetrik/ngx-leaflet-markercluster'
 import {AppComponent} from './app.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {SettingsComponent} from './components/settings/settings.component';
-import {HomeComponent} from './components/home/home.component';
 import {InstanceOverviewComponent} from './components/instance-overview/instance-overview.component';
 import {ServerErrorComponent} from './components/server-error/server-error.component';
-import {WidgetGeoComponent} from './directives/widget-geo/widget-geo.component';
 import {NotificationsComponent} from './components/notifications/notifications.component';
 import {MonitorOverviewComponent} from './components/instance-overview/monitor-overview/monitor-overview.component';
 import {TaskOverviewComponent} from './components/instance-overview/task-overview/task-overview.component';
@@ -32,11 +30,10 @@ import {StreamOverviewComponent} from './components/instance-overview/stream-ove
 //Directives
 import {WidgetComponent} from './directives/widget/widget.component';
 import {WidgetListComponent} from './directives/widget-list/widget-list.component';
+import {WidgetGeoComponent} from './directives/widget-geo/widget-geo.component';
 
 //Formly Wrappers
 import {FormlyHorizontalWrapper} from './formly/wrappers/horizontal-wrapper';
-
-import {APP_BASE_HREF} from '@angular/common';
 
 //Services
 import {GlobalService} from './services/global-service/global.service';
@@ -50,8 +47,8 @@ import {DummyDataService} from './services/dummy-data-service/dummy-data.service
 
 //Router path template
 const appRoutes: Routes = [
-    {path: '', component: HomeComponent},
-    {path: 'home', component: HomeComponent},
+    {path: '', component: DashboardComponent},
+    {path: 'home', component: DashboardComponent},
     {path: 'dashboard/:id', component: DashboardComponent},
     {path: 'settings', component: SettingsComponent},
     {path: 'monitoring/:sourceType', component: InstanceOverviewComponent},
@@ -69,7 +66,6 @@ const appRoutes: Routes = [
         SettingsComponent,
         DashboardComponent,
         FormlyHorizontalWrapper,
-        HomeComponent,
         WidgetListComponent,
         InstanceOverviewComponent,
         ServerErrorComponent,
@@ -111,8 +107,7 @@ const appRoutes: Routes = [
         ChartBaseService,
         FormlyFieldBaseService,
         EventServerService,
-        UUID,
-        {provide: APP_BASE_HREF, useValue: '/'}
+        UUID
     ],
     bootstrap: [AppComponent]
 })

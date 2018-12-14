@@ -1,18 +1,27 @@
-<!-- Example single danger button -->
-<div class="dashboard-menu-container hide-in-fullscreen">
-    <h2 class="dashboard-heading"><span class="badge badge-dark">{{currentDashboard}}</span></h2>
+<div *ngIf="currentDashboard">
+    <!-- Example single danger button -->
+    <div class="dashboard-menu-container hide-in-fullscreen">
+        <h2 class="dashboard-heading"><span class="badge badge-dark">{{currentDashboard}}</span></h2>
 
-    <!--button type="button" class="btn btn-dark btn-sm" (click)="saveLayout()"><i class="fa fa-save"></i> Save Layout</button-->
-    <button type="button" class="btn btn-success btn-sm" (click)="openNewWidgetModal()"><i class="fa fa-plus"></i> Add Widget</button>
-    <button type="button" class="btn btn-danger btn-sm ml-1" (click)="openAcceptWidgetActionModal(deleteDashboard, currentDashboardID)"><i class="fa fa-remove"></i> Remove Layout</button>
-    <button type="button" class="btn btn-info btn-sm ml-1" (click)="setFullscreen()"><i class="fa fa-expand"></i> Fullscreen</button>
+        <!--button type="button" class="btn btn-dark btn-sm" (click)="saveLayout()"><i class="fa fa-save"></i> Save Layout</button-->
+        <button type="button" class="btn btn-success btn-sm" (click)="openNewWidgetModal()"><i class="fa fa-plus"></i> Add Widget</button>
+        <button type="button" class="btn btn-danger btn-sm ml-1" (click)="openAcceptWidgetActionModal(deleteDashboard, currentDashboardID)"><i class="fa fa-remove"></i> Remove Layout</button>
+        <button type="button" class="btn btn-info btn-sm ml-1" (click)="setFullscreen()"><i class="fa fa-expand"></i> Fullscreen</button>
+    </div>
+
+    <div class="board">
+        <div class="board-item p-2 m-0 col-sm-{{widget.size.sm}} col-md-{{widget.size.md}} col-lg-{{widget.size.lg}} col-xl-{{widget.size.xl}}" attr.data-widget-id="{{widget.ID}}" *ngFor="let widget of widgetLayout">
+            <div class="board-item-content shadow">
+                <app-widget [item]="widget"></app-widget>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="board">
-    <div class="board-item p-2 m-0 col-sm-{{widget.size.sm}} col-md-{{widget.size.md}} col-lg-{{widget.size.lg}} col-xl-{{widget.size.xl}}" attr.data-widget-id="{{widget.ID}}" *ngFor="let widget of widgetLayout">
-        <div class="board-item-content shadow">
-            <app-widget [item]="widget"></app-widget>
-        </div>
+<div *ngIf="!currentDashboard">
+    <div class="dashboard-menu-container">
+        <h2 class="dashboard-heading"><span class="badge badge-dark">There are no saved dashboard layouts</span></h2>
+        You can create new ones in the side menu.
     </div>
 </div>
 

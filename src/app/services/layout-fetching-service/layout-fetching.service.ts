@@ -315,8 +315,16 @@ export class LayoutFetchingService {
                             name: '60 minutes'
                         },
                         {
+                            type: '720',
+                            name: '12 hours'
+                        },
+                        {
                             type: '1440',
                             name: '24 hours'
+                        },
+                        {
+                            type: '10080',
+                            name: '7 days'
                         },
                         {
                             type: '43200',
@@ -419,7 +427,7 @@ export class LayoutFetchingService {
                         dataType: 'davg',
                         chartType: 'line',
                         prediction: 'false',
-                        dataSourceID: '2312',
+                        dataSourceID: '1312',
                         timeSpan: 43200,
                         size: this.getSize('Large'),
                         ID: 'd101f0a6-3dfb-1758-a6c6-3bf83f25000a',

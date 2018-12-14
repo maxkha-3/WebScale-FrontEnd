@@ -230,16 +230,17 @@ export class WidgetComponent implements OnInit, OnDestroy {
      */
     populateRealTimeWidget = (data: any, serializer: Function): void => {
         if (data.recent.length !== 0) {
-            this.druidAPI.predictionRetriever.realTimePrediction(new Date(data.recent[data.recent.length - 1].timestamp), data.recent[data.recent.length - 1].value, this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan * 0.3).then(predictionData => {
-                let cpy = this.state.results.slice();
-                this.dataPresent = true;
-                cpy[0] = serializer(data.recent);
-                if (this.item.prediction == 'true') {
+            let cpy = this.state.results.slice();
+            this.dataPresent = true;
+            cpy[0] = serializer(data.recent);
+            if (this.item.prediction == 'true') {
+                this.druidAPI.predictionRetriever.realTimePrediction(new Date(data.recent[data.recent.length - 1].timestamp), data.recent[data.recent.length - 1].value, this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan * 0.3).then(predictionData => {
                     cpy[1] = serializer(predictionData.prediction);
-                }
+                    this.state.results = cpy;
+                });
+            } else {
                 this.state.results = cpy;
-                console.log(this.dataPresent)
-            })
+            }
         } else {
             this.dataPresent = false;
         }
@@ -251,7 +252,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * @param serializer
      */
     populateHistoricalWidget = (data: any, serializer: Function) => {
-        if (data.recent.length !== 0) {
+        if (data.recent.length !== 0 && data.historical.length !== 0) {
             this.dataPresent = true;
 
             let cpy = this.state.results.slice();
@@ -372,7 +373,6 @@ export class WidgetComponent implements OnInit, OnDestroy {
      * Serializes data for a List Widget.
      * @param data
      * @param measure (optional)
-     * @param prefix (optional) - prefix before x-axis label
      */
     listSerializer = (data: any, measure?: string): void => {
         if (data.length !== 0) {
