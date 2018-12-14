@@ -90,17 +90,17 @@
 
                     <ng-template #tooltipTemplate let-model="model">
                         <div class="area-tooltip-container">
-                            <div style="font-size: 1.3em;">
+                            <div style="font-size: 1.1em;color:lightgrey;">
                                 {{model.series}} {{dateTimeString(model.name)}}
                             </div>
                             <div>
-                                {{model.value.toFixed(3)}}
+                                {{+model.value.toFixed(3)}}
                             </div>
                         </div>
                     </ng-template>
                     <ng-template #seriesTooltipTemplate let-model="model">
                         <div class="area-tooltip-container">
-                            <div style="font-size: 1.2em;"style="color:lightgrey;">
+                            <div style="font-size: 1.1em;color:lightgrey;">
                                 {{dateTimeString(model[0].name)}}
                             </div>
                             <div class="tooltip-item" *ngFor="let tt of model">
