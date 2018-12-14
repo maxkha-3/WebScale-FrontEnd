@@ -57,9 +57,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             if (params['id'] != undefined) {
                 this.currentDashboard = _.startCase(params['id']);
                 this.currentDashboardID = params['id'];
-                this.widgetLayout = this.layoutFetcher.getLayout(_.camelCase(this.currentDashboard)).sort((a, b) => a.order - b.order);
-                this.validWidgets = this.layoutFetcher.availableWidgets;
-                if (this.widgetLayout == null) {
+                if (this.layoutFetcher.getLayout(_.camelCase(this.currentDashboard)) !== null) {
+                    this.widgetLayout = this.layoutFetcher.getLayout(_.camelCase(this.currentDashboard)).sort((a, b) => a.order - b.order);
+                    this.validWidgets = this.layoutFetcher.availableWidgets;
+                } else {
                     this.router.navigate(['home']).then();
                 }
             } else {
