@@ -30,7 +30,6 @@ export class WidgetComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        console.log(this.dataPresent);
         this.initializeWidget();
     }
 
