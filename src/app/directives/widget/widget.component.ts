@@ -38,17 +38,25 @@ export class WidgetComponent implements OnInit, OnDestroy {
     }
 
     formatXAxis = (date, a) => {
-        return ("0" + date.getUTCHours()).slice(-2) + ":" +
-            ("0" + date.getUTCMinutes()).slice(-2);
-    }
+        if (this.item.widgetType != 'historic') {
+            return ("0" + date.getUTCHours()).slice(-2) + ":" +
+                ("0" + date.getUTCMinutes()).slice(-2);
+        } else {
+            return date
+        }
+    };
 
     dateTimeString = (date) => {
-        return date.getUTCFullYear() + "-" +
-            ("0" + (date.getUTCMonth()+1)).slice(-2) + "-" +
-            ("0" + date.getUTCDate()).slice(-2) + " " +
-            ("0" + date.getUTCHours()).slice(-2) + ":" +
-            ("0" + date.getUTCMinutes()).slice(-2) + ":" +
-            ("0" + date.getUTCSeconds()).slice(-2);
+        if (this.item.widgetType != 'historic') {
+            return date.getUTCFullYear() + "-" +
+                ("0" + (date.getUTCMonth() + 1)).slice(-2) + "-" +
+                ("0" + date.getUTCDate()).slice(-2) + " " +
+                ("0" + date.getUTCHours()).slice(-2) + ":" +
+                ("0" + date.getUTCMinutes()).slice(-2) + ":" +
+                ("0" + date.getUTCSeconds()).slice(-2);
+        } else {
+            return date
+        }
     };
 
     /**
@@ -90,7 +98,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                 hasXAxis = true;
                 hasYAxis = true;
                 this.state = this.chartBase.getLineBase();
-                this.state.tooltipTemplate="pointHover";
+                this.state.tooltipTemplate = "pointHover";
                 this.layout = 'line-chart';
                 break;
             case 'list':

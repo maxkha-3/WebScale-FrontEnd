@@ -2,7 +2,8 @@
     <div class="widget-heading">
         <i class="widget-drag-handle fa fa-bars"></i>
         <button class="btn btn-link header-link" (click)="routeToInstance()">{{state.heading}}</button>
-        <i *ngIf="dataPresent !== false" class="widget-settings-icon fa fa-cog float-right" (click)="showSettings()"></i>
+        <i *ngIf="dataPresent !== false" class="widget-settings-icon fa fa-cog float-right"
+           (click)="showSettings()"></i>
     </div>
     <div class="widget-content" [ngSwitch]="layout">
 
@@ -85,9 +86,8 @@
                     [yAxis]="state.yAxis"
                     [gradient]="state.gradient"
                     [curve]="state.curve"
-                [autoScale]="state.autoScale"
-                    [xAxisTickFormatting]="formatXAxis"
-                >
+                    [autoScale]="state.autoScale"
+                    [xAxisTickFormatting]="formatXAxis">
 
                     <ng-template #tooltipTemplate let-model="model">
                         <div class="area-tooltip-container">
@@ -116,7 +116,8 @@
 
         <div class="chart-test" *ngSwitchCase="'map'">
             <div class="chart-test-inner">
-                <app-widget-geo [data]="state.data" [context]="state.mapOptions" [reflectors]="state.reflectors"></app-widget-geo>
+                <app-widget-geo [data]="state.data" [context]="state.mapOptions"
+                                [reflectors]="state.reflectors"></app-widget-geo>
             </div>
         </div>
 
