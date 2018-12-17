@@ -45,6 +45,7 @@
                                     <tbody>
                                         <tr *ngFor="let notification of notifications.slice(0, 5)" [ngStyle]="{'color': miscService.getNotificationColor(notification.level.toString())}">
                                             <td align="center">
+                                                <i *ngIf="notification.level == 4" class="fa fa-exclamation-triangle"></i>
                                                 <i *ngIf="notification.level == 3" class="fa fa-exclamation"></i>
                                                 <i *ngIf="notification.level == 2" class="fa fa-check"></i>
                                                 <i *ngIf="notification.level == 1" class="fa fa-info"></i>
