@@ -163,6 +163,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
                     this.interval = setInterval(() => {
                         this.druidAPI.dataRetriever.realTime(this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan).then(refreshedData => {
                             this.populateRealTimeWidget(refreshedData, serializer);
+
                         });
                     }, this.global.interval);
                 });
@@ -248,7 +249,9 @@ export class WidgetComponent implements OnInit, OnDestroy {
             if (this.item.prediction == 'true') {
                 this.druidAPI.predictionRetriever.realTimePrediction(new Date(data.recent[data.recent.length - 1].timestamp), data.recent[data.recent.length - 1].value, this.item.dataGroup, this.item.dataType, this.item.dataSourceID, this.item.timeSpan * 0.3).then(predictionData => {
                     if (predictionData.hasOwnProperty("prediction")) {
+
                         cpy[1] = serializer(predictionData.prediction);
+
                         this.state.results = cpy;
                     } else {
                         this.dataPresent = false;
@@ -383,6 +386,10 @@ export class WidgetComponent implements OnInit, OnDestroy {
             };
         } else {
             this.dataPresent = false;
+            return {
+                name: 'Unknown',
+                series: []
+            };
         }
     };
 
